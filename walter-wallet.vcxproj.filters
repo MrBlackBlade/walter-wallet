@@ -15,7 +15,18 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\Source.cpp">
+    <ClInclude Include="headers\LoginFrame.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="headers\App.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\LoginFrame.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\App.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
