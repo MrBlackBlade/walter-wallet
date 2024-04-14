@@ -30,6 +30,9 @@
     <ClInclude Include="include\User.h" />
     <ClInclude Include="include\VirtualUser.h" />
   </ItemGroup>
+  <ItemGroup>
+    <Image Include="resources\walterWallet.ico" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
