@@ -33,9 +33,10 @@
     <ClInclude Include="include\VirtualUser.h" />
   </ItemGroup>
   <ItemGroup>
+    <Image Include="resources\bell.png" />
+    <Image Include="resources\profile.png" />
     <Image Include="resources\topPanel.png" />
     <Image Include="resources\walterWallet.ico" />
-    <Image Include="resources\WalterWalletGUI.ico" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>

@@ -20,7 +20,7 @@ bool App::OnInit() {
 	//loginFrame->Show();
 	//loginFrame->SetIcon(icon);
 
-	MainFrame* mainFrame = new MainFrame(user, "HeisenBank");
+	MainFrame* mainFrame = new MainFrame(user, "Heisenbank");
 	mainFrame->SetClientSize(720, 1000);
 	mainFrame->Center();
 	mainFrame->Show();
