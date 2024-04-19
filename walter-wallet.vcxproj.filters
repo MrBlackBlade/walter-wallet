@@ -27,6 +27,9 @@
     <ClInclude Include="include\VirtualUser.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="include\MainFrame.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\LoginFrame.cpp">
@@ -41,5 +44,19 @@
     <ClCompile Include="src\VirtualUser.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\MainFrame.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="resources\walterWallet.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="resources\topPanel.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="resources\WalterWalletGUI.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
 </Project>

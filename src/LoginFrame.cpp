@@ -18,11 +18,11 @@ LoginFrame::LoginFrame(const wxString & title)
     loginButton->SetBackgroundColour(wxColour(50, 150, 255));
     loginButton->SetForegroundColour(*wxWHITE);
 
-    mainSizer->Add(usernameLabel, 0, wxALL | wxEXPAND, 5);
-    mainSizer->Add(usernameTextBox, 0, wxALL | wxEXPAND, 5);
-    mainSizer->Add(passwordLabel, 0, wxALL | wxEXPAND, 5);
-    mainSizer->Add(passwordTextBox, 0, wxALL | wxEXPAND, 5);
-    mainSizer->Add(loginButton, 0, wxALL | wxALIGN_CENTER, 5);
+   mainSizer->Add(usernameLabel, 0, wxALL | wxEXPAND, 5);
+   mainSizer->Add(usernameTextBox, 0, wxALL | wxEXPAND, 5);
+   mainSizer->Add(passwordLabel, 0, wxALL | wxEXPAND, 5);
+   mainSizer->Add(passwordTextBox, 0, wxALL | wxEXPAND, 5);
+   mainSizer->Add(loginButton, 0, wxALL | wxALIGN_CENTER, 5);
 
     panel->SetSizer(mainSizer);
     mainSizer->Fit(this);
