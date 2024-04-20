@@ -30,6 +30,9 @@
     <ClInclude Include="include\MainFrame.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="include\FileSystemMangment.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\LoginFrame.cpp">
@@ -47,6 +50,9 @@
     <ClCompile Include="src\MainFrame.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\FileSystemMangment.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Image Include="resources\walterWallet.ico">
@@ -55,7 +61,10 @@
     <Image Include="resources\topPanel.png">
       <Filter>Resource Files</Filter>
     </Image>
-    <Image Include="resources\WalterWalletGUI.ico">
+    <Image Include="resources\bell.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="resources\profile.png">
       <Filter>Resource Files</Filter>
     </Image>
   </ItemGroup>

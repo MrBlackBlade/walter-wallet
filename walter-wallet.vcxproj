@@ -20,6 +20,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\App.cpp" />
+    <ClCompile Include="src\FileSystemMangment.cpp" />
     <ClCompile Include="src\LoginFrame.cpp" />
     <ClCompile Include="src\MainFrame.cpp" />
     <ClCompile Include="src\User.cpp" />
@@ -27,6 +28,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\App.h" />
+    <ClInclude Include="include\FileSystemMangment.h" />
     <ClInclude Include="include\LoginFrame.h" />
     <ClInclude Include="include\MainFrame.h" />
     <ClInclude Include="include\User.h" />
