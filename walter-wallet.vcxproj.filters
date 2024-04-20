@@ -30,7 +30,7 @@
     <ClInclude Include="include\MainFrame.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\FileSystemMangment.h">
+    <ClInclude Include="include\FileSystemManagement.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -50,7 +50,7 @@
     <ClCompile Include="src\MainFrame.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\FileSystemMangment.cpp">
+    <ClCompile Include="src\FileSystemManagement.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

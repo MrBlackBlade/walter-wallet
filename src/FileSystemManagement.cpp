@@ -1,17 +1,18 @@
-#include "FileSystemMangment.h"
-const string FileSystemMangment::userFile = "user.txt";
-const string FileSystemMangment::transactionFile = "transaction.txt";
+#include "FileSystemManagement.h"
+const string FileSystemManagement::userFile = "resources\\users.txt";
+const string FileSystemManagement::transactionFile = "resources\\transactions.txt";
+fstream FileSystemManagement::file;
 
 
-void FileSystemMangment::init()
+void FileSystemManagement::init()
 {
-	
+
 }
-vector<vector<string>> FileSystemMangment::readFile(string fileName)
+vector<vector<string>> FileSystemManagement::readFile(string fileName)
 {
 	vector<vector<string>> table;
 	string readLine;
-	file.open(fileName,ios::in); 
+	file.open(fileName, ios::in);
 	while (getline(file, readLine))
 	{
 		vector<string> row;
@@ -22,12 +23,12 @@ vector<vector<string>> FileSystemMangment::readFile(string fileName)
 			row.push_back(substr);
 		}
 		table.push_back(row);
-		
+
 	}
 	file.close();
 	return table;
 }
-void FileSystemMangment::writeRow(string fileName, vector<string> row)
+void FileSystemManagement::writeRow(string fileName, vector<string> row)
 {
 	string outputRow;
 	int N = row.size();
@@ -37,11 +38,10 @@ void FileSystemMangment::writeRow(string fileName, vector<string> row)
 		if (i < N - 1) {
 			outputRow += ",";
 		}
-		
+
 	}
 	outputRow += "\n";
-	file.open(fileName,ios::app);
+	file.open(fileName, ios::app);
 	file << outputRow;
-
-
+	file.close();
 }

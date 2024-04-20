@@ -3,7 +3,7 @@
 #include "VirtualUser.h"
 #include "User.h"
 #include "MainFrame.h"
-#include "FileSystemMangment.h"
+#include "FileSystemManagement.h"
 
 
 bool App::OnInit() {
@@ -13,7 +13,7 @@ bool App::OnInit() {
 	freopen("CONIN$", "r", stdin);
 
 	User user = User(1, "TheOne1", "The One", 5000.0, "one1", "01211466100", "one@gmail.com", "active");
-	FileSystemMangment::writeRow(FileSystemMangment::userFile, user.toStringArray());
+	FileSystemManagement::writeRow(FileSystemManagement::userFile, user.toStringArray());
 	wxIcon icon(wxT("resources\\walterWallet.ico"), wxBITMAP_TYPE_ICO);
 
 	//LoginFrame* loginFrame = new LoginFrame("HeisenBank");
