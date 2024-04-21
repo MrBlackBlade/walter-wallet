@@ -33,7 +33,7 @@
     <ClInclude Include="include\FileSystemManagement.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\RoundedPanel.h">
+    <ClInclude Include="include\Transaction.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -56,7 +56,7 @@
     <ClCompile Include="src\FileSystemManagement.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\RoundedPanel.cpp">
+    <ClCompile Include="src\Transaction.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
