@@ -23,6 +23,7 @@
     <ClCompile Include="src\FileSystemManagement.cpp" />
     <ClCompile Include="src\LoginFrame.cpp" />
     <ClCompile Include="src\MainFrame.cpp" />
+    <ClCompile Include="src\RoundedPanel.cpp" />
     <ClCompile Include="src\User.cpp" />
     <ClCompile Include="src\VirtualUser.cpp" />
   </ItemGroup>
@@ -31,6 +32,7 @@
     <ClInclude Include="include\FileSystemManagement.h" />
     <ClInclude Include="include\LoginFrame.h" />
     <ClInclude Include="include\MainFrame.h" />
+    <ClInclude Include="include\RoundedPanel.h" />
     <ClInclude Include="include\User.h" />
     <ClInclude Include="include\VirtualUser.h" />
   </ItemGroup>
