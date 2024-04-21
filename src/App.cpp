@@ -4,6 +4,7 @@
 #include "User.h"
 #include "MainFrame.h"
 #include "FileSystemManagement.h"
+#include "Transaction.h"
 
 
 bool App::OnInit() {
@@ -15,6 +16,10 @@ bool App::OnInit() {
 	User user = User(1, "TheOne1", "The One", 5000.0, "one1", "01211466100", "one@gmail.com", "active");
 	FileSystemManagement::writeRow(FileSystemManagement::userFile, user.toStringArray());
 	wxIcon icon(wxT("resources\\walterWallet.ico"), wxBITMAP_TYPE_ICO);
+
+	Transaction transaction = Transaction(&user, &user, 200.0, std::chrono::system_clock::now(), TransactionState::accepted);
+	printf(transaction.getDisplayTime().data());
+	printf(to_string(transaction.getEpochTime()).data());
 
 	//LoginFrame* loginFrame = new LoginFrame("HeisenBank");
 	//loginFrame->SetClientSize(450, 700);
