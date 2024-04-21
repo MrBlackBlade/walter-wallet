@@ -23,6 +23,7 @@
     <ClCompile Include="src\FileSystemManagement.cpp" />
     <ClCompile Include="src\LoginFrame.cpp" />
     <ClCompile Include="src\MainFrame.cpp" />
+    <ClCompile Include="src\RoundedPanel.cpp" />
     <ClCompile Include="src\Transaction.cpp" />
     <ClCompile Include="src\User.cpp" />
     <ClCompile Include="src\VirtualUser.cpp" />
