@@ -11,8 +11,8 @@ private:
 
 	int id;
 	string username;
-	string displayName;
 	string password;
+	string displayName;
 	string phoneNumber;
 	string email;
 
@@ -23,8 +23,8 @@ public:
 	(
 		int id,
 		const string& name,
-		const string& displayName,
 		const string& password,
+		const string& displayName,
 		const string& phoneNumber,
 		const string& email
 	);

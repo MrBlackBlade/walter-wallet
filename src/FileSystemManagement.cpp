@@ -1,4 +1,5 @@
 #include "FileSystemManagement.h"
+#include "Bank.h"
 const string FileSystemManagement::userFile = "resources\\users.txt";
 const string FileSystemManagement::transactionFile = "resources\\transactions.txt";
 fstream FileSystemManagement::file;
@@ -45,3 +46,10 @@ void FileSystemManagement::writeRow(string fileName, vector<string> row)
 	file << outputRow;
 	file.close();
 }
+
+void FileSystemManagement::updateData() {
+	for (const auto& [key, value] : Bank::getUsers()) {
+		FileSystemManagement::writeRow(FileSystemManagement::userFile, value.toStringArray());
+	}
+}
+

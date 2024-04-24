@@ -20,9 +20,9 @@ public:
 	(
 		int id,
 		const string& name,
+		const string& password,
 		const string& displayName,
 		double balance,
-		const string& password,
 		const string& phoneNumber,
 		const string& email,
 		const string& accountState

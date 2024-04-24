@@ -19,6 +19,6 @@ public:
 	static vector<vector<string>> readFile(string fileName);
 
 	static void writeRow(string fileName, vector<string> row);
-
+	static void updateData();
 };
 

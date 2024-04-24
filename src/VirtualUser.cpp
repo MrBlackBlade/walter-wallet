@@ -4,8 +4,8 @@ VirtualUser::VirtualUser
 (
 	int id,
 	const string& name,
-	const string& displayName,
 	const string& password,
+	const string& displayName,
 	const string& phoneNumber,
 	const string& email
 )
@@ -14,9 +14,9 @@ VirtualUser::VirtualUser
 	this->id = id;
 	this->username = name;
 	this->password = password;
+	this->displayName = displayName;
 	this->phoneNumber = phoneNumber;
 	this->email = email;
-	this->displayName = displayName;
 
 }
 

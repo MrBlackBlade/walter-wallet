@@ -20,6 +20,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\App.cpp" />
+    <ClCompile Include="src\Bank.cpp" />
     <ClCompile Include="src\FileSystemManagement.cpp" />
     <ClCompile Include="src\ImageButton.cpp" />
     <ClCompile Include="src\LoginFrame.cpp" />
@@ -31,6 +32,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\App.h" />
+    <ClInclude Include="include\Bank.h" />
     <ClInclude Include="include\FileSystemManagement.h" />
     <ClInclude Include="include\ImageButton.h" />
     <ClInclude Include="include\LoginFrame.h" />
@@ -45,6 +47,9 @@
     <Image Include="resources\profile.png" />
     <Image Include="resources\topPanel.png" />
     <Image Include="resources\walterWallet.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="resources\users.txt" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
