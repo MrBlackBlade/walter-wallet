@@ -9,9 +9,13 @@ class MainFrame : public wxFrame
 		User* user;
 
 		wxPanel* mainPanel;
-		wxPanel* midPanel;
+		wxPanel* sendMoneyPanel;
+		wxPanel* requestMoneyPanel;
+		wxPanel* transactionButtonPanel;
+		wxPanel* addToBalance;
 
 		void paintTopPanel();
+		void paintMidPanel();
 
 		//Event Handlers
 		void onBellButtonClick(wxCommandEvent& event);

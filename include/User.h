@@ -1,10 +1,10 @@
 #pragma once
 
 #include "VirtualUser.h"
-
 #include <iostream>
 #include <vector>
 #include <string>
+
 using namespace std;
 
 class User : public VirtualUser

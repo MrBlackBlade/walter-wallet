@@ -1,19 +1,17 @@
-#include "MainFrame.h"
 #include <wx/wx.h>
 #include <wx/image.h>
+#include "MainFrame.h"
 #include "RoundedPanel.h"
-
+#include "ImageButton.h"
 
 MainFrame::MainFrame(User user, const wxString& title) : wxFrame(nullptr, wxID_ANY, title)
 {
 	mainPanel = new wxPanel(this);
-	mainPanel->SetBackgroundColour(wxColour(52, 100, 117));
-
-	midPanel = new RoundedPanel(mainPanel, wxID_ANY, wxPoint(60, 150), wxSize(500, 800), wxALIGN_CENTRE_HORIZONTAL, *wxBLACK);
-
+	mainPanel->SetBackgroundColour(wxColour(0, 125, 141));
 	this->user = &user;
 
 	paintTopPanel();
+	paintMidPanel();
 }
 
 void MainFrame::paintTopPanel()
@@ -32,7 +30,7 @@ void MainFrame::paintTopPanel()
 	textDisplayName->SetForegroundColour(*wxWHITE); // Set text color
 	textDisplayName->SetFont(wxFont(wxFontInfo(22).Bold())); // Set font
 
-	wxImage bellIcon(wxT("resources\\bell.png"), wxBITMAP_TYPE_PNG);
+	wxImage bellIcon(wxString("resources\\bell.png"), wxBITMAP_TYPE_PNG);
 	bellIcon.Rescale(80, 80, wxIMAGE_QUALITY_HIGH); // Rescale the image to 60x60
 	wxBitmap bellBitmap(bellIcon);
 	wxBitmapButton* bellButton = new wxBitmapButton(topPanel, wxID_ANY, bellBitmap, wxPoint(525, 15), wxSize(80, 80), wxBU_AUTODRAW | wxBORDER_NONE);
@@ -46,9 +44,30 @@ void MainFrame::paintTopPanel()
 	pfpButton->SetBackgroundColour(wxColour(52, 100, 117));
 	pfpButton->Bind(wxEVT_BUTTON, &MainFrame::onBellButtonClick, this);
 
-}
 
-void MainFrame::onBellButtonClick(wxCommandEvent& event)
+}
+void MainFrame::paintMidPanel()
 {
+	wxPanel*  midPanel = new RoundedPanel(mainPanel, wxID_ANY, wxPoint(60, 130), wxSize(500, 820), wxALIGN_CENTRE_HORIZONTAL, *wxWHITE);
+
+	wxStaticText* displayBalance = new wxStaticText(midPanel, wxID_ANY, "Balance: " + to_string((*user).getBalance()).substr(0, to_string((*user).getBalance()).find(".") + 2), wxPoint(0, 20), wxSize(500, 30), wxALIGN_CENTRE_HORIZONTAL);
+	displayBalance->SetForegroundColour(*wxWHITE);
+	displayBalance->SetBackgroundColour(wxColour(52, 100, 117));
+	displayBalance->SetFont(wxFont(wxFontInfo(22).Bold()));
+
+	sendMoneyPanel = new RoundedPanel(midPanel, wxID_ANY, wxPoint(40, 170), wxSize(190, 250), wxALIGN_CENTRE_HORIZONTAL, wxColour(229, 229, 229));
+	sendMoneyPanel->SetBackgroundColour(*wxWHITE);
+
+	requestMoneyPanel = new RoundedPanel(midPanel, wxID_ANY, wxPoint(270, 170), wxSize(190, 250), wxALIGN_CENTRE_HORIZONTAL, wxColour(229, 229, 229));
+	requestMoneyPanel->SetBackgroundColour(*wxWHITE);
+
+	transactionButtonPanel = new RoundedPanel(midPanel, wxID_ANY, wxPoint(270, 460), wxSize(190, 250), wxALIGN_CENTRE_HORIZONTAL, wxColour(229, 229, 229));
+	transactionButtonPanel->SetBackgroundColour(*wxWHITE);
+
+	addToBalance = new RoundedPanel(midPanel, wxID_ANY, wxPoint(40, 460), wxSize(190, 250), wxALIGN_CENTRE_HORIZONTAL, wxColour(229, 229, 229));
+	addToBalance->SetBackgroundColour(*wxWHITE);
+}
+void MainFrame::onBellButtonClick(wxCommandEvent& event)
+{	
 	printf("HAAALLLLOOOOOOO\n");
 }
