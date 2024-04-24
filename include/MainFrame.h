@@ -12,7 +12,7 @@ class MainFrame : public wxFrame
 		wxPanel* sendMoneyPanel;
 		wxPanel* requestMoneyPanel;
 		wxPanel* transactionButtonPanel;
-		wxPanel* addToBalance;
+		wxPanel* rechargeBalancePanel;
 
 		void paintTopPanel();
 		void paintMidPanel();
