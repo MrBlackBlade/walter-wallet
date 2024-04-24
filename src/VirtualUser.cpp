@@ -39,7 +39,7 @@ void VirtualUser::setName(string& name) { this->username = name; }
 
 void VirtualUser::setPassword(string& password) { this->password = password; }
 
-void VirtualUser::setPhoneNumber(string& phonenumber) { this->phoneNumber = phoneNumber; }
+void VirtualUser::setPhoneNumber(string& phoneNumber) { this->phoneNumber = phoneNumber; }
 
 void VirtualUser::setEmail(string& email) { this->email = email; }
 

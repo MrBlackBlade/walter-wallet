@@ -14,6 +14,7 @@ bool App::OnInit() {
 	freopen("CONIN$", "r", stdin);
 
 	User user = User(1, "TheOne1", "The One", 5000.0, "one1", "01211466100", "one@gmail.com", "active");
+	printf(user.getDisplayName().c_str());
 	FileSystemManagement::writeRow(FileSystemManagement::userFile, user.toStringArray());
 	wxIcon icon(wxT("resources\\walterWallet.ico"), wxBITMAP_TYPE_ICO);
 

@@ -32,9 +32,9 @@ public:
 	string getAccountState() const;
 	string getUserType() const;
 
+	void editProfile(string displayName, string password, string phoneNumber, string email);
 	void setBalance(double balance);
 	void setAccountState(string& state);
-
 	vector<string> toStringArray() const;
 
 };

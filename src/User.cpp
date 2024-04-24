@@ -23,6 +23,15 @@ string User::getAccountState() const { return accountState; }
 
 string User::getUserType() const { return "user"; }
 
+
+void User::editProfile(string displayName, string password, string phoneNumber, string email)
+{
+	this->setDisplayName(displayName);
+	this->setPassword(password);
+	this->setPhoneNumber(phoneNumber);
+	this->setEmail(email);
+}
+
 void User::setBalance(double balance) {	this->balance = balance; }
 
 void User::setAccountState(string& state) {	this->accountState = state; }
