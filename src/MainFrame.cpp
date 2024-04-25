@@ -44,6 +44,12 @@ void MainFrame::paintTopPanel()
 	pfpButton->SetBackgroundColour(wxColour(52, 100, 117));
 	pfpButton->Bind(wxEVT_BUTTON, &MainFrame::onBellButtonClick, this);
 
+	bellButton->Bind(wxEVT_ENTER_WINDOW, &MainFrame::onHover, this);
+	bellButton->Bind(wxEVT_LEAVE_WINDOW, &MainFrame::onLeaveHover, this);
+
+	pfpButton->Bind(wxEVT_ENTER_WINDOW, &MainFrame::onHover, this);
+	pfpButton->Bind(wxEVT_LEAVE_WINDOW, &MainFrame::onLeaveHover, this);
+
 
 }
 void MainFrame::paintMidPanel()
@@ -107,6 +113,19 @@ void MainFrame::paintMidPanel()
 	rechargeButton->SetBackgroundColour(wxColour(229, 229, 229));
 	rechargeButton->Bind(wxEVT_BUTTON, &MainFrame::onBellButtonClick, this);
 
+	sendMoneyButton->Bind(wxEVT_ENTER_WINDOW, &MainFrame::onHover, this);
+	sendMoneyButton->Bind(wxEVT_LEAVE_WINDOW, &MainFrame::onLeaveHover, this);
+
+	requestMoneyButton->Bind(wxEVT_ENTER_WINDOW, &MainFrame::onHover, this);
+	requestMoneyButton->Bind(wxEVT_LEAVE_WINDOW, &MainFrame::onLeaveHover, this);
+
+	transactionButton->Bind(wxEVT_ENTER_WINDOW, &MainFrame::onHover, this);
+	transactionButton->Bind(wxEVT_LEAVE_WINDOW, &MainFrame::onLeaveHover, this);
+
+	rechargeButton->Bind(wxEVT_ENTER_WINDOW, &MainFrame::onHover, this);
+	rechargeButton->Bind(wxEVT_LEAVE_WINDOW, &MainFrame::onLeaveHover, this);
+		
+
 }
 void MainFrame::paintSendPanel()
 {
@@ -145,6 +164,9 @@ void MainFrame::paintSendPanel()
 	sendButton->SetFont(wxFont(wxFontInfo(18).Bold()));
 	sendButton->Bind(wxEVT_BUTTON, &MainFrame::onSendClick, this);
 
+	sendButton->Bind(wxEVT_ENTER_WINDOW, &MainFrame::onHover, this);
+	sendButton->Bind(wxEVT_LEAVE_WINDOW, &MainFrame::onLeaveHover, this);
+
 	sendMoneyPanel->Hide();
 	requestMoneyPanel->Hide();
 	transactionButtonPanel->Hide();
@@ -178,4 +200,12 @@ void MainFrame::onSendClick(wxCommandEvent& event)
 	ammountText->Hide();
 	recieverText->Hide();
 
+}
+
+void MainFrame::onHover(wxMouseEvent& event) {
+	SetCursor(wxCursor(wxCURSOR_HAND));
+}
+
+void MainFrame::onLeaveHover(wxMouseEvent& event) {
+	SetCursor(wxCursor(wxCURSOR_ARROW));
 }

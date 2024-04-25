@@ -35,6 +35,8 @@ class MainFrame : public wxFrame
 		void onBellButtonClick(wxCommandEvent& event);
 		void onSendMoneyClick(wxCommandEvent& event);
 		void onSendClick(wxCommandEvent& event);
+		void onHover(wxMouseEvent& event);
+		void onLeaveHover(wxMouseEvent& event);
 
 	public:
 		MainFrame(User user, const wxString& title);
