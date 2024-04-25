@@ -48,7 +48,7 @@ void MainFrame::paintTopPanel()
 }
 void MainFrame::paintMidPanel()
 {
-	wxPanel*  midPanel = new RoundedPanel(mainPanel, wxID_ANY, wxPoint(60, 130), wxSize(500, 820), wxALIGN_CENTRE_HORIZONTAL, *wxWHITE);
+	midPanel = new RoundedPanel(mainPanel, wxID_ANY, wxPoint(60, 130), wxSize(500, 820), wxALIGN_CENTRE_HORIZONTAL, *wxWHITE);
 
 	wxStaticText* displayBalance = new wxStaticText(midPanel, wxID_ANY, "Balance: " + to_string((*user).getBalance()).substr(0, to_string((*user).getBalance()).find(".") + 2), wxPoint(0, 40), wxSize(500, 30), wxALIGN_CENTRE_HORIZONTAL);
 	displayBalance->SetForegroundColour(*wxWHITE);
@@ -84,7 +84,7 @@ void MainFrame::paintMidPanel()
 	wxBitmap sendMoneyBitmap(sendMoneyIcon);
 	wxBitmapButton* sendMoneyButton = new wxBitmapButton(sendMoneyPanel, wxID_ANY, sendMoneyBitmap, wxPoint(30, 20), wxSize(130, 130), wxBU_AUTODRAW | wxBORDER_NONE);
 	sendMoneyButton->SetBackgroundColour(wxColour(229, 229, 229));
-	sendMoneyButton->Bind(wxEVT_BUTTON, &MainFrame::onBellButtonClick, this);
+	sendMoneyButton->Bind(wxEVT_BUTTON, &MainFrame::onSendMoneyClick, this);
 
 	wxImage requestMoneyIcon(wxString("resources\\requestMoney.png"), wxBITMAP_TYPE_PNG);
 	requestMoneyIcon.Rescale(130, 130, wxIMAGE_QUALITY_HIGH);
@@ -108,8 +108,74 @@ void MainFrame::paintMidPanel()
 	rechargeButton->Bind(wxEVT_BUTTON, &MainFrame::onBellButtonClick, this);
 
 }
+void MainFrame::paintSendPanel()
+{
+	usernameInputPanel = new RoundedPanel(midPanel, wxID_ANY, wxPoint(190, 200), wxSize(240, 50), wxALIGN_CENTRE_HORIZONTAL, wxColour(229, 229, 229));
+	usernameInputPanel->SetBackgroundColour(*wxWHITE);
+
+	recieverNameBox = new wxTextCtrl(usernameInputPanel, wxID_ANY, "Username", wxPoint(10, 13), wxSize(220, 30), wxTE_CENTRE | wxBORDER_NONE);
+	recieverNameBox->SetBackgroundColour(wxColour(229, 229, 229));
+	recieverNameBox->SetForegroundColour(wxColour(178, 178, 178));
+	recieverNameBox->SetFont(wxFont(wxFontInfo(14).Bold()));
+
+	ammountInputPanel = new RoundedPanel(midPanel, wxID_ANY, wxPoint(190, 400), wxSize(240, 50), wxALIGN_CENTRE_HORIZONTAL, wxColour(229, 229, 229));
+	ammountInputPanel->SetBackgroundColour(*wxWHITE);
+
+	recieverText = new wxStaticText(midPanel, wxID_ANY, "Reciever's", wxPoint(70, 213), wxSize(-1, -1), wxALIGN_CENTRE_HORIZONTAL);
+	recieverText->SetBackgroundColour(*wxWHITE);
+	recieverText->SetForegroundColour(*wxBLACK);
+	recieverText->SetFont(wxFont(wxFontInfo(14).Bold()));
+
+	ammountBox = new wxTextCtrl(ammountInputPanel, wxID_ANY, "EGP", wxPoint(10, 13), wxSize(220, 30), wxTE_CENTRE | wxBORDER_NONE);
+	ammountBox->SetBackgroundColour(wxColour(229, 229, 229));
+	ammountBox->SetForegroundColour(wxColour(178, 178, 178));
+	ammountBox->SetFont(wxFont(wxFontInfo(14).Bold()));
+
+	ammountText = new wxStaticText(midPanel, wxID_ANY, "Ammount", wxPoint(70, 413), wxSize(-1, -1), wxALIGN_CENTRE_HORIZONTAL);
+	ammountText->SetBackgroundColour(*wxWHITE);
+	ammountText->SetForegroundColour(*wxBLACK);
+	ammountText->SetFont(wxFont(wxFontInfo(14).Bold()));
+
+	sendButtonPanel = new RoundedPanel(midPanel, wxID_ANY, wxPoint(160, 600), wxSize(180, 50), wxALIGN_CENTRE_HORIZONTAL, wxColour(52, 100, 117));
+	sendButtonPanel->SetBackgroundColour(*wxWHITE);
+
+	sendButton = new wxButton(sendButtonPanel, wxID_ANY, "Send", wxPoint(10, 5), wxSize(160, 40), wxBORDER_NONE);
+	sendButton->SetBackgroundColour(wxColour(52, 100, 117));
+	sendButton->SetForegroundColour(*wxWHITE);
+	sendButton->SetFont(wxFont(wxFontInfo(18).Bold()));
+	sendButton->Bind(wxEVT_BUTTON, &MainFrame::onSendClick, this);
+
+	sendMoneyPanel->Hide();
+	requestMoneyPanel->Hide();
+	transactionButtonPanel->Hide();
+	rechargeBalancePanel->Hide();
+}
 
 void MainFrame::onBellButtonClick(wxCommandEvent& event)
 {	
 	printf("HAAALLLLOOOOOOO\n");
+	
+}
+void MainFrame::onSendMoneyClick(wxCommandEvent& event)
+{
+	paintSendPanel();
+}
+void MainFrame::onSendClick(wxCommandEvent& event)
+{
+	printf("\nAuthentication to be done later\n");
+
+	sendMoneyPanel->Show();
+	requestMoneyPanel->Show();
+	transactionButtonPanel->Show();
+	rechargeBalancePanel->Show();
+
+	usernameInputPanel->Hide();
+	recieverNameBox->Hide();
+	ammountInputPanel->Hide();
+	sendButtonPanel->Hide();
+	sendButton->Hide();
+	ammountBox->Hide();
+	ammountText->Hide();
+	recieverText->Hide();
+
 }

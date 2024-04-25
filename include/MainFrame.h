@@ -9,6 +9,19 @@ class MainFrame : public wxFrame
 		User* user;
 
 		wxPanel* mainPanel;
+		wxPanel* midPanel;
+
+		//inside sendMoneyPanel
+		wxPanel*		usernameInputPanel;
+		wxTextCtrl*		recieverNameBox;
+		wxPanel*		ammountInputPanel;
+		wxPanel*		sendButtonPanel;
+		wxButton*		sendButton;
+		wxTextCtrl*		ammountBox;
+		wxStaticText*	ammountText;
+		wxStaticText*	recieverText;
+
+		//inside midPanel
 		wxPanel* sendMoneyPanel;
 		wxPanel* requestMoneyPanel;
 		wxPanel* transactionButtonPanel;
@@ -16,9 +29,12 @@ class MainFrame : public wxFrame
 
 		void paintTopPanel();
 		void paintMidPanel();
+		void paintSendPanel();
 
 		//Event Handlers
 		void onBellButtonClick(wxCommandEvent& event);
+		void onSendMoneyClick(wxCommandEvent& event);
+		void onSendClick(wxCommandEvent& event);
 
 	public:
 		MainFrame(User user, const wxString& title);
