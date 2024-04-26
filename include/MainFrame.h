@@ -14,11 +14,11 @@ class MainFrame : public wxFrame
 		//inside sendMoneyPanel
 		wxPanel*		usernameInputPanel;
 		wxTextCtrl*		recieverNameBox;
-		wxPanel*		ammountInputPanel;
+		wxPanel*		amountInputPanel;
 		wxPanel*		sendButtonPanel;
 		wxButton*		sendButton;
-		wxTextCtrl*		ammountBox;
-		wxStaticText*	ammountText;
+		wxTextCtrl*		amountBox;
+		wxStaticText*	amountText;
 		wxStaticText*	recieverText;
 
 		//inside midPanel
@@ -35,6 +35,10 @@ class MainFrame : public wxFrame
 		void onBellButtonClick(wxCommandEvent& event);
 		void onSendMoneyClick(wxCommandEvent& event);
 		void onSendClick(wxCommandEvent& event);
+		void onEnterUsername(wxFocusEvent& event);
+		void onLeaveUsername(wxFocusEvent& event);
+		void onEnterAmount(wxFocusEvent& event);
+		void onLeaveAmount(wxFocusEvent& event);
 		void onHover(wxMouseEvent& event);
 		void onLeaveHover(wxMouseEvent& event);
 

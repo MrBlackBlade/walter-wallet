@@ -137,23 +137,29 @@ void MainFrame::paintSendPanel()
 	recieverNameBox->SetForegroundColour(wxColour(178, 178, 178));
 	recieverNameBox->SetFont(wxFont(wxFontInfo(14).Bold()));
 
-	ammountInputPanel = new RoundedPanel(midPanel, wxID_ANY, wxPoint(190, 400), wxSize(240, 50), wxALIGN_CENTRE_HORIZONTAL, wxColour(229, 229, 229));
-	ammountInputPanel->SetBackgroundColour(*wxWHITE);
+	recieverNameBox->Bind(wxEVT_SET_FOCUS, &MainFrame::onEnterUsername, this);
+	recieverNameBox->Bind(wxEVT_KILL_FOCUS, &MainFrame::onLeaveUsername, this);
+
+	amountInputPanel = new RoundedPanel(midPanel, wxID_ANY, wxPoint(190, 400), wxSize(240, 50), wxALIGN_CENTRE_HORIZONTAL, wxColour(229, 229, 229));
+	amountInputPanel->SetBackgroundColour(*wxWHITE);
 
 	recieverText = new wxStaticText(midPanel, wxID_ANY, "Reciever's", wxPoint(70, 213), wxSize(-1, -1), wxALIGN_CENTRE_HORIZONTAL);
 	recieverText->SetBackgroundColour(*wxWHITE);
 	recieverText->SetForegroundColour(*wxBLACK);
 	recieverText->SetFont(wxFont(wxFontInfo(14).Bold()));
 
-	ammountBox = new wxTextCtrl(ammountInputPanel, wxID_ANY, "EGP", wxPoint(10, 13), wxSize(220, 30), wxTE_CENTRE | wxBORDER_NONE);
-	ammountBox->SetBackgroundColour(wxColour(229, 229, 229));
-	ammountBox->SetForegroundColour(wxColour(178, 178, 178));
-	ammountBox->SetFont(wxFont(wxFontInfo(14).Bold()));
+	amountBox = new wxTextCtrl(amountInputPanel, wxID_ANY, "EGP", wxPoint(10, 13), wxSize(220, 30), wxTE_CENTRE | wxBORDER_NONE);
+	amountBox->SetBackgroundColour(wxColour(229, 229, 229));
+	amountBox->SetForegroundColour(wxColour(178, 178, 178));
+	amountBox->SetFont(wxFont(wxFontInfo(14).Bold()));
 
-	ammountText = new wxStaticText(midPanel, wxID_ANY, "Ammount", wxPoint(70, 413), wxSize(-1, -1), wxALIGN_CENTRE_HORIZONTAL);
-	ammountText->SetBackgroundColour(*wxWHITE);
-	ammountText->SetForegroundColour(*wxBLACK);
-	ammountText->SetFont(wxFont(wxFontInfo(14).Bold()));
+	amountBox->Bind(wxEVT_SET_FOCUS, &MainFrame::onEnterAmount, this);
+	amountBox->Bind(wxEVT_KILL_FOCUS, &MainFrame::onLeaveAmount, this);
+
+	amountText = new wxStaticText(midPanel, wxID_ANY, "Amount", wxPoint(70, 413), wxSize(-1, -1), wxALIGN_CENTRE_HORIZONTAL);
+	amountText->SetBackgroundColour(*wxWHITE);
+	amountText->SetForegroundColour(*wxBLACK);
+	amountText->SetFont(wxFont(wxFontInfo(14).Bold()));
 
 	sendButtonPanel = new RoundedPanel(midPanel, wxID_ANY, wxPoint(160, 600), wxSize(180, 50), wxALIGN_CENTRE_HORIZONTAL, wxColour(52, 100, 117));
 	sendButtonPanel->SetBackgroundColour(*wxWHITE);
@@ -182,6 +188,47 @@ void MainFrame::onSendMoneyClick(wxCommandEvent& event)
 {
 	paintSendPanel();
 }
+
+//copious amounts of suffering
+
+void MainFrame::onEnterUsername(wxFocusEvent& event) {
+	wxTextCtrl* object = (wxTextCtrl*)event.GetEventObject();
+	if (object->GetValue() == "Username") {
+		object->SetForegroundColour(*wxBLACK);
+		object->Clear();
+	}
+	event.Skip(true);
+}
+
+void MainFrame::onLeaveUsername(wxFocusEvent& event) {
+	wxTextCtrl* object = (wxTextCtrl*)event.GetEventObject();
+	if (object->IsEmpty()) {
+		object->SetForegroundColour(wxColour(178, 178, 178));
+		object->AppendText("Username");
+	}
+
+	event.Skip(true);
+}
+
+void MainFrame::onEnterAmount(wxFocusEvent& event) {
+	wxTextCtrl* object = (wxTextCtrl*)event.GetEventObject();
+	if (object->GetValue() == "EGP") {
+		object->SetForegroundColour(*wxBLACK);
+		object->Clear();
+	}
+	event.Skip(true);
+}
+
+void MainFrame::onLeaveAmount(wxFocusEvent& event) {
+	wxTextCtrl* object = (wxTextCtrl*)event.GetEventObject();
+	if (object->IsEmpty()) {
+		object->SetForegroundColour(wxColour(178, 178, 178));
+		object->AppendText("EGP");
+	}
+
+	event.Skip(true);
+}
+
 void MainFrame::onSendClick(wxCommandEvent& event)
 {
 	printf("\nAuthentication to be done later\n");
@@ -193,11 +240,11 @@ void MainFrame::onSendClick(wxCommandEvent& event)
 
 	usernameInputPanel->Hide();
 	recieverNameBox->Hide();
-	ammountInputPanel->Hide();
+	amountInputPanel->Hide();
 	sendButtonPanel->Hide();
 	sendButton->Hide();
-	ammountBox->Hide();
-	ammountText->Hide();
+	amountBox->Hide();
+	amountText->Hide();
 	recieverText->Hide();
 
 }
