@@ -19,6 +19,8 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Admin.cpp" />
+    <ClCompile Include="main.cpp" />
     <ClCompile Include="src\App.cpp" />
     <ClCompile Include="src\FileSystemManagement.cpp" />
     <ClCompile Include="src\LoginFrame.cpp" />
@@ -29,6 +31,7 @@
     <ClCompile Include="src\VirtualUser.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Admin.h" />
     <ClInclude Include="include\App.h" />
     <ClInclude Include="include\FileSystemManagement.h" />
     <ClInclude Include="include\LoginFrame.h" />
