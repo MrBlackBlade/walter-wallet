@@ -19,8 +19,8 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Admin.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="src\Admin.cpp" />
     <ClCompile Include="src\App.cpp" />
     <ClCompile Include="src\FileSystemManagement.cpp" />
     <ClCompile Include="src\LoginFrame.cpp" />
@@ -28,10 +28,11 @@
     <ClCompile Include="src\RoundedPanel.cpp" />
     <ClCompile Include="src\Transaction.cpp" />
     <ClCompile Include="src\User.cpp" />
+    <ClCompile Include="src\Validation .cpp" />
     <ClCompile Include="src\VirtualUser.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Admin.h" />
+    <ClInclude Include="include\Admin.h" />
     <ClInclude Include="include\App.h" />
     <ClInclude Include="include\FileSystemManagement.h" />
     <ClInclude Include="include\LoginFrame.h" />
@@ -39,6 +40,7 @@
     <ClInclude Include="include\RoundedPanel.h" />
     <ClInclude Include="include\Transaction.h" />
     <ClInclude Include="include\User.h" />
+    <ClInclude Include="include\Validation.h" />
     <ClInclude Include="include\VirtualUser.h" />
   </ItemGroup>
   <ItemGroup>
