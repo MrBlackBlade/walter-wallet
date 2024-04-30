@@ -41,25 +41,17 @@ bool Admin::editUser(string old_username, string new_username, string new_passwo
 		return false;
 }
 
-bool Admin::suspendUser(string name, map<string, User>& accounts)
+bool Admin::toggleUserState(User* user)
 {
-	if (accounts.find(name) == accounts.end())
+	if (user->getAccountState() == "active" || user->getAccountState() == "deactivated")
 	{
+		user->setAccountState("suspended");
 		return false;
 	}
-
 	else
 	{
-		if(accounts[name].getSuspend() == false) {
-			accounts[name].setSuspend(1);
-			return true;
-		}
-		else
-		{
-			accounts[name].setSuspend(0);
-			return true;
-		}
-			
+		user->setAccountState("active");
+		return true;
 	}
 }
 

@@ -33,7 +33,7 @@ public:
 	string getUserType() const;
 
 	void setBalance(double balance);
-	void setAccountState(string& state);
+	void setAccountState(const string& state);
 
 	vector<string> toStringArray() const;
 

@@ -25,8 +25,7 @@ string User::getUserType() const { return "user"; }
 
 void User::setBalance(double balance) {	this->balance = balance; }
 
-void User::setAccountState(string& state) {	this->accountState = state; }
-
+void User::setAccountState(const string& state) {	this->accountState = state; }
 
 vector<string> User::toStringArray() const
 {

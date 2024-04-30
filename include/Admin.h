@@ -36,7 +36,7 @@ public:
 
 	bool editUser(string old_userame, string new_username, string new_password, double new_balancce, map<string, User> accounts);
 
-	bool suspendUser(string name, map<string,User>&accounts);
+	bool toggleUserState(User* user);
 
 	bool taxes();
 
