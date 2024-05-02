@@ -1,5 +1,5 @@
 #include "Transaction.h"
-int Transaction::CountID = 0;
+
 
 Transaction::Transaction(User* sender, User* reciever, double amount, time_point<system_clock> time, TransactionState flag)
 {
@@ -8,7 +8,6 @@ Transaction::Transaction(User* sender, User* reciever, double amount, time_point
 	this->amount = amount;
 	this->time = time;
 	this->flag = flag;
-	CountID++;
 }
 
 void Transaction::setSender(User* sender)
@@ -51,9 +50,9 @@ double Transaction::getAmount()
 	return amount;
 }
 
-long int Transaction::getEpochTime()
+long Transaction::getEpochTime()
 {
-	return static_cast<long int>(system_clock::to_time_t(time));
+	return static_cast<long> (system_clock::to_time_t(time));
 }
 string Transaction::getDisplayTime()
 {
@@ -63,4 +62,15 @@ string Transaction::getDisplayTime()
 TransactionState Transaction::getFlag()
 {
 	return flag;
+}
+
+vector<string> Transaction::toStringArray()
+{
+	return {
+		to_string(getEpochTime()),
+		(*sender).getUsername(),
+		(*reciever).getUsername(),
+		to_string(amount),
+		to_string(flag)
+	};
 }

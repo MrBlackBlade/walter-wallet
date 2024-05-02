@@ -48,8 +48,15 @@ void FileSystemManagement::writeRow(string fileName, vector<string> row)
 }
 
 void FileSystemManagement::updateData() {
-	for (const auto& [key, value] : Bank::getUsers()) {
+	file.open(userFile, ios::out);
+	file.close();
+	file.open(transactionFile, ios::out);
+	file.close();
+	for (const auto& [key, value] : (*Bank::getUsers())) {
 		FileSystemManagement::writeRow(FileSystemManagement::userFile, value.toStringArray());
+	}
+	for (Transaction* transaction : Bank::getTransactions()->get()) {
+		FileSystemManagement::writeRow(FileSystemManagement::transactionFile, transaction->toStringArray());
 	}
 }
 

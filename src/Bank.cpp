@@ -1,14 +1,17 @@
 #include "Bank.h"
-#include "FileSystemManagement.h"
+
 
 unordered_map<string, User> Bank::users;
+TransactionStructure Bank::transactions;
 
 void Bank::init() {
 	makeUsers();
+	makeTransactions();
 }
 
 void Bank::makeUsers() {
 	vector<vector<string>> usersTable = FileSystemManagement::readFile(FileSystemManagement::userFile);
+	VirtualUser::setMaxID(stoi(usersTable.back().front()));
 	for (vector<string> row : usersTable) {
 		User user = User(
 			stoi(row[0]),
@@ -24,7 +27,25 @@ void Bank::makeUsers() {
 	}
 
 }
-unordered_map<string, User> Bank::getUsers() {
-	unordered_map<string, User> users;
-	return users;
+
+void Bank::makeTransactions() {
+	vector<vector<string>> transactionsTable = FileSystemManagement::readFile(FileSystemManagement::transactionFile);
+	for (vector<string> row : transactionsTable) {
+		Transaction* transaction = new Transaction(
+			&users.find(row[1])->second,
+			&users.find(row[2])->second,
+			stod(row[3]),
+			std::chrono::system_clock::from_time_t(stol(row[0])),
+			TransactionState(stoi(row[4]))
+		);
+		transactions.insert(transaction);
+	}
+}
+
+unordered_map<string, User>* Bank::getUsers() {
+	return &users;
+}
+
+TransactionStructure* Bank::getTransactions() {
+	return &transactions;
 }

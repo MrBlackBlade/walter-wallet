@@ -27,6 +27,7 @@
     <ClCompile Include="src\MainFrame.cpp" />
     <ClCompile Include="src\RoundedPanel.cpp" />
     <ClCompile Include="src\Transaction.cpp" />
+    <ClCompile Include="src\TransactionStructure.cpp" />
     <ClCompile Include="src\User.cpp" />
     <ClCompile Include="src\VirtualUser.cpp" />
   </ItemGroup>
@@ -39,6 +40,7 @@
     <ClInclude Include="include\MainFrame.h" />
     <ClInclude Include="include\RoundedPanel.h" />
     <ClInclude Include="include\Transaction.h" />
+    <ClInclude Include="include\TransactionStructure.h" />
     <ClInclude Include="include\User.h" />
     <ClInclude Include="include\VirtualUser.h" />
   </ItemGroup>
@@ -49,6 +51,7 @@
     <Image Include="resources\walterWallet.ico" />
   </ItemGroup>
   <ItemGroup>
+    <Text Include="resources\transactions.txt" />
     <Text Include="resources\users.txt" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

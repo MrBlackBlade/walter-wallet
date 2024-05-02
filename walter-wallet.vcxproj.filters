@@ -45,6 +45,9 @@
     <ClInclude Include="include\Bank.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="include\TransactionStructure.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\LoginFrame.cpp">
@@ -77,6 +80,9 @@
     <ClCompile Include="src\Bank.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\TransactionStructure.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Image Include="resources\walterWallet.ico">
@@ -94,6 +100,9 @@
   </ItemGroup>
   <ItemGroup>
     <Text Include="resources\users.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+    <Text Include="resources\transactions.txt">
       <Filter>Resource Files</Filter>
     </Text>
   </ItemGroup>

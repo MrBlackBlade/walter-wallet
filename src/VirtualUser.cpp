@@ -1,5 +1,7 @@
 #include "VirtualUser.h"
 
+int VirtualUser::maxID;
+
 VirtualUser::VirtualUser
 (
 	int id,
@@ -20,6 +22,8 @@ VirtualUser::VirtualUser
 
 }
 
+int VirtualUser::getMaxID() const { return maxID; }
+
 int VirtualUser::getID() const { return id; }
 
 string VirtualUser::getUsername() const { return username; }
@@ -34,6 +38,8 @@ string VirtualUser::getDisplayName() const { return displayName; }
 
 string VirtualUser::getUserType() const { return "virtual"; }
 
+
+void VirtualUser::setMaxID(int maxID) { VirtualUser::maxID = maxID; }
 
 void VirtualUser::setName(string& name) { this->username = name; }
 
