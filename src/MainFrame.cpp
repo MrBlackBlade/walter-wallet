@@ -56,7 +56,7 @@ void MainFrame::paintTopPanel()
 }
 void MainFrame::paintMidPanel()
 {
-	midPanel = new RoundedPanel(mainPanel, wxID_ANY, wxPoint(35, 130), wxSize(550, 820), wxALIGN_CENTRE_HORIZONTAL, *wxWHITE);
+	midPanel = new RoundedPanel(mainPanel, wxID_ANY, wxPoint(35, 130), wxSize(550, 840), wxALIGN_CENTRE_HORIZONTAL, *wxWHITE);
 
 	wxStaticText* displayBalance = new wxStaticText(midPanel, wxID_ANY, "Balance: " + to_string((*user).getBalance()).substr(0, to_string((*user).getBalance()).find(".") + 2), wxPoint(0, 40), wxSize(550, 30), wxALIGN_CENTRE_HORIZONTAL);
 	displayBalance->SetForegroundColour(*wxWHITE);
