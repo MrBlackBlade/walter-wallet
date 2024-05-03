@@ -56,7 +56,7 @@ void MainFrame::paintTopPanel()
 }
 void MainFrame::paintMidPanel()
 {
-	midPanel = new RoundedPanel(mainPanel, wxID_ANY, wxPoint(35, 130), wxSize(550, 840), wxALIGN_CENTRE_HORIZONTAL, *wxWHITE);
+	midPanel = new wxScrolled<RoundedPanel>(mainPanel, wxID_ANY, wxPoint(35, 130), wxSize(550, 840));
 
 	wxStaticText* displayBalance = new wxStaticText(midPanel, wxID_ANY, "Balance: " + to_string((*user).getBalance()).substr(0, to_string((*user).getBalance()).find(".") + 2), wxPoint(0, 40), wxSize(550, 30), wxALIGN_CENTRE_HORIZONTAL);
 	displayBalance->SetForegroundColour(*wxWHITE);
@@ -191,7 +191,11 @@ void MainFrame::paintTransactionsPanel()
 	wxImage pendingIcon(wxString("resources\\pending.png"), wxBITMAP_TYPE_PNG);
 	pendingIcon.Rescale(60, 60, wxIMAGE_QUALITY_HIGH);
 	
+	/*auto panel = new wxScrolled<wxPanel>(midPanel, wxID_ANY, wxPoint(20, 20), wxSize(500, 600));
+	panel->SetBackgroundColour(!wxWHITE);*/
+
 	int pointY = 150;
+	int totalScrollHeight = 0;
 
 	for (Transaction* tans : Bank::getTransactions()->get(&Bank::getUsers()->at(user->getUsername())))
 	{
@@ -249,8 +253,12 @@ void MainFrame::paintTransactionsPanel()
 		transactionTime->SetForegroundColour(wxColour(178, 178, 178));
 		transactionTime->SetFont(wxFont(wxFontInfo(12)));
 
+		totalScrollHeight += 180;
 		pointY += 180;
 	}
+
+	midPanel->SetScrollbar(wxVERTICAL, 0, 500, totalScrollHeight, 500);
+	//midPanel->SetVirtualSize(wxSize(0, totalScrollHeight));
 
 	sendMoneyPanel->Hide();
 	requestMoneyPanel->Hide();
