@@ -20,23 +20,27 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\App.cpp" />
+    <ClCompile Include="src\Bank.cpp" />
     <ClCompile Include="src\FileSystemManagement.cpp" />
     <ClCompile Include="src\ImageButton.cpp" />
     <ClCompile Include="src\LoginFrame.cpp" />
     <ClCompile Include="src\MainFrame.cpp" />
     <ClCompile Include="src\RoundedPanel.cpp" />
     <ClCompile Include="src\Transaction.cpp" />
+    <ClCompile Include="src\TransactionStructure.cpp" />
     <ClCompile Include="src\User.cpp" />
     <ClCompile Include="src\VirtualUser.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\App.h" />
+    <ClInclude Include="include\Bank.h" />
     <ClInclude Include="include\FileSystemManagement.h" />
     <ClInclude Include="include\ImageButton.h" />
     <ClInclude Include="include\LoginFrame.h" />
     <ClInclude Include="include\MainFrame.h" />
     <ClInclude Include="include\RoundedPanel.h" />
     <ClInclude Include="include\Transaction.h" />
+    <ClInclude Include="include\TransactionStructure.h" />
     <ClInclude Include="include\User.h" />
     <ClInclude Include="include\VirtualUser.h" />
   </ItemGroup>
@@ -45,6 +49,10 @@
     <Image Include="resources\profile.png" />
     <Image Include="resources\topPanel.png" />
     <Image Include="resources\walterWallet.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="resources\transactions.txt" />
+    <Text Include="resources\users.txt" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>

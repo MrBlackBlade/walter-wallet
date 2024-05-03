@@ -16,7 +16,6 @@ enum TransactionState
 
 class Transaction
 {
-	static int CountID;
 	User* sender;
 	User* reciever;
 	double amount;
@@ -36,7 +35,9 @@ class Transaction
 	User* getSender();
 	User* getReciever();
 	double getAmount();
-	long int getEpochTime();
+	long getEpochTime();
 	string getDisplayTime();
 	TransactionState getFlag();
+
+	vector<string> toStringArray();
 };

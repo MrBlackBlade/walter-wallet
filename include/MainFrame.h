@@ -41,6 +41,7 @@ class MainFrame : public wxFrame
 		void onLeaveAmount(wxFocusEvent& event);
 		void onHover(wxMouseEvent& event);
 		void onLeaveHover(wxMouseEvent& event);
+		void onClose(wxCloseEvent& event);
 
 	public:
 		MainFrame(User user, const wxString& title);
