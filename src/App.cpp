@@ -31,6 +31,8 @@ bool App::OnInit() {
 		for (string e : tans->toStringArray()) {
 			cout << e << " ";
 		}
+		//tans->getFlag();
+		//tans->getSender();
 		cout << endl;
 	}
 	//LoginFrame* loginFrame = new LoginFrame("HeisenBank");
@@ -39,7 +41,7 @@ bool App::OnInit() {
 	//loginFrame->Show();
 	//loginFrame->SetIcon(icon);
 
-	MainFrame* mainFrame = new MainFrame(Bank::getUsers()->find("TheOne1")->second, "Heisenbank");
+	MainFrame* mainFrame = new MainFrame(&Bank::getUsers()->at("TheOne1"), "Heisenbank");
 	mainFrame->SetClientSize(620, 1000);
 	mainFrame->Center();
 	mainFrame->Show();

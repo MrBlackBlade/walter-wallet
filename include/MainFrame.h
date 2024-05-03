@@ -1,6 +1,7 @@
 #pragma once
 #include <wx/wx.h>
 #include "User.h"
+#include "Bank.h"
 
 class MainFrame : public wxFrame
 {
@@ -30,6 +31,7 @@ class MainFrame : public wxFrame
 		void paintTopPanel();
 		void paintMidPanel();
 		void paintSendPanel();
+		void paintTransactionsPanel();
 
 		//Event Handlers
 		void onBellButtonClick(wxCommandEvent& event);
@@ -44,6 +46,6 @@ class MainFrame : public wxFrame
 		void onClose(wxCloseEvent& event);
 
 	public:
-		MainFrame(User user, const wxString& title);
+		MainFrame(User* user, const wxString& title);
 };
 
