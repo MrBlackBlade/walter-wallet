@@ -4,14 +4,14 @@ User::User
 (
 	int id,
 	const string& name,
+	const string& password,
 	const string& displayName,
 	double balance,
-	const string& password,
 	const string& phoneNumber,
 	const string& email,
 	const string& accountState
 )
-	: VirtualUser(id, name, displayName, password, phoneNumber, email)
+	: VirtualUser(id, name, password, displayName, phoneNumber, email)
 {
 	this->balance = balance;
 	this->accountState = accountState;
@@ -32,9 +32,17 @@ void User::editProfile(string displayName, string password, string phoneNumber, 
 	this->setEmail(email);
 }
 
+//TransactionStructure* User::getTransactions() {
+//	return &transactions;
+//}
+
 void User::setBalance(double balance) {	this->balance = balance; }
 
 void User::setAccountState(string& state) {	this->accountState = state; }
+
+//void User::insertTransacton(Transaction* transaction) {
+//	transactions.insert(transaction);
+//}
 
 
 vector<string> User::toStringArray() const

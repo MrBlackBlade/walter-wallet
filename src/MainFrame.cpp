@@ -1,15 +1,17 @@
 #include <wx/wx.h>
 #include <wx/image.h>
 #include "MainFrame.h"
+#include "FileSystemManagement.h"
 #include "RoundedPanel.h"
 #include "ImageButton.h"
+
 
 MainFrame::MainFrame(User user, const wxString& title) : wxFrame(nullptr, wxID_ANY, title)
 {
 	mainPanel = new wxPanel(this);
 	mainPanel->SetBackgroundColour(wxColour(0, 125, 141));
 	this->user = &user;
-
+	Bind(wxEVT_CLOSE_WINDOW, &MainFrame::onClose, this);
 	paintTopPanel();
 	paintMidPanel();
 }
@@ -255,4 +257,17 @@ void MainFrame::onHover(wxMouseEvent& event) {
 
 void MainFrame::onLeaveHover(wxMouseEvent& event) {
 	SetCursor(wxCursor(wxCURSOR_ARROW));
+}
+
+void MainFrame::onClose(wxCloseEvent& event)
+{
+	if (wxMessageBox(wxT("Do You want to Close the Application?"),
+		wxT("Please confirm"),
+		wxICON_QUESTION | wxYES_NO) == wxYES)
+	{
+		FileSystemManagement::updateData();
+		event.Skip();
+	}
+	
+	//event.Skip();
 }
