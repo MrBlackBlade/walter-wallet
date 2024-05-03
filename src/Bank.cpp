@@ -39,6 +39,9 @@ void Bank::makeTransactions() {
 			TransactionState(stoi(row[4]))
 		);
 		transactions.insert(transaction);
+		/*transaction->getSender()->insertTransacton(transaction);
+		transaction->getReciever()->insertTransacton(transaction);*/
+		//transactions.insert(transaction);
 	}
 }
 
@@ -49,3 +52,7 @@ unordered_map<string, User>* Bank::getUsers() {
 TransactionStructure* Bank::getTransactions() {
 	return &transactions;
 }
+
+//void Bank::insertTransacton(Transaction transaction) {
+//	transactions.insert(transaction);
+//}

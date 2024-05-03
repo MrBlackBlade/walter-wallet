@@ -23,9 +23,17 @@ string User::getAccountState() const { return accountState; }
 
 string User::getUserType() const { return "user"; }
 
+//TransactionStructure* User::getTransactions() {
+//	return &transactions;
+//}
+
 void User::setBalance(double balance) {	this->balance = balance; }
 
 void User::setAccountState(string& state) {	this->accountState = state; }
+
+//void User::insertTransacton(Transaction* transaction) {
+//	transactions.insert(transaction);
+//}
 
 
 vector<string> User::toStringArray() const

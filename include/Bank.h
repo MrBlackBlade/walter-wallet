@@ -17,5 +17,6 @@ public:
 	static void makeTransactions();
 	static unordered_map<string, User>* getUsers();
 	static TransactionStructure* getTransactions();
+	/*static void insertTransacton(Transaction transaction);*/
 };
 

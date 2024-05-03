@@ -1,6 +1,8 @@
 #pragma once
 
 #include "VirtualUser.h"
+//#include "Transaction.h"
+//#include "TransactionStructure.h"
 #include <iostream>
 #include <vector>
 #include <string>
@@ -13,6 +15,7 @@ private:
 
 	double balance;
 	string accountState;
+	//TransactionStructure transactions;
 
 public:
 
@@ -31,9 +34,11 @@ public:
 	double getBalance() const;
 	string getAccountState() const;
 	string getUserType() const;
+	//TransactionStructure* getTransactions();
 
 	void setBalance(double balance);
 	void setAccountState(string& state);
+	//void insertTransacton(Transaction* transaction);
 
 	vector<string> toStringArray() const;
 

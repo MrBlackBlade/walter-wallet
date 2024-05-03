@@ -19,6 +19,7 @@ class MainFrame : public wxFrame
 
 		//Event Handlers
 		void onBellButtonClick(wxCommandEvent& event);
+		void onClose(wxCloseEvent& event);
 
 	public:
 		MainFrame(User user, const wxString& title);
