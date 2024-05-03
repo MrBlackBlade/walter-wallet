@@ -202,7 +202,7 @@ void MainFrame::paintTransactionsPanel()
 		if (tans->getFlag() == -1)
 		{
 			wxBitmap transactionState(rejectedIcon);
-			wxStaticBitmap* transactionStateHolder = new wxStaticBitmap(transactionDetailsPanel, wxID_ANY, transactionState, wxPoint(20, 45), wxSize(60, 60), wxBU_AUTODRAW | wxBORDER_NONE);
+			wxBitmapButton* transactionStateHolder = new wxBitmapButton(transactionDetailsPanel, wxID_ANY, transactionState, wxPoint(20, 45), wxSize(60, 60), wxBU_AUTODRAW | wxBORDER_NONE);
 			transactionStateHolder->SetBackgroundColour(wxColour(229, 229, 229));
 
 			wxStaticText* stateText = new wxStaticText(transactionDetailsPanel, wxID_ANY, "Request Rejected", wxPoint(8, 8), wxSize(464, -1), wxALIGN_CENTRE_HORIZONTAL);
@@ -212,7 +212,7 @@ void MainFrame::paintTransactionsPanel()
 		else if (tans->getFlag() == 1)
 		{
 			wxBitmap transactionState(acceptedIcon);
-			wxStaticBitmap* transactionStateHolder = new wxStaticBitmap(transactionDetailsPanel, wxID_ANY, transactionState, wxPoint(20, 45), wxSize(70, 60), wxBU_AUTODRAW | wxBORDER_NONE);
+			wxBitmapButton* transactionStateHolder = new wxBitmapButton(transactionDetailsPanel, wxID_ANY, transactionState, wxPoint(20, 45), wxSize(60, 60), wxBU_AUTODRAW | wxBORDER_NONE);
 			transactionStateHolder->SetBackgroundColour(wxColour(229, 229, 229));
 
 			wxStaticText* stateText = new wxStaticText(transactionDetailsPanel, wxID_ANY, "Transaction Successful", wxPoint(8, 8), wxSize(464, -1), wxALIGN_CENTRE_HORIZONTAL);
@@ -222,7 +222,7 @@ void MainFrame::paintTransactionsPanel()
 		else
 		{
 			wxBitmap transactionState(pendingIcon);
-			wxStaticBitmap* transactionStateHolder = new wxStaticBitmap(transactionDetailsPanel, wxID_ANY, transactionState, wxPoint(20, 45), wxSize(60, 60), wxBU_AUTODRAW | wxBORDER_NONE);
+			wxBitmapButton* transactionStateHolder = new wxBitmapButton(transactionDetailsPanel, wxID_ANY, transactionState, wxPoint(20, 45), wxSize(60, 60), wxBU_AUTODRAW | wxBORDER_NONE);
 			transactionStateHolder->SetBackgroundColour(wxColour(229, 229, 229));
 
 			wxStaticText* stateText = new wxStaticText(transactionDetailsPanel, wxID_ANY, "Transaction Pending", wxPoint(8, 8), wxSize(464, -1), wxALIGN_CENTRE_HORIZONTAL);
@@ -230,7 +230,7 @@ void MainFrame::paintTransactionsPanel()
 			stateText->SetFont(wxFont(wxFontInfo(16)));
 		}
 
-		wxStaticText* senderText = new wxStaticText(transactionDetailsPanel, wxID_ANY, tans->getSender()->getUsername()+" => "+tans->getReciever()->getUsername(), wxPoint(100, 63), wxSize(200, -1), wxALIGN_CENTRE_HORIZONTAL);
+		wxStaticText* senderText = new wxStaticText(transactionDetailsPanel, wxID_ANY, tans->getSender()->getUsername()+" => "+tans->getReciever()->getUsername(), wxPoint(130, 63), wxSize(200, -1), wxALIGN_CENTRE_HORIZONTAL);
 		senderText->SetBackgroundColour(wxColour(229, 229, 229));
 		senderText->SetFont(wxFont(wxFontInfo(16).Bold()));
 
