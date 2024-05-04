@@ -56,7 +56,7 @@ void MainFrame::paintTopPanel()
 }
 void MainFrame::paintMidPanel()
 {
-	midPanel = new wxScrolled<RoundedPanel>(mainPanel, wxID_ANY, wxPoint(35, 130), wxSize(550, 840));
+	midPanel = new RoundedPanel(mainPanel, wxID_ANY, wxPoint(35, 130), wxSize(550, 840));
 
 	wxStaticText* displayBalance = new wxStaticText(midPanel, wxID_ANY, "Balance: " + to_string((*user).getBalance()).substr(0, to_string((*user).getBalance()).find(".") + 2), wxPoint(0, 40), wxSize(550, 30), wxALIGN_CENTRE_HORIZONTAL);
 	displayBalance->SetForegroundColour(*wxWHITE);
@@ -182,6 +182,11 @@ void MainFrame::paintSendPanel()
 }
 void MainFrame::paintTransactionsPanel()
 {
+	transactionsPanel = new wxScrolled<wxPanel>(midPanel, wxID_ANY, wxPoint(0, 75), wxSize(550, 745));
+	transactionsPanel->SetScrollRate(0, FromDIP(10));
+	transactionsPanel->SetBackgroundColour(*wxWHITE);
+	//auto sizer = new wxBoxSizer(wxVERTICAL);
+
 	wxImage rejectedIcon(wxString("resources\\rejected.png"), wxBITMAP_TYPE_PNG);
 	rejectedIcon.Rescale(60, 60, wxIMAGE_QUALITY_HIGH);
 
@@ -194,13 +199,13 @@ void MainFrame::paintTransactionsPanel()
 	/*auto panel = new wxScrolled<wxPanel>(midPanel, wxID_ANY, wxPoint(20, 20), wxSize(500, 600));
 	panel->SetBackgroundColour(!wxWHITE);*/
 
-	int pointY = 150;
+	int pointY = 30;
 	int totalScrollHeight = 0;
 
 	for (Transaction* tans : Bank::getTransactions()->get(&Bank::getUsers()->at(user->getUsername())))
 	{
 
-		wxPanel* transactionDetailsPanel = new RoundedPanel(midPanel, wxID_ANY, wxPoint(35, pointY), wxSize(480, 150), wxALIGN_CENTRE_HORIZONTAL, wxColour(229, 229, 229));
+		wxPanel* transactionDetailsPanel = new RoundedPanel(transactionsPanel, wxID_ANY, wxPoint(35, pointY), wxSize(480, 150), wxALIGN_CENTRE_HORIZONTAL, wxColour(229, 229, 229));
 		transactionDetailsPanel->SetBackgroundColour(*wxWHITE);
 
 		if (tans->getFlag() == -1)
@@ -255,10 +260,12 @@ void MainFrame::paintTransactionsPanel()
 
 		totalScrollHeight += 180;
 		pointY += 180;
-	}
 
-	midPanel->SetScrollbar(wxVERTICAL, 0, 500, totalScrollHeight, 500);
-	//midPanel->SetVirtualSize(wxSize(0, totalScrollHeight));
+		//sizer->Add(transactionDetailsPanel);
+	}
+	//transactionsPanel->SetSizer(sizer);
+	transactionsPanel->SetScrollbar(wxVERTICAL, 0, 500, totalScrollHeight, 500);
+	transactionsPanel->SetVirtualSize(wxSize(0, totalScrollHeight));
 
 	sendMoneyPanel->Hide();
 	requestMoneyPanel->Hide();

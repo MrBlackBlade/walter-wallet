@@ -11,6 +11,7 @@ class MainFrame : public wxFrame
 
 		wxPanel* mainPanel;
 		wxPanel* midPanel;
+		wxScrolled<wxPanel>* transactionsPanel;
 
 		//inside sendMoneyPanel
 		wxPanel*		usernameInputPanel;
