@@ -24,6 +24,7 @@ class MainFrame : public wxFrame
 		wxStaticText*	recieverText;
 
 		//inside midPanel
+		wxPanel* balanceDisplayPanel;
 		wxPanel* sendMoneyPanel;
 		wxPanel* requestMoneyPanel;
 		wxPanel* transactionButtonPanel;
@@ -37,6 +38,7 @@ class MainFrame : public wxFrame
 		//Event Handlers
 		void onBellButtonClick(wxCommandEvent& event);
 		void onSendMoneyClick(wxCommandEvent& event);
+		void onTransactionsClick(wxCommandEvent& event);
 		void onSendClick(wxCommandEvent& event);
 		void onEnterUsername(wxFocusEvent& event);
 		void onLeaveUsername(wxFocusEvent& event);
@@ -49,4 +51,3 @@ class MainFrame : public wxFrame
 	public:
 		MainFrame(User* user, const wxString& title);
 };
-

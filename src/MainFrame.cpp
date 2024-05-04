@@ -58,7 +58,9 @@ void MainFrame::paintMidPanel()
 {
 	midPanel = new RoundedPanel(mainPanel, wxID_ANY, wxPoint(35, 130), wxSize(550, 840));
 
-	wxStaticText* displayBalance = new wxStaticText(midPanel, wxID_ANY, "Balance: " + to_string((*user).getBalance()).substr(0, to_string((*user).getBalance()).find(".") + 2), wxPoint(0, 40), wxSize(550, 30), wxALIGN_CENTRE_HORIZONTAL);
+	balanceDisplayPanel = new RoundedPanel(midPanel, wxID_ANY, wxPoint(125, 40), wxSize(300, 50), wxALIGN_CENTRE_HORIZONTAL, wxColour(52, 100, 117));
+	balanceDisplayPanel->SetBackgroundColour(*wxWHITE);
+	wxStaticText* displayBalance = new wxStaticText(balanceDisplayPanel, wxID_ANY, "Balance: " + to_string((*user).getBalance()).substr(0, to_string((*user).getBalance()).find(".") + 2), wxPoint(10, 7), wxSize(280, -1), wxALIGN_CENTRE_HORIZONTAL);
 	displayBalance->SetForegroundColour(*wxWHITE);
 	displayBalance->SetBackgroundColour(wxColour(52, 100, 117));
 	displayBalance->SetFont(wxFont(wxFontInfo(22).Bold()));
@@ -123,10 +125,10 @@ void MainFrame::paintMidPanel()
 
 	transactionButton->Bind(wxEVT_ENTER_WINDOW, &MainFrame::onHover, this);
 	transactionButton->Bind(wxEVT_LEAVE_WINDOW, &MainFrame::onLeaveHover, this);
+	transactionButton->Bind(wxEVT_BUTTON, &MainFrame::onTransactionsClick, this);
 
 	rechargeButton->Bind(wxEVT_ENTER_WINDOW, &MainFrame::onHover, this);
 	rechargeButton->Bind(wxEVT_LEAVE_WINDOW, &MainFrame::onLeaveHover, this);
-		
 
 }
 void MainFrame::paintSendPanel()
@@ -182,10 +184,17 @@ void MainFrame::paintSendPanel()
 }
 void MainFrame::paintTransactionsPanel()
 {
-	transactionsPanel = new wxScrolled<wxPanel>(midPanel, wxID_ANY, wxPoint(0, 75), wxSize(550, 745));
-	transactionsPanel->SetScrollRate(0, FromDIP(10));
+	transactionsPanel = new wxScrolled<wxPanel>(midPanel, wxID_ANY, wxPoint(0, 91), wxSize(566, 730));
+	transactionsPanel->SetScrollRate(0, FromDIP(15));
 	transactionsPanel->SetBackgroundColour(*wxWHITE);
 	//auto sizer = new wxBoxSizer(wxVERTICAL);
+
+	wxImage backIcon(wxString("resources\\back.png"), wxBITMAP_TYPE_PNG);
+	backIcon.Rescale(25, 35, wxIMAGE_QUALITY_HIGH);
+
+	wxBitmap backBitmap(backIcon);
+	wxBitmapButton* backbutton = new wxBitmapButton(midPanel, wxID_ANY, backBitmap, wxPoint(35, 50), wxSize(25, 35), wxBU_AUTODRAW | wxBORDER_NONE);
+	backbutton->SetBackgroundColour(*wxWHITE);
 
 	wxImage rejectedIcon(wxString("resources\\rejected.png"), wxBITMAP_TYPE_PNG);
 	rejectedIcon.Rescale(60, 60, wxIMAGE_QUALITY_HIGH);
@@ -277,13 +286,16 @@ void MainFrame::paintTransactionsPanel()
 void MainFrame::onBellButtonClick(wxCommandEvent& event)
 {	
 	printf("HAAALLLLOOOOOOO\n");
-	paintTransactionsPanel();
-	
 }
 
 void MainFrame::onSendMoneyClick(wxCommandEvent& event)
 {
 	paintSendPanel();
+}
+
+void MainFrame::onTransactionsClick(wxCommandEvent& event)
+{
+	paintTransactionsPanel();
 }
 
 void MainFrame::onSendClick(wxCommandEvent& event)
