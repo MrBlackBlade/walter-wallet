@@ -38,6 +38,7 @@ class MainFrame : public wxFrame
 		void paintMidPanel();
 		void paintSendPanel();
 		void paintTransactionsPanel();
+		void RepaintBalance();
 
 		//Event Handlers
 		void onSendMoneyBackButtonClick(wxCommandEvent& event);

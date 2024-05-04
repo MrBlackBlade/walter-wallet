@@ -28,13 +28,6 @@ bool App::OnInit() {
 	Sleep(1000);
 	Bank::getTransactions()->insert(Transaction(&user, &user, 900.0, std::chrono::system_clock::now(), TransactionState::accepted));*/
 	//Bank::getUsers()->at("3m7md").sendMoney(&Bank::getUsers()->at("TheOne1"), 300);
-	Bank::getUsers()->at("MazinMohamedPeter").requestMoney(&Bank::getUsers()->at("TheOne1"), 500);
-	Transaction* trans = Bank::getTransactions()->get(&Bank::getUsers()->at("MazinMohamedPeter")).back();
-	Bank::getUsers()->at("TheOne1").rejectRequest(Bank::getTransactions()->get(&Bank::getUsers()->at("MazinMohamedPeter")).back());
-	Sleep(1000);
-	Bank::getUsers()->at("MazinMohamedPeter").requestMoney(&Bank::getUsers()->at("TheOne1"), 200);
-	trans = Bank::getTransactions()->get(&Bank::getUsers()->at("MazinMohamedPeter")).back();
-	Bank::getUsers()->at("TheOne1").acceptRequest(Bank::getTransactions()->get(&Bank::getUsers()->at("MazinMohamedPeter")).back());
 
 	for (Transaction* tans : Bank::getTransactions()->get(&Bank::getUsers()->at("3m7md"))) {
 		for (string e : tans->toStringArray()) {

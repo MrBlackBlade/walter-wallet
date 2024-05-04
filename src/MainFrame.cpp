@@ -4,6 +4,7 @@
 #include "FileSystemManagement.h"
 #include "RoundedPanel.h"
 #include "ImageButton.h"
+#include "Bank.h"
 
 
 MainFrame::MainFrame(User* user, const wxString& title) : wxFrame(nullptr, wxID_ANY, title)
@@ -62,10 +63,7 @@ void MainFrame::paintMidPanel()
 	balanceDisplayPanel = new wxPanel(midPanel, wxID_ANY, wxPoint(0, 40), wxSize(600, 50), wxALIGN_CENTRE_HORIZONTAL);
 	balanceDisplayPanel->SetBackgroundColour(wxColour(52, 100, 117));
 
-	wxStaticText* displayBalance = new wxStaticText(balanceDisplayPanel, wxID_ANY, "Balance: " + to_string((*user).getBalance()).substr(0, to_string((*user).getBalance()).find(".") + 2), wxPoint(130, 7), wxSize(300, -1), wxALIGN_CENTRE_HORIZONTAL);
-	displayBalance->SetForegroundColour(*wxWHITE);
-	displayBalance->SetBackgroundColour(wxColour(52, 100, 117));
-	displayBalance->SetFont(wxFont(wxFontInfo(22).Bold()));
+	RepaintBalance();
 
 	sendMoneyPanel = new RoundedPanel(midPanel, wxID_ANY, wxPoint(65, 170), wxSize(190, 250), wxALIGN_CENTRE_HORIZONTAL, wxColour(229, 229, 229));
 	sendMoneyPanel->SetBackgroundColour(*wxWHITE);
@@ -228,13 +226,16 @@ void MainFrame::paintTransactionsPanel()
 	int pointY = 30;
 	int totalScrollHeight = 0;
 
-	for (Transaction* tans : Bank::getTransactions()->get(&Bank::getUsers()->at(user->getUsername())))
+	auto transactions = Bank::getTransactions()->get(&Bank::getUsers()->at(user->getUsername()));
+
+	for (auto it = transactions.rbegin(); it != transactions.rend(); ++it)
 	{
+		Transaction* tans = *it;
 
 		wxPanel* transactionDetailsPanel = new RoundedPanel(transactionsPanel, wxID_ANY, wxPoint(35, pointY), wxSize(480, 150), wxALIGN_CENTRE_HORIZONTAL, wxColour(229, 229, 229));
 		transactionDetailsPanel->SetBackgroundColour(*wxWHITE);
 
-		if (tans->getFlag() == -1)
+		if (tans->getState() == 1)
 		{
 			wxBitmap transactionState(rejectedIcon);
 			wxBitmapButton* transactionStateHolder = new wxBitmapButton(transactionDetailsPanel, wxID_ANY, transactionState, wxPoint(20, 45), wxSize(60, 60), wxBU_AUTODRAW | wxBORDER_NONE);
@@ -244,7 +245,7 @@ void MainFrame::paintTransactionsPanel()
 			stateText->SetBackgroundColour(wxColour(229, 229, 229));
 			stateText->SetFont(wxFont(wxFontInfo(16)));
 		}
-		else if (tans->getFlag() == 1)
+		else if (tans->getState() == 2 || tans->getState() == 3)
 		{
 			wxBitmap transactionState(acceptedIcon);
 			wxBitmapButton* transactionStateHolder = new wxBitmapButton(transactionDetailsPanel, wxID_ANY, transactionState, wxPoint(20, 45), wxSize(60, 60), wxBU_AUTODRAW | wxBORDER_NONE);
@@ -265,7 +266,7 @@ void MainFrame::paintTransactionsPanel()
 			stateText->SetFont(wxFont(wxFontInfo(16)));
 		}
 
-		wxStaticText* senderText = new wxStaticText(transactionDetailsPanel, wxID_ANY, tans->getSender()->getUsername()+" => "+tans->getReciever()->getUsername(), wxPoint(130, 63), wxSize(200, -1), wxALIGN_CENTRE_HORIZONTAL);
+		wxStaticText* senderText = new wxStaticText(transactionDetailsPanel, wxID_ANY, tans->getSender()->getUsername()+" => "+tans->getRecipient()->getUsername(), wxPoint(130, 63), wxSize(200, -1), wxALIGN_CENTRE_HORIZONTAL);
 		senderText->SetBackgroundColour(wxColour(229, 229, 229));
 		senderText->SetFont(wxFont(wxFontInfo(16).Bold()));
 
@@ -299,6 +300,13 @@ void MainFrame::paintTransactionsPanel()
 	rechargeBalancePanel->Hide();
 	
 }
+void MainFrame::RepaintBalance()
+{
+	wxStaticText* displayBalance = new wxStaticText(balanceDisplayPanel, wxID_ANY, "Balance: " + to_string((*user).getBalance()).substr(0, to_string((*user).getBalance()).find(".") + 2), wxPoint(130, 7), wxSize(300, -1), wxALIGN_CENTRE_HORIZONTAL);
+	displayBalance->SetForegroundColour(*wxWHITE);
+	displayBalance->SetBackgroundColour(wxColour(52, 100, 117));
+	displayBalance->SetFont(wxFont(wxFontInfo(22).Bold()));
+}
 
 //functions buttons
 void MainFrame::onBellButtonClick(wxCommandEvent& event)
@@ -318,23 +326,38 @@ void MainFrame::onTransactionsClick(wxCommandEvent& event)
 
 void MainFrame::onSendClick(wxCommandEvent& event)
 {
-	printf("\nAuthentication to be done later\n");
+	wxString recieverString((recieverNameBox->GetValue()));
+	wxString amountString((amountBox->GetValue()));
 
-	sendMoneyPanel->Show();
-	requestMoneyPanel->Show();
-	transactionButtonPanel->Show();
-	rechargeBalancePanel->Show();
+	string reciever = string(recieverString.mb_str());
+	string amount = string(amountString.mb_str());
 
-	sendMoneyBackButton->Hide();
-	usernameInputPanel->Hide();
-	recieverNameBox->Hide();
-	amountInputPanel->Hide();
-	sendButtonPanel->Hide();
-	sendButton->Hide();
-	amountBox->Hide();
-	amountText->Hide();
-	recieverText->Hide();
+	if (stod(amount) > 0 and stod(amount) < 999999)
+	{
 
+		user->sendMoney(&Bank::getUsers()->at(reciever), stod(amount));
+		RepaintBalance();
+
+		sendMoneyPanel->Show();
+		requestMoneyPanel->Show();
+		transactionButtonPanel->Show();
+		rechargeBalancePanel->Show();
+
+		sendMoneyBackButton->Hide();
+		usernameInputPanel->Hide();
+		recieverNameBox->Hide();
+		amountInputPanel->Hide();
+		sendButtonPanel->Hide();
+		sendButton->Hide();
+		amountBox->Hide();
+		amountText->Hide();
+		recieverText->Hide();
+
+	}
+	else
+	{
+		wxMessageBox("Please enter a valid amount", "Error", wxICON_ERROR | wxOK, this);
+	}
 }
 
 //back buttons

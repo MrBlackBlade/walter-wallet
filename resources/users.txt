@@ -1,3 +1,3 @@
-1,TheOne1,one1,The One,4800.000000,01211466100,one@gmail.com,true,user
-3,3m7md,b2al,3am Mohamed El Ba2al,5000.000000,01355555555,m7md@gmail.com,true,user
-2,MazinMohamedPeter,mmp,MMP,200.000000,01284759338,mmp@gamil.com,true,user
+1,TheOne1,one1,The One,2795.000000,01211466100,one@gmail.com,true,user
+2,MazinMohamedPeter,mmp,MMP,1400.000000,01284759338,mmp@gamil.com,true,user
+3,3m7md,b2al,3am Mohamed El Ba2al,5805.000000,01355555555,m7md@gmail.com,true,user
