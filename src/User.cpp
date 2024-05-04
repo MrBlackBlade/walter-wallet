@@ -9,20 +9,13 @@ User::User
 	double balance,
 	const string& phoneNumber,
 	const string& email,
-	const string& accountState
+	bool accountState
 )
 	: VirtualUser(id, name, password, displayName, phoneNumber, email)
 {
 	this->balance = balance;
 	this->accountState = accountState;
 }
-
-double User::getBalance() const { return balance; }
-
-string User::getAccountState() const { return accountState; }
-
-string User::getUserType() const { return "user"; }
-
 
 void User::editProfile(string displayName, string password, string phoneNumber, string email)
 {
@@ -32,13 +25,36 @@ void User::editProfile(string displayName, string password, string phoneNumber, 
 	this->setEmail(email);
 }
 
+void User::sendMoney(User* recipient, double amount) {
+	Bank::makeNewTransaction(this, recipient, amount, TransactionState::completedTransaction);
+}
+
+void User::requestMoney(User* sender, double amount) {
+	Bank::makeNewTransaction(sender, this, amount, TransactionState::pendingRequest);
+}
+
+void User::acceptRequest(Transaction* transaction) {
+	Bank::processRequest(transaction, TransactionState::acceptedRequest);
+}
+
+void User::rejectRequest(Transaction* transaction) {
+	Bank::processRequest(transaction, TransactionState::rejectedRequest);
+}
+double User::getBalance() const { return balance; }
+
+bool User::getAccountState() const { return accountState; }
+
+string User::getUserType() const { return "user"; }
+
+
+
 //TransactionStructure* User::getTransactions() {
 //	return &transactions;
 //}
 
 void User::setBalance(double balance) {	this->balance = balance; }
 
-void User::setAccountState(string& state) {	this->accountState = state; }
+void User::setAccountState(bool state) {	this->accountState = state; }
 
 //void User::insertTransacton(Transaction* transaction) {
 //	transactions.insert(transaction);
@@ -56,7 +72,7 @@ vector<string> User::toStringArray() const
 		to_string(getBalance()),
 		getPhoneNumber(),
 		getEmail(),
-		getAccountState(),
+		(getAccountState() ? "true" : "false"),
 		getUserType()
 	};
 }

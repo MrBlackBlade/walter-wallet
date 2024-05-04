@@ -11,7 +11,7 @@ void TransactionStructure::insert(Transaction* transaction) {
 	transactionsByAmount.insert(make_pair(transaction->getAmount(), &(transactions.back())));
 	map<long, Transaction*>& senderTransactions = transactionsByUser[transactions.back().getSender()];
 	senderTransactions.insert(make_pair(transaction->getEpochTime(), &(transactions.back())));
-	map<long, Transaction*>& recieverTransactions = transactionsByUser[transactions.back().getReciever()];
+	map<long, Transaction*>& recieverTransactions = transactionsByUser[transactions.back().getRecipient()];
 	recieverTransactions.insert(make_pair(transaction->getEpochTime(), &(transactions.back())));
 }
 

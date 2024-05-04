@@ -1,7 +1,7 @@
 #pragma once
 
 #include "VirtualUser.h"
-//#include "Transaction.h"
+#include "Bank.h"
 //#include "TransactionStructure.h"
 #include <iostream>
 #include <vector>
@@ -9,12 +9,15 @@
 
 using namespace std;
 
+
+class Transaction;
+
 class User : public VirtualUser
 {
 private:
 
 	double balance;
-	string accountState;
+	bool accountState;
 	//TransactionStructure transactions;
 
 public:
@@ -28,17 +31,23 @@ public:
 		double balance,
 		const string& phoneNumber,
 		const string& email,
-		const string& accountState
+		bool accountState
 	);
 
+	void editProfile(string displayName, string password, string phoneNumber, string email);
+
+	void sendMoney(User* recipient, double amount);
+	void requestMoney(User* sender, double amount);
+	void acceptRequest(Transaction* transaction);
+	void rejectRequest(Transaction* transaction);
+
 	double getBalance() const;
-	string getAccountState() const;
+	bool getAccountState() const;
 	string getUserType() const;
 	//TransactionStructure* getTransactions();
 
-	void editProfile(string displayName, string password, string phoneNumber, string email);
 	void setBalance(double balance);
-	void setAccountState(string& state);
+	void setAccountState(bool state);
 	//void insertTransacton(Transaction* transaction);
 
 	vector<string> toStringArray() const;

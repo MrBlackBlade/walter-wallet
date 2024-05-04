@@ -4,6 +4,10 @@
 #include <list>
 #include "Transaction.h"
 using namespace std;
+
+class User;
+class Transaction;
+
 class TransactionStructure
 {
 private:
