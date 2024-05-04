@@ -23,6 +23,10 @@ class MainFrame : public wxFrame
 		wxStaticText*	amountText;
 		wxStaticText*	recieverText;
 
+		//back buttons
+		wxBitmapButton* transactionsBackButton;
+		wxBitmapButton* sendMoneyBackButton;
+
 		//inside midPanel
 		wxPanel* balanceDisplayPanel;
 		wxPanel* sendMoneyPanel;
@@ -36,6 +40,8 @@ class MainFrame : public wxFrame
 		void paintTransactionsPanel();
 
 		//Event Handlers
+		void onSendMoneyBackButtonClick(wxCommandEvent& event);
+		void onTransacionBackButtonClick(wxCommandEvent& event);
 		void onBellButtonClick(wxCommandEvent& event);
 		void onSendMoneyClick(wxCommandEvent& event);
 		void onTransactionsClick(wxCommandEvent& event);

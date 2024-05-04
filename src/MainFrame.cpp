@@ -16,6 +16,7 @@ MainFrame::MainFrame(User* user, const wxString& title) : wxFrame(nullptr, wxID_
 	paintMidPanel();
 }
 
+//panels
 void MainFrame::paintTopPanel()
 {
 	wxPanel* topPanel = new wxPanel(mainPanel, wxID_ANY, wxPoint(0, 0), wxSize(620, 110));
@@ -134,6 +135,17 @@ void MainFrame::paintMidPanel()
 }
 void MainFrame::paintSendPanel()
 {
+	wxImage backIcon(wxString("resources\\back.png"), wxBITMAP_TYPE_PNG);
+	backIcon.Rescale(25, 35, wxIMAGE_QUALITY_HIGH);
+
+	wxBitmap backBitmap(backIcon);
+	sendMoneyBackButton = new wxBitmapButton(balanceDisplayPanel, wxID_ANY, backBitmap, wxPoint(40, 8), wxSize(25, 35), wxBU_AUTODRAW | wxBORDER_NONE);
+	sendMoneyBackButton->SetBackgroundColour(wxColour(52, 100, 117));
+
+	sendMoneyBackButton->Bind(wxEVT_BUTTON, &MainFrame::onSendMoneyBackButtonClick, this);
+	sendMoneyBackButton->Bind(wxEVT_ENTER_WINDOW, &MainFrame::onHover, this);
+	sendMoneyBackButton->Bind(wxEVT_LEAVE_WINDOW, &MainFrame::onLeaveHover, this);
+
 	usernameInputPanel = new RoundedPanel(midPanel, wxID_ANY, wxPoint(215, 200), wxSize(240, 50), wxALIGN_CENTRE_HORIZONTAL, wxColour(229, 229, 229));
 	usernameInputPanel->SetBackgroundColour(*wxWHITE);
 
@@ -173,8 +185,8 @@ void MainFrame::paintSendPanel()
 	sendButton->SetBackgroundColour(wxColour(52, 100, 117));
 	sendButton->SetForegroundColour(*wxWHITE);
 	sendButton->SetFont(wxFont(wxFontInfo(18).Bold()));
-	sendButton->Bind(wxEVT_BUTTON, &MainFrame::onSendClick, this);
 
+	sendButton->Bind(wxEVT_BUTTON, &MainFrame::onSendClick, this);
 	sendButton->Bind(wxEVT_ENTER_WINDOW, &MainFrame::onHover, this);
 	sendButton->Bind(wxEVT_LEAVE_WINDOW, &MainFrame::onLeaveHover, this);
 
@@ -185,7 +197,7 @@ void MainFrame::paintSendPanel()
 }
 void MainFrame::paintTransactionsPanel()
 {
-	transactionsPanel = new wxScrolled<wxPanel>(midPanel, wxID_ANY, wxPoint(0, 91), wxSize(566, 730));
+	transactionsPanel = new wxScrolled<wxPanel>(midPanel, wxID_ANY, wxPoint(0, 90), wxSize(566, 730));
 	transactionsPanel->SetScrollRate(0, FromDIP(15));
 	transactionsPanel->SetBackgroundColour(*wxWHITE);
 	//auto sizer = new wxBoxSizer(wxVERTICAL);
@@ -194,8 +206,12 @@ void MainFrame::paintTransactionsPanel()
 	backIcon.Rescale(25, 35, wxIMAGE_QUALITY_HIGH);
 
 	wxBitmap backBitmap(backIcon);
-	wxBitmapButton* backbutton = new wxBitmapButton(balanceDisplayPanel, wxID_ANY, backBitmap, wxPoint(40, 8), wxSize(25, 35), wxBU_AUTODRAW | wxBORDER_NONE);
-	backbutton->SetBackgroundColour(wxColour(52, 100, 117));
+	transactionsBackButton = new wxBitmapButton(balanceDisplayPanel, wxID_ANY, backBitmap, wxPoint(40, 8), wxSize(25, 35), wxBU_AUTODRAW | wxBORDER_NONE);
+	transactionsBackButton->SetBackgroundColour(wxColour(52, 100, 117));
+
+	transactionsBackButton->Bind(wxEVT_BUTTON, &MainFrame::onTransacionBackButtonClick, this);
+	transactionsBackButton->Bind(wxEVT_ENTER_WINDOW, &MainFrame::onHover, this);
+	transactionsBackButton->Bind(wxEVT_LEAVE_WINDOW, &MainFrame::onLeaveHover, this);
 
 	wxImage rejectedIcon(wxString("resources\\rejected.png"), wxBITMAP_TYPE_PNG);
 	rejectedIcon.Rescale(60, 60, wxIMAGE_QUALITY_HIGH);
@@ -284,6 +300,7 @@ void MainFrame::paintTransactionsPanel()
 	
 }
 
+//functions buttons
 void MainFrame::onBellButtonClick(wxCommandEvent& event)
 {	
 	printf("HAAALLLLOOOOOOO\n");
@@ -308,6 +325,42 @@ void MainFrame::onSendClick(wxCommandEvent& event)
 	transactionButtonPanel->Show();
 	rechargeBalancePanel->Show();
 
+	sendMoneyBackButton->Hide();
+	usernameInputPanel->Hide();
+	recieverNameBox->Hide();
+	amountInputPanel->Hide();
+	sendButtonPanel->Hide();
+	sendButton->Hide();
+	amountBox->Hide();
+	amountText->Hide();
+	recieverText->Hide();
+
+}
+
+//back buttons
+void MainFrame::onTransacionBackButtonClick(wxCommandEvent& event)
+{
+	for (Transaction* tans : Bank::getTransactions()->get(&Bank::getUsers()->at(user->getUsername())))
+	{
+		transactionsPanel->Hide();
+	}
+
+	transactionsBackButton->Hide();
+	
+	sendMoneyPanel->Show();
+	requestMoneyPanel->Show();
+	transactionButtonPanel->Show();
+	rechargeBalancePanel->Show();
+}
+
+void MainFrame::onSendMoneyBackButtonClick(wxCommandEvent& event)
+{
+	sendMoneyPanel->Show();
+	requestMoneyPanel->Show();
+	transactionButtonPanel->Show();
+	rechargeBalancePanel->Show();
+
+	sendMoneyBackButton->Hide();
 	usernameInputPanel->Hide();
 	recieverNameBox->Hide();
 	amountInputPanel->Hide();
@@ -320,7 +373,6 @@ void MainFrame::onSendClick(wxCommandEvent& event)
 }
 
 //copious amounts of suffering
-
 void MainFrame::onEnterUsername(wxFocusEvent& event) {
 	wxTextCtrl* object = (wxTextCtrl*)event.GetEventObject();
 	if (object->GetValue() == "Username") {
