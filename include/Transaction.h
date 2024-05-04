@@ -6,38 +6,41 @@
 using namespace std;
 using namespace std::chrono;
 
+class User;
+
 // sender user , reciever user, amount , date , enum -1,0,1 , rejected, pending , accepted 
 enum TransactionState
 {
-	rejected = -1,
-	pending = 0,
-	accepted = 1
+	pendingRequest = 0,
+	rejectedRequest = 1,
+	acceptedRequest = 2,
+	completedTransaction = 3
 };
 
 class Transaction
 {
 	User* sender;
-	User* reciever;
+	User* recipient;
 	double amount;
 	time_point<system_clock> time;
 	TransactionState flag;
 
 	public:
 
-	Transaction(User* sender, User* reciever, double amount, time_point<system_clock> time, TransactionState flag );
+	Transaction(User* sender, User* recipient, double amount, time_point<system_clock> time, TransactionState flag );
 
 	void setSender(User* sender);
-	void setReciever(User* reciever);
+	void setRecipient(User* recipient);
 	void setAmount(double amount);
 	void setTime(time_point<system_clock> time);
-	void setFlag(TransactionState flag);
+	void setState(TransactionState flag);
 
 	User* getSender();
-	User* getReciever();
+	User* getRecipient();
 	double getAmount();
 	long getEpochTime();
 	string getDisplayTime();
-	TransactionState getFlag();
+	TransactionState getState();
 
 	vector<string> toStringArray();
 };

@@ -21,7 +21,7 @@ void Bank::makeUsers() {
 			stod(row[4]),
 			row[5],
 			row[6],
-			row[7]
+			(row[7] == "true")
 		);
 		users.insert(make_pair(user.getUsername(), user));
 	}
@@ -51,6 +51,24 @@ unordered_map<string, User>* Bank::getUsers() {
 
 TransactionStructure* Bank::getTransactions() {
 	return &transactions;
+}
+
+void Bank::makeNewTransaction(User* sender, User* recipient, double amount, TransactionState state) {
+	if (state == completedTransaction)
+	{
+		sender->setBalance((sender->getBalance() - amount));
+		recipient->setBalance((recipient->getBalance() + amount));
+	}
+	transactions.insert(new Transaction(sender, recipient, amount, std::chrono::system_clock::now(), state));
+}
+
+void Bank::processRequest(Transaction* transaction, TransactionState state) {
+	if (state == acceptedRequest)
+	{
+		transaction->getSender()->setBalance((transaction->getSender()->getBalance() - transaction->getAmount()));
+		transaction->getRecipient()->setBalance((transaction->getRecipient()->getBalance() + transaction->getAmount()));
+	}
+	transaction->setState(state);
 }
 
 //void Bank::insertTransacton(Transaction transaction) {
