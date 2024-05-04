@@ -58,9 +58,10 @@ void MainFrame::paintMidPanel()
 {
 	midPanel = new RoundedPanel(mainPanel, wxID_ANY, wxPoint(35, 130), wxSize(550, 840));
 
-	balanceDisplayPanel = new RoundedPanel(midPanel, wxID_ANY, wxPoint(125, 40), wxSize(300, 50), wxALIGN_CENTRE_HORIZONTAL, wxColour(52, 100, 117));
-	balanceDisplayPanel->SetBackgroundColour(*wxWHITE);
-	wxStaticText* displayBalance = new wxStaticText(balanceDisplayPanel, wxID_ANY, "Balance: " + to_string((*user).getBalance()).substr(0, to_string((*user).getBalance()).find(".") + 2), wxPoint(10, 7), wxSize(280, -1), wxALIGN_CENTRE_HORIZONTAL);
+	balanceDisplayPanel = new wxPanel(midPanel, wxID_ANY, wxPoint(0, 40), wxSize(600, 50), wxALIGN_CENTRE_HORIZONTAL);
+	balanceDisplayPanel->SetBackgroundColour(wxColour(52, 100, 117));
+
+	wxStaticText* displayBalance = new wxStaticText(balanceDisplayPanel, wxID_ANY, "Balance: " + to_string((*user).getBalance()).substr(0, to_string((*user).getBalance()).find(".") + 2), wxPoint(130, 7), wxSize(300, -1), wxALIGN_CENTRE_HORIZONTAL);
 	displayBalance->SetForegroundColour(*wxWHITE);
 	displayBalance->SetBackgroundColour(wxColour(52, 100, 117));
 	displayBalance->SetFont(wxFont(wxFontInfo(22).Bold()));
@@ -193,8 +194,8 @@ void MainFrame::paintTransactionsPanel()
 	backIcon.Rescale(25, 35, wxIMAGE_QUALITY_HIGH);
 
 	wxBitmap backBitmap(backIcon);
-	wxBitmapButton* backbutton = new wxBitmapButton(midPanel, wxID_ANY, backBitmap, wxPoint(35, 50), wxSize(25, 35), wxBU_AUTODRAW | wxBORDER_NONE);
-	backbutton->SetBackgroundColour(*wxWHITE);
+	wxBitmapButton* backbutton = new wxBitmapButton(balanceDisplayPanel, wxID_ANY, backBitmap, wxPoint(40, 8), wxSize(25, 35), wxBU_AUTODRAW | wxBORDER_NONE);
+	backbutton->SetBackgroundColour(wxColour(52, 100, 117));
 
 	wxImage rejectedIcon(wxString("resources\\rejected.png"), wxBITMAP_TYPE_PNG);
 	rejectedIcon.Rescale(60, 60, wxIMAGE_QUALITY_HIGH);
