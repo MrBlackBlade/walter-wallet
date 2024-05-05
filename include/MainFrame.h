@@ -20,21 +20,10 @@ class MainFrame : public wxFrame
 		wxPanel*		amountInputPanel;
 		wxPanel*		sendButtonPanel;
 		wxButton*		sendButton;
+		wxButton*		requestButton;
 		wxTextCtrl*		amountBox;
 		wxStaticText*	amountText;
 		wxStaticText*	recieverText;
-		wxButton*		requestButton;
-
-		//inside requestMoneyPanel
-		wxPanel* rqUsernameInputPanel;
-		wxTextCtrl* rqRecieverNameBox;
-		wxPanel* rqAmountInputPanel;
-		wxPanel* rqSendButtonPanel;
-		wxButton* rqSendButton;
-		wxTextCtrl* rqAmountBox;
-		wxStaticText* rqAmountText;
-		wxStaticText* rqRecieverText;
-		wxButton* rqRequestButton;
 
 		//back buttons
 		wxBitmapButton* transactionsBackButton;
@@ -50,15 +39,16 @@ class MainFrame : public wxFrame
 
 		void paintTopPanel();
 		void paintMidPanel();
-		void paintSendPanel();
+		void paintSendMoneyPanel();
+		void paintRequestMoneypanel();
 		void paintTransactionsPanel();
 		void RepaintBalance();
 		void paintRequestPanel();
 
 		//Event Handlers
+		void onRequestMoneyButtonClick(wxCommandEvent& event);
 		void onRequestMoneyBackButton(wxCommandEvent& event);
 		void onRequestClick(wxCommandEvent& event);
-		void onRequestMoneyButtonClick(wxCommandEvent& event);
 		void onSendMoneyBackButtonClick(wxCommandEvent& event);
 		void onTransacionBackButtonClick(wxCommandEvent& event);
 		void onBellButtonClick(wxCommandEvent& event);
