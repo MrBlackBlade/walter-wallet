@@ -43,7 +43,7 @@ bool App::OnInit() {
 	//loginFrame->Show();
 	//loginFrame->SetIcon(icon);
 
-	MainFrame* mainFrame = new MainFrame(&Bank::getUsers()->at("TheOne1"), "Heisenbank");
+	MainFrame* mainFrame = new MainFrame(&Bank::getUsers()->at("3m7md"), "Heisenbank");
 	mainFrame->SetClientSize(620, 1000);
 	mainFrame->Center();
 	mainFrame->Show();

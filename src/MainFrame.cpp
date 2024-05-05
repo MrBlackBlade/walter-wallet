@@ -193,6 +193,13 @@ void MainFrame::paintSendPanel()
 	transactionButtonPanel->Hide();
 	rechargeBalancePanel->Hide();
 }
+void MainFrame::RepaintBalance()
+{
+	wxStaticText* displayBalance = new wxStaticText(balanceDisplayPanel, wxID_ANY, "Balance: " + to_string((*user).getBalance()).substr(0, to_string((*user).getBalance()).length()-4), wxPoint(130, 7), wxSize(300, -1), wxALIGN_CENTRE_HORIZONTAL);
+	displayBalance->SetForegroundColour(*wxWHITE);
+	displayBalance->SetBackgroundColour(wxColour(52, 100, 117));
+	displayBalance->SetFont(wxFont(wxFontInfo(22).Bold()));
+}
 void MainFrame::paintTransactionsPanel()
 {
 	transactionsPanel = new wxScrolled<wxPanel>(midPanel, wxID_ANY, wxPoint(0, 90), wxSize(566, 730));
@@ -270,7 +277,7 @@ void MainFrame::paintTransactionsPanel()
 		senderText->SetBackgroundColour(wxColour(229, 229, 229));
 		senderText->SetFont(wxFont(wxFontInfo(16).Bold()));
 
-		wxStaticText* amountText = new wxStaticText(transactionDetailsPanel, wxID_ANY,to_string(tans->getAmount()).substr(0, to_string((*user).getBalance()).find(".") + 2) + "EGP", wxPoint(235, 110), wxSize(235, -1), wxALIGN_RIGHT);
+		wxStaticText* amountText = new wxStaticText(transactionDetailsPanel, wxID_ANY,to_string(tans->getAmount()).substr(0, to_string(tans->getAmount()).length() - 4) + "EGP", wxPoint(235, 110), wxSize(235, -1), wxALIGN_RIGHT);
 		amountText->SetBackgroundColour(wxColour(229, 229, 229));
 		amountText->SetForegroundColour(wxColour(0, 125, 141));
 		amountText->SetFont(wxFont(wxFontInfo(20).Bold()));
@@ -299,13 +306,6 @@ void MainFrame::paintTransactionsPanel()
 	transactionButtonPanel->Hide();
 	rechargeBalancePanel->Hide();
 	
-}
-void MainFrame::RepaintBalance()
-{
-	wxStaticText* displayBalance = new wxStaticText(balanceDisplayPanel, wxID_ANY, "Balance: " + to_string((*user).getBalance()).substr(0, to_string((*user).getBalance()).find(".") + 2), wxPoint(130, 7), wxSize(300, -1), wxALIGN_CENTRE_HORIZONTAL);
-	displayBalance->SetForegroundColour(*wxWHITE);
-	displayBalance->SetBackgroundColour(wxColour(52, 100, 117));
-	displayBalance->SetFont(wxFont(wxFontInfo(22).Bold()));
 }
 
 //functions buttons
