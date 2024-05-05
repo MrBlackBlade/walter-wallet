@@ -1,6 +1,7 @@
 #include "App.h"
 #include "LoginFrame.h"
 #include "VirtualUser.h"
+#include "RegisterFrame.h"
 #include "User.h"
 #include "MainFrame.h"
 #include "FileSystemManagement.h"
@@ -43,11 +44,17 @@ bool App::OnInit() {
 	//loginFrame->Show();
 	//loginFrame->SetIcon(icon);
 
-	MainFrame* mainFrame = new MainFrame(&Bank::getUsers()->at("3m7md"), "Heisenbank");
-	mainFrame->SetClientSize(620, 1000);
-	mainFrame->Center();
-	mainFrame->Show();
-	mainFrame->SetIcon(icon);
+	//MainFrame* mainFrame = new MainFrame(&Bank::getUsers()->at("3m7md"), "Heisenbank");
+	//mainFrame->SetClientSize(620, 1000);
+	//mainFrame->Center();
+	//mainFrame->Show();
+	//mainFrame->SetIcon(icon);
+
+	RegisterFrame* registerFrame = new RegisterFrame("HeisenBank");
+	registerFrame->SetClientSize(620, 1000);
+	registerFrame->Center();
+	registerFrame->Show();
+	registerFrame->SetIcon(icon);
 	return true;
 }
 

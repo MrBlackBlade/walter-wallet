@@ -43,7 +43,6 @@ class MainFrame : public wxFrame
 		void paintRequestMoneypanel();
 		void paintTransactionsPanel();
 		void RepaintBalance();
-		void paintRequestPanel();
 
 		//Event Handlers
 		void onRequestMoneyButtonClick(wxCommandEvent& event);

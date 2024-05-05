@@ -3,7 +3,6 @@
 #include "MainFrame.h"
 #include "FileSystemManagement.h"
 #include "RoundedPanel.h"
-#include "ImageButton.h"
 #include "Bank.h"
 
 MainFrame::MainFrame(User* user, const wxString& title) : wxFrame(nullptr, wxID_ANY, title)
