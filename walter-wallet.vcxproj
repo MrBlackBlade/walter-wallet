@@ -23,9 +23,9 @@
     <ClCompile Include="src\App.cpp" />
     <ClCompile Include="src\Bank.cpp" />
     <ClCompile Include="src\FileSystemManagement.cpp" />
-    <ClCompile Include="src\ImageButton.cpp" />
     <ClCompile Include="src\LoginFrame.cpp" />
     <ClCompile Include="src\MainFrame.cpp" />
+    <ClCompile Include="src\RegisterFrame.cpp" />
     <ClCompile Include="src\RoundedPanel.cpp" />
     <ClCompile Include="src\Transaction.cpp" />
     <ClCompile Include="src\TransactionStructure.cpp" />
@@ -37,9 +37,9 @@
     <ClInclude Include="include\App.h" />
     <ClInclude Include="include\Bank.h" />
     <ClInclude Include="include\FileSystemManagement.h" />
-    <ClInclude Include="include\ImageButton.h" />
     <ClInclude Include="include\LoginFrame.h" />
     <ClInclude Include="include\MainFrame.h" />
+    <ClInclude Include="include\RegisterFrame.h" />
     <ClInclude Include="include\RoundedPanel.h" />
     <ClInclude Include="include\Transaction.h" />
     <ClInclude Include="include\TransactionStructure.h" />
