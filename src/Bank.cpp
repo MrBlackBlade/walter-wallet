@@ -2,6 +2,7 @@
 
 
 unordered_map<string, User> Bank::users;
+unordered_map<string, Admin> Bank::admins;
 TransactionStructure Bank::transactions;
 
 void Bank::init() {
@@ -11,19 +12,30 @@ void Bank::init() {
 
 void Bank::makeUsers() {
 	vector<vector<string>> usersTable = FileSystemManagement::readFile(FileSystemManagement::userFile);
-	VirtualUser::setMaxID(stoi(usersTable.back().front()));
 	for (vector<string> row : usersTable) {
-		User user = User(
-			stoi(row[0]),
-			row[1],
-			row[2],
-			row[3],
-			stod(row[4]),
-			row[5],
-			row[6],
-			(row[7] == "true")
-		);
-		users.insert(make_pair(user.getUsername(), user));
+		if (row[0] == "admin") {
+			Admin admin = Admin(
+				row[1],
+				row[2],
+				row[3],
+				row[4],
+				row[5]
+			);
+			admins.insert(make_pair(admin.getUsername(), admin));
+		}
+		else if (row[0] == "user") {
+			User user = User(
+				row[1],
+				row[2],
+				row[3],
+				stod(row[4]),
+				row[5],
+				row[6],
+				(row[7] == "true")
+			);
+			users.insert(make_pair(user.getUsername(), user));
+		}
+		
 	}
 
 }
@@ -47,6 +59,10 @@ void Bank::makeTransactions() {
 
 unordered_map<string, User>* Bank::getUsers() {
 	return &users;
+}
+
+unordered_map<string, Admin>* Bank::getAdmins() {
+	return &admins;
 }
 
 TransactionStructure* Bank::getTransactions() {
