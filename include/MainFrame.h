@@ -10,8 +10,6 @@ class MainFrame : public wxFrame
 		User* user;
 		
 		bool hasRequest = false;
-		int requestPanelScrollHeight = 0;
-		int requestPointY = 30;
 
 		wxPanel* mainPanel;
 		wxPanel* topPanel;

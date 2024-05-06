@@ -32,18 +32,6 @@ void MainFrame::paintTopPanel()
 	textDisplayName->SetForegroundColour(*wxWHITE); // Set text color
 	textDisplayName->SetFont(wxFont(wxFontInfo(22).Bold())); // Set font
 
-	for (Transaction* tans : Bank::getTransactions()->get(user))
-	{
-		if (tans->getState() == TransactionState::pendingRequest and tans->getSender() == user)
-		{
-			hasRequest = true;
-		}
-		else
-		{	
-			hasRequest = false;
-		}
-	}
-
 	checkRequests();
 	/*if (hasRequest == true)
 	{
@@ -389,6 +377,8 @@ void MainFrame::paintTransactionsPanel()
 }
 void MainFrame::paintPendingRequests()
 {
+	checkRequests();
+
 	wxImage backIcon(wxString("resources\\back.png"), wxBITMAP_TYPE_PNG);
 	backIcon.Rescale(25, 35, wxIMAGE_QUALITY_HIGH);
 
@@ -411,7 +401,6 @@ void MainFrame::paintPendingRequests()
 		noRequests->SetFont(wxFont(wxFontInfo(22)));
 
 		requestsPanelBackButton->Bind(wxEVT_BUTTON, &MainFrame::onEmptyRequestsPanelBackClick, this);
-
 	}
 
 	sendMoneyPanel->Hide();
@@ -434,6 +423,9 @@ void MainFrame::repaintPendingRequests()
 
 	wxImage acceptedIcon(wxString("resources\\accepted.png"), wxBITMAP_TYPE_PNG);
 	acceptedIcon.Rescale(40, 40, wxIMAGE_QUALITY_HIGH);
+
+	int requestPanelScrollHeight = 0;
+	int requestPointY = 30;
 
 	auto transactions = Bank::getTransactions()->get(user);
 
@@ -465,25 +457,27 @@ void MainFrame::repaintPendingRequests()
 					cout << "accepted\n";
 					user->acceptRequest(tans);
 
-					repaintBalance();
+					pendingRequestsPanel->Hide();
+					paintPendingRequests();
+					//repaintBalance();
 
-					requestDetailsPanel->Hide();
-
-					wxWindowList children = pendingRequestsPanel->GetChildren();
-			
-					int newX, newY;
-					for (wxWindow* child : children)
-					{
-						wxPanel* panel = wxDynamicCast(child, wxPanel);
-						if (panel)
-						{
-							wxPoint currentPosition = panel->GetPosition();
-
-							newX = currentPosition.x;
-							newY = currentPosition.y - 300;
-							panel->SetPosition(wxPoint(newX, newY));
-						}
-					}
+					//requestDetailsPanel->Hide();
+					//
+					//wxWindowList children = pendingRequestsPanel->GetChildren();
+					//
+					//int newX, newY;
+					//for (wxWindow* child : children)
+					//{
+					//	wxPanel* panel = wxDynamicCast(child, wxPanel);
+					//	if (panel)
+					//	{
+					//		wxPoint currentPosition = panel->GetPosition();
+					//
+					//		newX = currentPosition.x;
+					//		newY = currentPosition.y - 300;
+					//		panel->SetPosition(wxPoint(newX, newY));
+					//	}
+					//}
 				}
 			);
 
@@ -558,6 +552,15 @@ void MainFrame::repaintPendingRequests()
 
 void MainFrame::checkRequests()
 {
+	hasRequest = false;
+
+	for (Transaction* tans : Bank::getTransactions()->get(user))
+	{
+		if (tans->getState() == TransactionState::pendingRequest and tans->getSender() == user)
+		{
+			hasRequest = true;
+		}
+	}
 	wxImage bellIcon(wxString("resources\\bell.png"), wxBITMAP_TYPE_PNG);
 	bellIcon.Rescale(80, 80, wxIMAGE_QUALITY_HIGH);
 
