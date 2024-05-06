@@ -18,7 +18,7 @@ MainFrame::MainFrame(User* user, const wxString& title) : wxFrame(nullptr, wxID_
 //panels
 void MainFrame::paintTopPanel()
 {
-	wxPanel* topPanel = new wxPanel(mainPanel, wxID_ANY, wxPoint(0, 0), wxSize(620, 110));
+	topPanel = new wxPanel(mainPanel, wxID_ANY, wxPoint(0, 0), wxSize(620, 110));
 
 	topPanel->SetBackgroundColour(wxColour(52, 100, 117));
 	wxPNGHandler* handler = new wxPNGHandler;
@@ -32,13 +32,34 @@ void MainFrame::paintTopPanel()
 	textDisplayName->SetForegroundColour(*wxWHITE); // Set text color
 	textDisplayName->SetFont(wxFont(wxFontInfo(22).Bold())); // Set font
 
-	wxImage bellIcon(wxString("resources\\bell.png"), wxBITMAP_TYPE_PNG);
-	bellIcon.Rescale(80, 80, wxIMAGE_QUALITY_HIGH); // Rescale the image to 60x60
-	wxBitmap bellBitmap(bellIcon);
-	wxBitmapButton* bellButton = new wxBitmapButton(topPanel, wxID_ANY, bellBitmap, wxPoint(525, 15), wxSize(80, 80), wxBU_AUTODRAW | wxBORDER_NONE);
-	bellButton->SetBackgroundColour(wxColour(52, 100, 117));
-	bellButton->Bind(wxEVT_BUTTON, &MainFrame::onBellButtonClick, this);
+	for (Transaction* tans : Bank::getTransactions()->get(user))
+	{
+		if (tans->getState() == TransactionState::pendingRequest and tans->getSender() == user)
+		{
+			hasRequest = true;
+		}
+		else
+		{	
+			hasRequest = false;
+		}
+	}
 
+	checkRequests();
+	/*if (hasRequest == true)
+	{
+		wxBitmap bellBitmap(bellAlertIcon);
+		bellButton = new wxBitmapButton(topPanel, wxID_ANY, bellBitmap, wxPoint(525, 15), wxSize(80, 80), wxBU_AUTODRAW | wxBORDER_NONE);
+		bellButton->SetBackgroundColour(wxColour(52, 100, 117));
+		bellButton->Bind(wxEVT_BUTTON, &MainFrame::onBellButtonClick, this);
+	}
+	else
+	{
+		wxBitmap bellBitmap(bellIcon);
+		bellButton = new wxBitmapButton(topPanel, wxID_ANY, bellBitmap, wxPoint(525, 15), wxSize(80, 80), wxBU_AUTODRAW | wxBORDER_NONE);
+		bellButton->SetBackgroundColour(wxColour(52, 100, 117));
+		bellButton->Bind(wxEVT_BUTTON, &MainFrame::onBellButtonClick, this);
+	}*/
+	
 	wxImage pfpIcon(wxT("resources\\profile.png"), wxBITMAP_TYPE_PNG);
 	pfpIcon.Rescale(80, 80, wxIMAGE_QUALITY_HIGH); // Rescale the image to 60x60
 	wxBitmap pfpBitmap(pfpIcon);
@@ -46,8 +67,7 @@ void MainFrame::paintTopPanel()
 	pfpButton->SetBackgroundColour(wxColour(52, 100, 117));
 	pfpButton->Bind(wxEVT_BUTTON, &MainFrame::onBellButtonClick, this);
 
-	bellButton->Bind(wxEVT_ENTER_WINDOW, &MainFrame::onHover, this);
-	bellButton->Bind(wxEVT_LEAVE_WINDOW, &MainFrame::onLeaveHover, this);
+
 
 	pfpButton->Bind(wxEVT_ENTER_WINDOW, &MainFrame::onHover, this);
 	pfpButton->Bind(wxEVT_LEAVE_WINDOW, &MainFrame::onLeaveHover, this);
@@ -61,7 +81,7 @@ void MainFrame::paintMidPanel()
 	balanceDisplayPanel = new wxPanel(midPanel, wxID_ANY, wxPoint(0, 40), wxSize(600, 50), wxALIGN_CENTRE_HORIZONTAL);
 	balanceDisplayPanel->SetBackgroundColour(wxColour(52, 100, 117));
 
-	RepaintBalance();
+	repaintBalance();
 
 	sendMoneyPanel = new RoundedPanel(midPanel, wxID_ANY, wxPoint(65, 170), wxSize(190, 250), wxALIGN_CENTRE_HORIZONTAL, wxColour(229, 229, 229));
 	sendMoneyPanel->SetBackgroundColour(*wxWHITE);
@@ -254,7 +274,7 @@ void MainFrame::paintRequestMoneypanel()
 	transactionButtonPanel->Hide();
 	rechargeBalancePanel->Hide();
 }
-void MainFrame::RepaintBalance()
+void MainFrame::repaintBalance()
 {
 	wxStaticText* displayBalance = new wxStaticText(balanceDisplayPanel, wxID_ANY, "Balance: " + to_string((*user).getBalance()).substr(0, to_string((*user).getBalance()).length()-4), wxPoint(130, 7), wxSize(300, -1), wxALIGN_CENTRE_HORIZONTAL);
 	displayBalance->SetForegroundColour(*wxWHITE);
@@ -264,7 +284,7 @@ void MainFrame::RepaintBalance()
 void MainFrame::paintTransactionsPanel()
 {
 	transactionsPanel = new wxScrolled<wxPanel>(midPanel, wxID_ANY, wxPoint(0, 90), wxSize(566, 730));
-	transactionsPanel->SetScrollRate(0, FromDIP(15));
+	transactionsPanel->SetScrollRate(0, FromDIP(20));
 	transactionsPanel->SetBackgroundColour(*wxWHITE);
 	//auto sizer = new wxBoxSizer(wxVERTICAL);
 
@@ -294,7 +314,7 @@ void MainFrame::paintTransactionsPanel()
 	int pointY = 30;
 	int totalScrollHeight = 0;
 
-	auto transactions = Bank::getTransactions()->get(&Bank::getUsers()->at(user->getUsername()));
+	auto transactions = Bank::getTransactions()->get(user);
 
 	for (auto it = transactions.rbegin(); it != transactions.rend(); ++it)
 	{
@@ -356,9 +376,8 @@ void MainFrame::paintTransactionsPanel()
 		totalScrollHeight += 180;
 		pointY += 180;
 
-		//sizer->Add(transactionDetailsPanel);
 	}
-	//transactionsPanel->SetSizer(sizer);
+
 	transactionsPanel->SetScrollbar(wxVERTICAL, 0, 500, totalScrollHeight, 500);
 	transactionsPanel->SetVirtualSize(wxSize(0, totalScrollHeight));
 
@@ -368,10 +387,217 @@ void MainFrame::paintTransactionsPanel()
 	rechargeBalancePanel->Hide();
 	
 }
+void MainFrame::paintPendingRequests()
+{
+	wxImage backIcon(wxString("resources\\back.png"), wxBITMAP_TYPE_PNG);
+	backIcon.Rescale(25, 35, wxIMAGE_QUALITY_HIGH);
+
+	wxBitmap backBitmap(backIcon);
+	requestsPanelBackButton = new wxBitmapButton(balanceDisplayPanel, wxID_ANY, backBitmap, wxPoint(40, 8), wxSize(25, 35), wxBU_AUTODRAW | wxBORDER_NONE);
+	requestsPanelBackButton->SetBackgroundColour(wxColour(52, 100, 117));
+
+	requestsPanelBackButton->Bind(wxEVT_ENTER_WINDOW, &MainFrame::onHover, this);
+	requestsPanelBackButton->Bind(wxEVT_LEAVE_WINDOW, &MainFrame::onLeaveHover, this);
+
+	if (hasRequest == true)
+	{
+		repaintPendingRequests();
+		requestsPanelBackButton->Bind(wxEVT_BUTTON, &MainFrame::onRequestsPanelBackClick, this);
+	}
+	else
+	{
+		noRequests = new wxStaticText(midPanel, wxID_ANY, "You Don't Have Any Requests.", wxPoint(0, 380), wxSize(550, -1), wxALIGN_CENTRE_HORIZONTAL);
+		noRequests->SetBackgroundColour(*wxWHITE);
+		noRequests->SetFont(wxFont(wxFontInfo(22)));
+
+		requestsPanelBackButton->Bind(wxEVT_BUTTON, &MainFrame::onEmptyRequestsPanelBackClick, this);
+
+	}
+
+	sendMoneyPanel->Hide();
+	requestMoneyPanel->Hide();
+	transactionButtonPanel->Hide();
+	rechargeBalancePanel->Hide();
+}
+void MainFrame::repaintPendingRequests()
+{
+
+	pendingRequestsPanel = new wxScrolled<wxPanel>(midPanel, wxID_ANY, wxPoint(0, 90), wxSize(566, 730));
+	pendingRequestsPanel->SetScrollRate(0, FromDIP(20));
+	pendingRequestsPanel->SetBackgroundColour(*wxWHITE);
+
+	wxImage pendingIcon(wxString("resources\\pending.png"), wxBITMAP_TYPE_PNG);
+	pendingIcon.Rescale(40, 40, wxIMAGE_QUALITY_HIGH);
+
+	wxImage rejectedIcon(wxString("resources\\rejected.png"), wxBITMAP_TYPE_PNG);
+	rejectedIcon.Rescale(40, 40, wxIMAGE_QUALITY_HIGH);
+
+	wxImage acceptedIcon(wxString("resources\\accepted.png"), wxBITMAP_TYPE_PNG);
+	acceptedIcon.Rescale(40, 40, wxIMAGE_QUALITY_HIGH);
+
+	auto transactions = Bank::getTransactions()->get(user);
+
+	for (auto it = transactions.rbegin(); it != transactions.rend(); ++it)
+	{
+		Transaction* tans = *it;
+
+		if (tans->getState() == TransactionState::pendingRequest and tans->getSender() == user)
+		{
+			wxPanel* requestDetailsPanel = new RoundedPanel(pendingRequestsPanel, wxID_ANY, wxPoint(35, requestPointY), wxSize(480, 220), wxALIGN_CENTRE_HORIZONTAL, wxColour(229, 229, 229));
+			requestDetailsPanel->SetBackgroundColour(*wxWHITE);
+
+			wxPanel* acceptButtonPanel = new RoundedPanel(requestDetailsPanel, wxID_ANY, wxPoint(50, 165), wxSize(100, 50), wxALIGN_CENTRE_HORIZONTAL, wxColour(0, 125, 141));
+			acceptButtonPanel->SetBackgroundColour(wxColour(229, 229, 229));
+
+			wxPanel* rejectButtonPanel = new RoundedPanel(requestDetailsPanel, wxID_ANY, wxPoint(330, 165), wxSize(100, 50), wxALIGN_CENTRE_HORIZONTAL, wxColour(0, 125, 141));
+			rejectButtonPanel->SetBackgroundColour(wxColour(229, 229, 229));
+
+			wxBitmap acceptBitmap(acceptedIcon);
+			wxBitmapButton* acceptButton = new wxBitmapButton(acceptButtonPanel, wxID_ANY, acceptBitmap, wxPoint(30, 5), wxSize(40, 40), wxBU_AUTODRAW | wxBORDER_NONE);
+			acceptButton->SetBackgroundColour(wxColour(0, 125, 141));
+
+			acceptButton->Bind(wxEVT_ENTER_WINDOW, &MainFrame::onHover, this);
+			acceptButton->Bind(wxEVT_LEAVE_WINDOW, &MainFrame::onLeaveHover, this);
+			acceptButton->Bind
+			(
+				wxEVT_COMMAND_BUTTON_CLICKED, [=](wxCommandEvent& evt)
+				{
+					cout << "accepted\n";
+					user->acceptRequest(tans);
+
+					repaintBalance();
+
+					requestDetailsPanel->Hide();
+
+					wxWindowList children = pendingRequestsPanel->GetChildren();
+			
+					int newX, newY;
+					for (wxWindow* child : children)
+					{
+						wxPanel* panel = wxDynamicCast(child, wxPanel);
+						if (panel)
+						{
+							wxPoint currentPosition = panel->GetPosition();
+
+							newX = currentPosition.x;
+							newY = currentPosition.y - 300;
+							panel->SetPosition(wxPoint(newX, newY));
+						}
+					}
+				}
+			);
+
+			wxBitmap rejectBitmap(rejectedIcon);
+			wxBitmapButton* rejectedButton = new wxBitmapButton(rejectButtonPanel, wxID_ANY, rejectBitmap, wxPoint(30, 5), wxSize(40, 40), wxBU_AUTODRAW | wxBORDER_NONE);
+			rejectedButton->SetBackgroundColour(wxColour(0, 125, 141));
+
+			rejectedButton->Bind(wxEVT_ENTER_WINDOW, &MainFrame::onHover, this);
+			rejectedButton->Bind(wxEVT_LEAVE_WINDOW, &MainFrame::onLeaveHover, this);
+			rejectedButton->Bind
+			(
+				wxEVT_COMMAND_BUTTON_CLICKED, [=](wxCommandEvent& evt)
+				{
+					cout << "accepted\n";
+					user->rejectRequest(tans);
+
+					requestDetailsPanel->Hide();
+
+					wxWindowList children = pendingRequestsPanel->GetChildren();
+
+					int newX, newY;
+					for (wxWindow* child : children)
+					{
+						wxPanel* panel = wxDynamicCast(child, wxPanel);
+						if (panel)
+						{
+							wxPoint currentPosition = panel->GetPosition();
+
+							newX = currentPosition.x;
+							newY = currentPosition.y - 280;
+							panel->SetPosition(wxPoint(newX, newY));
+						}
+					}
+				}
+			);
+
+			wxBitmap transactionState(pendingIcon);
+			wxBitmapButton* transactionStateHolder = new wxBitmapButton(requestDetailsPanel, wxID_ANY, transactionState, wxPoint(20, 45), wxSize(60, 60), wxBU_AUTODRAW | wxBORDER_NONE);
+			transactionStateHolder->SetBackgroundColour(wxColour(229, 229, 229));
+
+			wxStaticText* stateText = new wxStaticText(requestDetailsPanel, wxID_ANY, "Request Pending", wxPoint(8, 8), wxSize(464, -1), wxALIGN_CENTRE_HORIZONTAL);
+			stateText->SetBackgroundColour(wxColour(229, 229, 229));
+			stateText->SetFont(wxFont(wxFontInfo(16)));
+
+			wxStaticText* senderText = new wxStaticText(requestDetailsPanel, wxID_ANY, tans->getSender()->getUsername() + " => " + tans->getRecipient()->getUsername(), wxPoint(130, 63), wxSize(200, -1), wxALIGN_CENTRE_HORIZONTAL);
+			senderText->SetBackgroundColour(wxColour(229, 229, 229));
+			senderText->SetFont(wxFont(wxFontInfo(16).Bold()));
+
+			wxStaticText* amountText = new wxStaticText(requestDetailsPanel, wxID_ANY, to_string(tans->getAmount()).substr(0, to_string(tans->getAmount()).length() - 4) + "EGP", wxPoint(235, 110), wxSize(235, -1), wxALIGN_RIGHT);
+			amountText->SetBackgroundColour(wxColour(229, 229, 229));
+			amountText->SetForegroundColour(wxColour(0, 125, 141));
+			amountText->SetFont(wxFont(wxFontInfo(20).Bold()));
+
+			wxStaticText* transactionIDText = new wxStaticText(requestDetailsPanel, wxID_ANY, "   #" + to_string(tans->getEpochTime()), wxPoint(5, 120), wxSize(235, -1), wxALIGN_LEFT);
+			transactionIDText->SetBackgroundColour(wxColour(229, 229, 229));
+			transactionIDText->SetForegroundColour(wxColour(126, 126, 126));
+			transactionIDText->SetFont(wxFont(wxFontInfo(12)));
+
+			wxStaticText* transactionTime = new wxStaticText(requestDetailsPanel, wxID_ANY, tans->getDisplayTime(), wxPoint(168, 180), wxSize(-1, -1), wxALIGN_CENTRE_HORIZONTAL);
+			transactionTime->SetBackgroundColour(wxColour(229, 229, 229));
+			transactionTime->SetForegroundColour(wxColour(178, 178, 178));
+			transactionTime->SetFont(wxFont(wxFontInfo(12)));
+
+			requestPanelScrollHeight += 310;
+			requestPointY += 280;
+		}
+	}
+
+	pendingRequestsPanel->SetScrollbar(wxVERTICAL, 0, 500, requestPanelScrollHeight, 500);
+	pendingRequestsPanel->SetVirtualSize(wxSize(0, requestPanelScrollHeight));
+}
+
+void MainFrame::checkRequests()
+{
+	wxImage bellIcon(wxString("resources\\bell.png"), wxBITMAP_TYPE_PNG);
+	bellIcon.Rescale(80, 80, wxIMAGE_QUALITY_HIGH);
+
+	wxImage bellAlertIcon(wxString("resources\\bellAlert.png"), wxBITMAP_TYPE_PNG);
+	bellAlertIcon.Rescale(80, 80, wxIMAGE_QUALITY_HIGH);
+
+	wxBitmap bellAlertBitmap(bellAlertIcon);
+	bellAlertButton = new wxBitmapButton(topPanel, wxID_ANY, bellAlertBitmap, wxPoint(525, 15), wxSize(80, 80), wxBU_AUTODRAW | wxBORDER_NONE);
+	bellAlertButton->SetBackgroundColour(wxColour(52, 100, 117));
+
+	bellAlertButton->Bind(wxEVT_ENTER_WINDOW, &MainFrame::onHover, this);
+	bellAlertButton->Bind(wxEVT_LEAVE_WINDOW, &MainFrame::onLeaveHover, this);
+	bellAlertButton->Bind(wxEVT_BUTTON, &MainFrame::onBellButtonClick, this);
+
+	wxBitmap bellBitmap(bellIcon);
+	bellButton = new wxBitmapButton(topPanel, wxID_ANY, bellBitmap, wxPoint(525, 15), wxSize(80, 80), wxBU_AUTODRAW | wxBORDER_NONE);
+	bellButton->SetBackgroundColour(wxColour(52, 100, 117));
+
+	bellButton->Bind(wxEVT_ENTER_WINDOW, &MainFrame::onHover, this);
+	bellButton->Bind(wxEVT_LEAVE_WINDOW, &MainFrame::onLeaveHover, this);
+	bellButton->Bind(wxEVT_BUTTON, &MainFrame::onBellButtonClick, this);
+
+	if (hasRequest == true)
+	{
+		bellButton->Hide();
+		bellAlertButton->Show();
+	}
+	else
+	{
+		bellAlertButton->Hide();
+		bellButton->Show();
+	}
+}
 
 //functions buttons
+
 void MainFrame::onBellButtonClick(wxCommandEvent& event)
 {	
+	paintPendingRequests();
+
 	printf("HAAALLLLOOOOOOO\n");
 }
 
@@ -392,7 +618,7 @@ void MainFrame::onSendClick(wxCommandEvent& event)
 	{
 
 		user->sendMoney(&Bank::getUsers()->at(reciever), stod(amount));
-		RepaintBalance();
+		repaintBalance();
 
 		sendMoneyPanel->Show();
 		requestMoneyPanel->Show();
@@ -464,11 +690,8 @@ void MainFrame::onRequestClick(wxCommandEvent& event)
 //back buttons
 void MainFrame::onTransacionBackButtonClick(wxCommandEvent& event)
 {
-	for (Transaction* tans : Bank::getTransactions()->get(&Bank::getUsers()->at(user->getUsername())))
-	{
-		transactionsPanel->Hide();
-	}
 
+	transactionsPanel->Hide();
 	transactionsBackButton->Hide();
 	
 	sendMoneyPanel->Show();
@@ -512,6 +735,29 @@ void MainFrame::onRequestMoneyBackButton(wxCommandEvent& event)
 	amountBox->Hide();
 	amountText->Hide();
 	recieverText->Hide();
+}
+
+void MainFrame::onRequestsPanelBackClick(wxCommandEvent& event)
+{
+	
+	pendingRequestsPanel->Hide();
+	requestsPanelBackButton->Hide();
+
+	sendMoneyPanel->Show();
+	requestMoneyPanel->Show();
+	transactionButtonPanel->Show();
+	rechargeBalancePanel->Show();
+}
+
+void MainFrame::onEmptyRequestsPanelBackClick(wxCommandEvent& event)
+{
+	requestsPanelBackButton->Hide();
+	noRequests->Hide();
+
+	sendMoneyPanel->Show();
+	requestMoneyPanel->Show();
+	transactionButtonPanel->Show();
+	rechargeBalancePanel->Show();
 }
 
 //copious amounts of suffering

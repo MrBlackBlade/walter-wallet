@@ -8,11 +8,20 @@ class MainFrame : public wxFrame
 	private:
 
 		User* user;
+		
+		bool hasRequest = false;
+		int requestPanelScrollHeight = 0;
+		int requestPointY = 30;
 
 		wxPanel* mainPanel;
+		wxPanel* topPanel;
 		wxPanel* midPanel;
 		wxScrolled<wxPanel>* transactionsPanel;
+		wxScrolled<wxPanel>* pendingRequestsPanel;
 		wxImage* backIcon;
+
+		wxBitmapButton* bellButton;
+		wxBitmapButton* bellAlertButton;
 
 		//inside sendMoneyPanel
 		wxPanel*		usernameInputPanel;
@@ -24,8 +33,10 @@ class MainFrame : public wxFrame
 		wxTextCtrl*		amountBox;
 		wxStaticText*	amountText;
 		wxStaticText*	recieverText;
+		wxStaticText*	noRequests;
 
 		//back buttons
+		wxBitmapButton* requestsPanelBackButton;
 		wxBitmapButton* transactionsBackButton;
 		wxBitmapButton* sendMoneyBackButton;
 		wxBitmapButton* requestMoneyBackButton;
@@ -42,9 +53,14 @@ class MainFrame : public wxFrame
 		void paintSendMoneyPanel();
 		void paintRequestMoneypanel();
 		void paintTransactionsPanel();
-		void RepaintBalance();
+		void paintPendingRequests();
+		void repaintBalance();
+		void repaintPendingRequests();
+		void checkRequests();
 
 		//Event Handlers
+		void onRequestsPanelBackClick(wxCommandEvent& event);
+		void onEmptyRequestsPanelBackClick(wxCommandEvent& event);
 		void onRequestMoneyButtonClick(wxCommandEvent& event);
 		void onRequestMoneyBackButton(wxCommandEvent& event);
 		void onRequestClick(wxCommandEvent& event);
