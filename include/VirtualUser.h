@@ -8,8 +8,6 @@ using namespace std;
 class VirtualUser
 {
 private:
-	static int maxID;
-	int id;
 	string username;
 	string password;
 	string displayName;
@@ -21,15 +19,13 @@ public:
 
 	VirtualUser
 	(
-		int id,
 		const string& name,
 		const string& password,
 		const string& displayName,
 		const string& phoneNumber,
 		const string& email
 	);
-	int getMaxID() const;
-	int getID() const;
+
 	string getUsername() const;
 	string getPassword() const;
 	string getPhoneNumber() const;
@@ -37,7 +33,6 @@ public:
 	string getDisplayName() const;
 	virtual string getUserType() const;
 
-	static void setMaxID(int maxID);
 	void setName(string& name);
 	void setPassword(string& password);
 	void setPhoneNumber(string& phonenumber);

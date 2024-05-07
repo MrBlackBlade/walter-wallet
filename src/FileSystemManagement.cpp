@@ -57,6 +57,9 @@ void FileSystemManagement::updateData() {
 	for (const auto& [key, value] : (*Bank::getUsers())) {
 		FileSystemManagement::writeRow(FileSystemManagement::userFile, value.toStringArray());
 	}
+	for (const auto& [key, value] : (*Bank::getAdmins())) {
+		FileSystemManagement::writeRow(FileSystemManagement::userFile, value.toStringArray());
+	}
 	cout << "a7a 3" << endl;
 	for (Transaction* transaction : Bank::getTransactions()->get()) {
 		FileSystemManagement::writeRow(FileSystemManagement::transactionFile, transaction->toStringArray());
