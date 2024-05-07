@@ -81,5 +81,5 @@ class MainFrame : public wxFrame
 		void onClose(wxCloseEvent& event);
 
 	public:
-		MainFrame(User* user, const wxString& title);
+		MainFrame(User* user);
 };

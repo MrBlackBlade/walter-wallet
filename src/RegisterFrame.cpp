@@ -1,8 +1,11 @@
 #include "RegisterFrame.h"
 #include "RoundedPanel.h"
+#include "SHA256.h"
 
-RegisterFrame::RegisterFrame(LoginFrame* loginFrame, const wxString& title) : wxFrame(nullptr, wxID_ANY, title)
+
+RegisterFrame::RegisterFrame(LoginFrame* loginFrame) : wxFrame(nullptr, wxID_ANY, "Register")
 {
+	wxWindow::SetWindowStyle(wxDEFAULT_FRAME_STYLE & ~wxRESIZE_BORDER & ~wxMAXIMIZE_BOX);
 	this->loginFrame = loginFrame;
 
 	mainPanel = new wxPanel(this);
@@ -290,7 +293,7 @@ void RegisterFrame::onRegisterClick(wxCommandEvent& event)
 		)
 	{
 		error += "Please fill out all fields\n\n";
-		wxMessageBox(error, "Invalid");
+		wxMessageBox(error, "Invalid", wxICON_ERROR | wxOK);
 	}
 	else {
 		if
@@ -303,22 +306,17 @@ void RegisterFrame::onRegisterClick(wxCommandEvent& event)
 				&& Validation::initialBalanceValid(initialBalance)
 				)
 		{
-			wxMessageBox("trsh");
 			Bank::asAdmin()->addUser
 			(
 				username,
-				password,
+				SHA256::toSHA256(password),
 				displayName,
 				stod(initialBalance),
 				phoneNumber,
 				email,
 				false
 			);
-			MainFrame* mainFrame = new MainFrame(&Bank::getUsers()->at(username), "Heisenbank");
-			mainFrame->SetClientSize(620, 1000);
-			mainFrame->Center();
-			mainFrame->Show();
-			mainFrame->SetIcon(this->GetIcon());
+			loginFrame->Show();
 			//this->Hide();
 			this->Close();
 		}
@@ -376,7 +374,7 @@ void RegisterFrame::onRegisterClick(wxCommandEvent& event)
 				error += "Must be a number between 0-50000\n";
 				error += "\n";
 			}
-			wxMessageBox(error, "Invalid");
+			wxMessageBox(error, "Invalid", wxICON_ERROR | wxOK);
 		}
 	}
 }

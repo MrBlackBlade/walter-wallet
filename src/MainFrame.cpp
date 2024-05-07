@@ -5,8 +5,9 @@
 #include "RoundedPanel.h"
 #include "Bank.h"
 
-MainFrame::MainFrame(User* user, const wxString& title) : wxFrame(nullptr, wxID_ANY, title)
+MainFrame::MainFrame(User* user) : wxFrame(nullptr, wxID_ANY, "Heisenbank")
 {
+	wxWindow::SetWindowStyle(wxDEFAULT_FRAME_STYLE & ~wxRESIZE_BORDER & ~wxMAXIMIZE_BOX);
 	mainPanel = new wxPanel(this);
 	mainPanel->SetBackgroundColour(wxColour(0, 125, 141));
 	this->user = user;
@@ -380,10 +381,7 @@ void MainFrame::paintTransactionsPanel()
 }
 void MainFrame::paintPendingRequests()
 {
-	sendMoneyPanel->Hide();
-	requestMoneyPanel->Hide();
-	transactionButtonPanel->Hide();
-	rechargeBalancePanel->Hide();
+
 
 	//bellButton->Unbind(wxEVT_BUTTON, &MainFrame::onBellButtonClick, this);
 	//bellAlertButton->Unbind(wxEVT_BUTTON, &MainFrame::onBellButtonClick, this);
@@ -511,7 +509,10 @@ void MainFrame::paintPendingRequests()
 		noRequests->SetFont(wxFont(wxFontInfo(22)));
 	}
 
-
+	sendMoneyPanel->Hide();
+	requestMoneyPanel->Hide();
+	transactionButtonPanel->Hide();
+	rechargeBalancePanel->Hide();
 }
 
 void MainFrame::checkRequests()
