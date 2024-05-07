@@ -20,6 +20,7 @@ class MainFrame : public wxFrame
 
 		wxBitmapButton* bellButton;
 		wxBitmapButton* bellAlertButton;
+		wxBitmapButton* pfpButton;
 
 		//inside sendMoneyPanel
 		wxPanel*		usernameInputPanel;
@@ -48,17 +49,20 @@ class MainFrame : public wxFrame
 
 		void paintTopPanel();
 		void paintMidPanel();
+
+		void repaintBalance();
+		void checkRequests();
+
 		void paintSendMoneyPanel();
 		void paintRequestMoneypanel();
 		void paintTransactionsPanel();
 		void paintPendingRequests();
-		void repaintBalance();
-		void repaintPendingRequests();
-		void checkRequests();
+
+		//void repaintPendingRequests();
 
 		//Event Handlers
 		void onRequestsPanelBackClick(wxCommandEvent& event);
-		void onEmptyRequestsPanelBackClick(wxCommandEvent& event);
+		//void onEmptyRequestsPanelBackClick(wxCommandEvent& event);
 		void onRequestMoneyButtonClick(wxCommandEvent& event);
 		void onRequestMoneyBackButton(wxCommandEvent& event);
 		void onRequestClick(wxCommandEvent& event);
