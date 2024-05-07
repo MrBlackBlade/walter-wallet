@@ -56,7 +56,7 @@ void LoginFrame::paintMidPanel()
 	usernameBox->Bind(wxEVT_SET_FOCUS, &LoginFrame::onEnterUsername, this);
 	usernameBox->Bind(wxEVT_KILL_FOCUS, &LoginFrame::onLeaveUsername, this);
 
-	passwordBox = new wxTextCtrl(passwordInputPanel, wxID_ANY, "M3T#", wxPoint(10, 13), wxSize(220, 30), wxTE_CENTRE | wxBORDER_NONE);
+	passwordBox = new wxTextCtrl(passwordInputPanel, wxID_ANY, "Password", wxPoint(10, 13), wxSize(220, 30), wxTE_CENTRE | wxBORDER_NONE | wxTE_PASSWORD);
 	passwordBox->SetBackgroundColour(wxColour(229, 229, 229));
 	passwordBox->SetForegroundColour(wxColour(178, 178, 178));
 	passwordBox->SetFont(wxFont(wxFontInfo(14).Bold()));
@@ -121,7 +121,7 @@ void LoginFrame::onLeaveUsername(wxFocusEvent& event) {
 
 void LoginFrame::onEnterPassword(wxFocusEvent& event) {
 	wxTextCtrl* object = (wxTextCtrl*)event.GetEventObject();
-	if (object->GetValue() == "M3T#") {
+	if (object->GetValue() == "Password") {
 		object->SetForegroundColour(*wxBLACK);
 		object->Clear();
 	}
@@ -132,7 +132,7 @@ void LoginFrame::onLeavePassword(wxFocusEvent& event) {
 	wxTextCtrl* object = (wxTextCtrl*)event.GetEventObject();
 	if (object->IsEmpty()) {
 		object->SetForegroundColour(wxColour(178, 178, 178));
-		object->AppendText("M3T#");
+		object->AppendText("Password");
 	}
 
 	event.Skip(true);
