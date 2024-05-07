@@ -3,6 +3,8 @@
 #include <wx/wx.h>
 #include "User.h"
 #include "Bank.h"
+#include "Validation.h"
+#include "MainFrame.h"
 #include "LoginFrame.h"
 
 class RegisterFrame : public wxFrame
@@ -30,13 +32,11 @@ class RegisterFrame : public wxFrame
 		wxPanel* emailInputPanel;
 		wxTextCtrl* emailBox;
 
-		wxPanel* initBalanceinputPanel;
-		wxTextCtrl* initBalanceBox;
+		wxPanel* initialBalanceInputPanel;
+		wxTextCtrl* initialBalanceBox;
 
 		wxPanel* registerButtonPanel;
 		wxButton* registerButton;
-		wxStaticText* amountText;
-		wxStaticText* recieverText;
 
 		//Event Handlers
 		void onEnterUsername(wxFocusEvent& event);

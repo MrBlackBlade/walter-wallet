@@ -2,19 +2,18 @@
 
 User::User
 (
-	int id,
 	const string& name,
 	const string& password,
 	const string& displayName,
 	double balance,
 	const string& phoneNumber,
 	const string& email,
-	bool accountState
+	bool isSuspended
 )
-	: VirtualUser(id, name, password, displayName, phoneNumber, email)
+	: VirtualUser(name, password, displayName, phoneNumber, email)
 {
 	this->balance = balance;
-	this->accountState = accountState;
+	this->isSuspended = isSuspended;
 }
 
 void User::editProfile(string displayName, string password, string phoneNumber, string email)
@@ -42,7 +41,7 @@ void User::rejectRequest(Transaction* transaction) {
 }
 double User::getBalance() const { return balance; }
 
-bool User::getAccountState() const { return accountState; }
+bool User::getSuspended() const { return isSuspended; }
 
 string User::getUserType() const { return "user"; }
 
@@ -54,7 +53,7 @@ string User::getUserType() const { return "user"; }
 
 void User::setBalance(double balance) {	this->balance = balance; }
 
-void User::setAccountState(bool state) {	this->accountState = state; }
+void User::setSuspended(bool state) {	this->isSuspended = state; }
 
 //void User::insertTransacton(Transaction* transaction) {
 //	transactions.insert(transaction);
@@ -65,14 +64,13 @@ vector<string> User::toStringArray() const
 {
 	return
 	{
-		to_string(getID()),
+		getUserType(),
 		getUsername(),
 		getPassword(),
 		getDisplayName(),
 		to_string(getBalance()),
 		getPhoneNumber(),
 		getEmail(),
-		(getAccountState() ? "true" : "false"),
-		getUserType()
+		(getSuspended() ? "true" : "false")
 	};
 }
