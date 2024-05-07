@@ -30,6 +30,7 @@
     <ClCompile Include="src\Transaction.cpp" />
     <ClCompile Include="src\TransactionStructure.cpp" />
     <ClCompile Include="src\User.cpp" />
+    <ClCompile Include="src\Validation.cpp" />
     <ClCompile Include="src\VirtualUser.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -44,6 +45,7 @@
     <ClInclude Include="include\Transaction.h" />
     <ClInclude Include="include\TransactionStructure.h" />
     <ClInclude Include="include\User.h" />
+    <ClInclude Include="include\Validation.h" />
     <ClInclude Include="include\VirtualUser.h" />
   </ItemGroup>
   <ItemGroup>

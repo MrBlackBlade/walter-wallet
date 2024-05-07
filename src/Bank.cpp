@@ -65,6 +65,10 @@ unordered_map<string, Admin>* Bank::getAdmins() {
 	return &admins;
 }
 
+Admin* Bank::asAdmin() {
+	return &admins.at("admin");
+}
+
 TransactionStructure* Bank::getTransactions() {
 	return &transactions;
 }

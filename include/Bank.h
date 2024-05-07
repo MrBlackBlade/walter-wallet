@@ -30,6 +30,7 @@ public:
 	static void processRequest(Transaction* transaction, TransactionState state);
 	static unordered_map<string, User>* getUsers();
 	static unordered_map<string, Admin>* getAdmins();
+	static Admin* asAdmin();
 	static TransactionStructure* getTransactions();
 	/*static void insertTransacton(Transaction transaction);*/
 };

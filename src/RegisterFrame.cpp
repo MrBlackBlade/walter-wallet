@@ -49,8 +49,8 @@ void RegisterFrame::paintMidPanel()
 	emailInputPanel = new RoundedPanel(midPanel, wxID_ANY, wxPoint(235, 480), wxSize(240, 50), wxALIGN_CENTRE_HORIZONTAL, wxColour(229, 229, 229));
 	emailInputPanel->SetBackgroundColour(*wxWHITE);
 
-	initBalanceinputPanel = new RoundedPanel(midPanel, wxID_ANY, wxPoint(235, 560), wxSize(240, 50), wxALIGN_CENTRE_HORIZONTAL, wxColour(229, 229, 229));
-	initBalanceinputPanel->SetBackgroundColour(*wxWHITE);
+	initialBalanceInputPanel = new RoundedPanel(midPanel, wxID_ANY, wxPoint(235, 560), wxSize(240, 50), wxALIGN_CENTRE_HORIZONTAL, wxColour(229, 229, 229));
+	initialBalanceInputPanel->SetBackgroundColour(*wxWHITE);
 
 
 	usernameBox = new wxTextCtrl(usernameInputPanel, wxID_ANY, "Username", wxPoint(10, 13), wxSize(220, 30), wxTE_CENTRE | wxBORDER_NONE);
@@ -118,18 +118,18 @@ void RegisterFrame::paintMidPanel()
 	emailBox->Bind(wxEVT_SET_FOCUS, &RegisterFrame::onEnterEmail, this);
 	emailBox->Bind(wxEVT_KILL_FOCUS, &RegisterFrame::onLeaveEmail, this);
 
-	initBalanceBox = new wxTextCtrl(initBalanceinputPanel, wxID_ANY, "EGP", wxPoint(10, 13), wxSize(220, 30), wxTE_CENTRE | wxBORDER_NONE);
-	initBalanceBox->SetBackgroundColour(wxColour(229, 229, 229));
-	initBalanceBox->SetForegroundColour(wxColour(178, 178, 178));
-	initBalanceBox->SetFont(wxFont(wxFontInfo(14).Bold()));
+	initialBalanceBox = new wxTextCtrl(initialBalanceInputPanel, wxID_ANY, "EGP", wxPoint(10, 13), wxSize(220, 30), wxTE_CENTRE | wxBORDER_NONE);
+	initialBalanceBox->SetBackgroundColour(wxColour(229, 229, 229));
+	initialBalanceBox->SetForegroundColour(wxColour(178, 178, 178));
+	initialBalanceBox->SetFont(wxFont(wxFontInfo(14).Bold()));
 
 	wxStaticText* initBalanceText = new wxStaticText(midPanel, wxID_ANY, "Initial Balance", wxPoint(70, 573), wxSize(-1, -1), wxALIGN_CENTRE_HORIZONTAL);
 	initBalanceText->SetBackgroundColour(*wxWHITE);
 	initBalanceText->SetForegroundColour(*wxBLACK);
 	initBalanceText->SetFont(wxFont(wxFontInfo(14).Bold()));
 
-	initBalanceBox->Bind(wxEVT_SET_FOCUS, &RegisterFrame::onEnterInitBalance, this);
-	initBalanceBox->Bind(wxEVT_KILL_FOCUS, &RegisterFrame::onLeaveInitBalance, this);
+	initialBalanceBox->Bind(wxEVT_SET_FOCUS, &RegisterFrame::onEnterInitBalance, this);
+	initialBalanceBox->Bind(wxEVT_KILL_FOCUS, &RegisterFrame::onLeaveInitBalance, this);
 
 	wxPanel* registerButtonPanel = new RoundedPanel(midPanel, wxID_ANY, wxPoint(185, 660), wxSize(180, 50), wxALIGN_CENTRE_HORIZONTAL, wxColour(52, 100, 117));
 	registerButtonPanel->SetBackgroundColour(*wxWHITE);
@@ -268,7 +268,115 @@ void RegisterFrame::onLeaveInitBalance(wxFocusEvent& event)
 
 void RegisterFrame::onRegisterClick(wxCommandEvent& event)
 {
-	cout << "Meth";
+	string error = "Invalid form parameters\n\n";
+
+	string username = string(usernameBox->GetValue().mb_str());
+	string password = string(passwordBox->GetValue().mb_str());
+	string displayName = string(displayNameBox->GetValue().mb_str());
+	string phoneNumber = string(phoneNumberBox->GetValue().mb_str());
+	string email = string(emailBox->GetValue().mb_str());
+	string initialBalance = string(initialBalanceBox->GetValue().mb_str());
+
+	if
+		(
+			username == "Username"
+			|| password == "Password"
+			|| displayName == "Display Name"
+			|| phoneNumber == "Number"
+			|| email == "Email"
+			|| initialBalance == "EGP"
+		)
+	{
+		error += "Please fill out all fields\n\n";
+		wxMessageBox(error, "Invalid");
+	}
+	else {
+		if
+			(
+				Validation::usernameValid(username)
+				&& Validation::passwordValid(password)
+				&& Validation::displayNameValid(displayName)
+				&& Validation::phoneNumberValidFormat(phoneNumber)
+				&& Validation::emailValidFormat(email)
+				&& Validation::initialBalanceValid(initialBalance)
+				)
+		{
+			wxMessageBox("trsh");
+			Bank::asAdmin()->addUser
+			(
+				username,
+				password,
+				displayName,
+				stod(initialBalance),
+				phoneNumber,
+				email,
+				false
+			);
+			MainFrame* mainFrame = new MainFrame(&Bank::getUsers()->at(username), "Heisenbank");
+			mainFrame->SetClientSize(620, 1000);
+			mainFrame->Center();
+			mainFrame->Show();
+			mainFrame->SetIcon(this->GetIcon());
+			//this->Hide();
+			this->Close();
+		}
+		else
+		{
+			if (!Validation::usernameValid(username)) {
+				error += "Username Invalid:\n";
+				if (!Validation::usernameAvailable(username)) {
+					error += "User already exists.\n";
+				}
+				if (!Validation::usernameValidLength(username)) {
+					error += "Length must be 3-16 characters.\n";
+				}
+				if (!Validation::usernameValidCharacterSet(username)) {
+					error += "Only charecters [Aa-Zz], digits[0-9] and [_-] are allowed\n";
+				}
+				error += "\n";
+			}
+			if (!Validation::passwordValid(password)) {
+				error += "Password Invalid:\n";
+				if (!Validation::passwordValidLength(password)) {
+					error += "Length must be 8-32 characters.\n";
+				}
+				if (!Validation::passwordValidCase(password)) {
+					error += "Must contain at least one uppercase and one lowercase character.\n";
+				}
+				if (!Validation::passwordContainsNumbers(password)) {
+					error += "Must contain at least one number.\n";
+				}
+				if (!Validation::passwordContainsSpecialCharacters(password)) {
+					error += "Must contain at least one special character.\n";
+				}
+				if (!Validation::passwordValidCharacterSet(password)) {
+					error += "Only charecters [Aa-Zz], digits[0-9] and [~!@#$%^&*:;()<>_-] are allowed\n";
+				}
+				error += "\n";
+			}
+			if (!Validation::displayNameValid(displayName)) {
+				error += "Display Name Invalid:\n";
+				error += "Only charecters [Aa-Zz] are allowed\n";
+				error += "\n";
+			}
+			if (!Validation::phoneNumberValidFormat(phoneNumber)) {
+				error += "Phone Number Invalid:\n";
+				error += "Must be 11 digits in the format: 01XXXXXXXXX \n";
+				error += "\n";
+			}
+			if (!Validation::emailValidFormat(email)) {
+				error += "Email Invalid:\n";
+				error += "Must be in the format: example@example.example \n";
+				error += "\n";
+			}
+			if (!Validation::initialBalanceValid(initialBalance)) {
+				error += "Initial Balance Invalid:\n";
+				error += "Must be a number between 0-50000\n";
+				error += "\n";
+			}
+			wxMessageBox(error, "Invalid");
+		}
+	}
 }
 
 void RegisterFrame::onHover(wxMouseEvent& event) {
