@@ -7,6 +7,8 @@
 
 MainFrame::MainFrame(User* user, const wxString& title) : wxFrame(nullptr, wxID_ANY, title)
 {
+	wxWindow::SetWindowStyle(wxDEFAULT_FRAME_STYLE & ~wxRESIZE_BORDER & ~wxMAXIMIZE_BOX);
+
 	mainPanel = new wxPanel(this);
 	mainPanel->SetBackgroundColour(wxColour(0, 125, 141));
 	this->user = user;
@@ -55,10 +57,8 @@ void MainFrame::paintTopPanel()
 	wxBitmap pfpBitmap(pfpIcon);
 	pfpButton = new wxBitmapButton(topPanel, wxID_ANY, pfpBitmap, wxPoint(15, 15), wxSize(80, 80), wxBU_AUTODRAW | wxBORDER_NONE);
 	pfpButton->SetBackgroundColour(wxColour(52, 100, 117));
+
 	pfpButton->Bind(wxEVT_BUTTON, &MainFrame::onBellButtonClick, this);
-
-
-
 	pfpButton->Bind(wxEVT_ENTER_WINDOW, &MainFrame::onHover, this);
 	pfpButton->Bind(wxEVT_LEAVE_WINDOW, &MainFrame::onLeaveHover, this);
 

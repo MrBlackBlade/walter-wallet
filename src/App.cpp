@@ -2,6 +2,7 @@
 #include "LoginFrame.h"
 #include "VirtualUser.h"
 #include "RegisterFrame.h"
+#include "AdminFrame.h"
 #include "User.h"
 #include "MainFrame.h"
 #include "FileSystemManagement.h"
@@ -48,11 +49,11 @@ bool App::OnInit() {
 		//tans->getSender();
 		cout << endl;
 	}
-	LoginFrame* loginFrame = new LoginFrame("HeisenBank");
-	loginFrame->SetClientSize(620, 1000);
-	loginFrame->Center();
-	loginFrame->Show();
-	loginFrame->SetIcon(icon);
+	//LoginFrame* loginFrame = new LoginFrame("HeisenBank");
+	//loginFrame->SetClientSize(620, 1000);
+	//loginFrame->Center();
+	//loginFrame->Show();
+	//loginFrame->SetIcon(icon);
 
 	//MainFrame* mainFrame = new MainFrame(&Bank::getUsers()->at("TheOne1"), "Heisenbank");
 	//mainFrame->SetClientSize(620, 1000);
@@ -65,6 +66,12 @@ bool App::OnInit() {
 	//registerFrame->Center();
 	//registerFrame->Show();
 	//registerFrame->SetIcon(icon);
+
+	AdminFrame* adminFrame = new AdminFrame(&Bank::getAdmins()->at("admin"));
+	adminFrame->SetClientSize(620, 1000);
+	adminFrame->Center();
+	adminFrame->Show();
+	adminFrame->SetIcon(icon);
 	return true;
 }
 

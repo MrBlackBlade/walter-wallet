@@ -1,4 +1,5 @@
 #pragma once
+
 #include <wx/wx.h>
 #include "User.h"
 #include "Bank.h"

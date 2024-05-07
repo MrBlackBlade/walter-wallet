@@ -20,6 +20,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Admin.cpp" />
+    <ClCompile Include="src\AdminFrame.cpp" />
     <ClCompile Include="src\App.cpp" />
     <ClCompile Include="src\Bank.cpp" />
     <ClCompile Include="src\FileSystemManagement.cpp" />
@@ -35,6 +36,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\Admin.h" />
+    <ClInclude Include="include\AdminFrame.h" />
     <ClInclude Include="include\App.h" />
     <ClInclude Include="include\Bank.h" />
     <ClInclude Include="include\FileSystemManagement.h" />
