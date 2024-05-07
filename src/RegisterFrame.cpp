@@ -1,8 +1,10 @@
 #include "RegisterFrame.h"
 #include "RoundedPanel.h"
 
-RegisterFrame::RegisterFrame(const wxString& title) : wxFrame(nullptr, wxID_ANY, title)
+RegisterFrame::RegisterFrame(LoginFrame* loginFrame, const wxString& title) : wxFrame(nullptr, wxID_ANY, title)
 {
+	this->loginFrame = loginFrame;
+
 	mainPanel = new wxPanel(this);
 	mainPanel->SetBackgroundColour(wxColour(0, 125, 141));
 	//Bind(wxEVT_CLOSE_WINDOW, &MainFrame::onClose, this);

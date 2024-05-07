@@ -3,11 +3,13 @@
 #include <wx/wx.h>
 #include "User.h"
 #include "Bank.h"
+#include "LoginFrame.h"
 
 class RegisterFrame : public wxFrame
 {
 	private:
 
+		LoginFrame* loginFrame;
 		User* user;
 
 		wxPanel* mainPanel;
@@ -65,7 +67,7 @@ class RegisterFrame : public wxFrame
 		void paintMidPanel();
 
 	public:
-		RegisterFrame(const wxString& title);
+		RegisterFrame(LoginFrame* loginFrame, const wxString& title);
 
 };
 

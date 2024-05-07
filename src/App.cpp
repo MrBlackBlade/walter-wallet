@@ -38,17 +38,17 @@ bool App::OnInit() {
 		//tans->getSender();
 		cout << endl;
 	}
-	//LoginFrame* loginFrame = new LoginFrame("HeisenBank");
-	//loginFrame->SetClientSize(450, 700);
-	//loginFrame->Center();
-	//loginFrame->Show();
-	//loginFrame->SetIcon(icon);
+	LoginFrame* loginFrame = new LoginFrame("HeisenBank");
+	loginFrame->SetClientSize(620, 1000);
+	loginFrame->Center();
+	loginFrame->Show();
+	loginFrame->SetIcon(icon);
 
-	MainFrame* mainFrame = new MainFrame(&Bank::getUsers()->at("TheOne1"), "Heisenbank");
-	mainFrame->SetClientSize(620, 1000);
-	mainFrame->Center();
-	mainFrame->Show();
-	mainFrame->SetIcon(icon);
+	//MainFrame* mainFrame = new MainFrame(&Bank::getUsers()->at("TheOne1"), "Heisenbank");
+	//mainFrame->SetClientSize(620, 1000);
+	//mainFrame->Center();
+	//mainFrame->Show();
+	//mainFrame->SetIcon(icon);
 
 	//RegisterFrame* registerFrame = new RegisterFrame("HeisenBank");
 	//registerFrame->SetClientSize(620, 1000);
