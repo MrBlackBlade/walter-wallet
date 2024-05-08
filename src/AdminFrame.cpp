@@ -4,6 +4,10 @@
 #include "FileSystemManagement.h"
 #include "RoundedPanel.h"
 #include "Bank.h"
+#include "EditAdminFrame.h"
+
+{
+}
 
 AdminFrame::AdminFrame(Admin* admin) : wxFrame(nullptr, wxID_ANY, "HeisenBank")
 {
@@ -182,6 +186,12 @@ void AdminFrame::paintTransactionsPanel()
 	usersMidPanel->Hide();
 }
 
+void AdminFrame::repaintUsersPanel()
+{
+	MSWClickButtonIfPossible(usersBackButton);
+	paintUsersPanel();
+}
+
 void AdminFrame::paintUsersPanel()
 {
 	
@@ -249,27 +259,17 @@ void AdminFrame::paintUsersPanel()
 				wxBitmapButton* addButton = new wxBitmapButton(addUserPanel, wxID_ANY, addBitmap, wxPoint(275, 5), wxSize(50, 50), wxBU_AUTODRAW | wxBORDER_NONE);
 				addButton->SetBackgroundColour(wxColour(52, 100, 117));
 
-				deleteButton->Bind(wxEVT_ENTER_WINDOW, &AdminFrame::onHover, this);
-				deleteButton->Bind(wxEVT_LEAVE_WINDOW, &AdminFrame::onLeaveHover, this);
-				deleteButton->Bind
-				(
-					wxEVT_COMMAND_BUTTON_CLICKED, [=](wxCommandEvent& evt)
-					{
-						admin->deleteUser(user);
-						//MSWClickButtonIfPossible(requestsPanelBackButton);
-						paintUsersPanel();
-					}
-				);
-
 				editButton->Bind(wxEVT_ENTER_WINDOW, &AdminFrame::onHover, this);
 				editButton->Bind(wxEVT_LEAVE_WINDOW, &AdminFrame::onLeaveHover, this);
 				editButton->Bind
 				(
 					wxEVT_COMMAND_BUTTON_CLICKED, [=](wxCommandEvent& evt)
 					{
-						//admin->editUser(user);
-						//MSWClickButtonIfPossible(requestsPanelBackButton);
-						//paintUsersPanel();
+						EditAdminFrame* editFrame = new EditAdminFrame(user, this);
+						editFrame->SetClientSize(620, 1000);
+						editFrame->Center();
+						editFrame->Show();
+						editFrame->SetIcon(GetIcon());
 					}
 				);
 
@@ -279,6 +279,7 @@ void AdminFrame::paintUsersPanel()
 				(
 					wxEVT_COMMAND_BUTTON_CLICKED, [=](wxCommandEvent& evt)
 					{
+						cout << "zby\n";
 						admin->deleteUser(user);
 						MSWClickButtonIfPossible(usersBackButton);
 						paintUsersPanel();

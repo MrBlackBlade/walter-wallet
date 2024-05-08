@@ -34,21 +34,21 @@ bool App::OnInit() {
 	//Bank::getUsers()->at("3m7md").sendMoney(&Bank::getUsers()->at("TheOne1"), 300);
 	//*Bank::getUsers()->at("MazinMohamedPeter").requestMoney(&Bank::getUsers()->at("TheOne1"), 500);
 
-	Transaction* trans = Bank::getTransactions()->get(&Bank::getUsers()->at("MazinMohamedPeter")).back();
-	Bank::getUsers()->at("TheOne1").rejectRequest(Bank::getTransactions()->get(&Bank::getUsers()->at("MazinMohamedPeter")).back());
-	Sleep(1000);
-	Bank::getUsers()->at("MazinMohamedPeter").requestMoney(&Bank::getUsers()->at("TheOne1"), 200);
-	trans = Bank::getTransactions()->get(&Bank::getUsers()->at("MazinMohamedPeter")).back();
-	Bank::getUsers()->at("TheOne1").acceptRequest(Bank::getTransactions()->get(&Bank::getUsers()->at("MazinMohamedPeter")).back());
+	//Transaction* trans = Bank::getTransactions()->get(&Bank::getUsers()->at("MazinMohamedPeter")).back();
+	//Bank::getUsers()->at("TheOne1").rejectRequest(Bank::getTransactions()->get(&Bank::getUsers()->at("MazinMohamedPeter")).back());
+	//Sleep(1000);
+	//Bank::getUsers()->at("MazinMohamedPeter").requestMoney(&Bank::getUsers()->at("TheOne1"), 200);
+	//trans = Bank::getTransactions()->get(&Bank::getUsers()->at("MazinMohamedPeter")).back();
+	//Bank::getUsers()->at("TheOne1").acceptRequest(Bank::getTransactions()->get(&Bank::getUsers()->at("MazinMohamedPeter")).back());
 
-	for (Transaction* tans : Bank::getTransactions()->get(&Bank::getUsers()->at("3m7md"))) {
-		for (string e : tans->toStringArray()) {
-			cout << e << " ";
-		}
-		//tans->getFlag();
-		//tans->getSender();
-		cout << endl;
-	}
+	//for (Transaction* tans : Bank::getTransactions()->get(&Bank::getUsers()->at("3m7md"))) {
+	//	for (string e : tans->toStringArray()) {
+	//		cout << e << " ";
+	//	}
+	//	//tans->getFlag();
+	//	//tans->getSender();
+	//	cout << endl;
+	//}
 	//LoginFrame* loginFrame = new LoginFrame("HeisenBank");
 	//loginFrame->SetClientSize(620, 1000);
 	//loginFrame->Center();

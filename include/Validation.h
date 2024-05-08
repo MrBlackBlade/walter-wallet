@@ -26,4 +26,5 @@ public:
 	static bool phoneNumberValidFormat(string phoneNumber);
 
 	static bool initialBalanceValid(string balance);
+	static bool balanceValid(string balance);
 };

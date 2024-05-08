@@ -29,20 +29,20 @@ void Admin::addUser
 )
 {
 	User user = User(name, password, displayName, balance, phoneNumber, email, isSuspended);
-	Bank::getUsers()->insert(make_pair(user.getUsername(), user));
+	Bank::getUsers()->insert(&user);
 }
 
 void Admin::deleteUser(User* user)
 {
 	for (Transaction* transaction : Bank::getTransactions()->get(user)) {
 		if (transaction->getRecipient() == user) {
-			transaction->setRecipient(&Bank::getUsers()->at("deleteduser"));
+			transaction->setRecipient(Bank::getUsers()->getUser("deleteduser"));
 		}
 		else if (transaction->getSender() == user) {
-			transaction->setSender(&Bank::getUsers()->at("deleteduser"));
+			transaction->setSender(Bank::getUsers()->getUser("deleteduser"));
 		}
 	}
-	Bank::getUsers()->erase(user->getUsername());
+	Bank::getUsers()->erase(user);
 }
 
 void Admin::editUser(
@@ -55,7 +55,7 @@ void Admin::editUser(
 	const string& newEmail
 )
 {
-	auto new_key = Bank::getUsers()->extract(user->getUsername());
+	auto new_key = Bank::getUsers()->erase(user->getUsername());
 	new_key.key() = newUsername;
 	user->editProfile(newDisplayName, newPassword, newPhoneNumber, newEmail);
 	user->setBalance(newBalance);

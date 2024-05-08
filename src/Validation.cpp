@@ -136,3 +136,21 @@ bool Validation::initialBalanceValid(string balance) {
 		return false;
 	}
 }
+bool Validation::balanceValid(string balance) {
+	double initialBalance;
+
+	try
+	{
+		initialBalance = stod(balance);
+		if (initialBalance > 0) {
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
+	catch (const exception&)
+	{
+		return false;
+	}
+}

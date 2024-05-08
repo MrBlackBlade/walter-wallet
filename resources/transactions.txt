@@ -14,7 +14,7 @@
 1714759711,deleteduser,deleteduser,200.000000,2
 1714859881,deleteduser,deleteduser,500.000000,1
 1714859882,deleteduser,deleteduser,200.000000,2
-1714859922,,deleteduser,620.000000,3
+1714859922,deleteduser,deleteduser,620.000000,3
 1714859971,deleteduser,deleteduser,500.000000,1
 1714859972,deleteduser,deleteduser,200.000000,2
 1714859983,deleteduser,deleteduser,630.000000,3

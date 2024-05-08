@@ -1,8 +1,7 @@
 #include "Bank.h"
 
 
-unordered_map<string, User> Bank::users;
-unordered_map<string, Admin> Bank::admins;
+UserStructure Bank::users;
 TransactionStructure Bank::transactions;
 
 void Bank::init() {
@@ -14,17 +13,17 @@ void Bank::makeUsers() {
 	vector<vector<string>> usersTable = FileSystemManagement::readFile(FileSystemManagement::userFile);
 	for (vector<string> row : usersTable) {
 		if (row[0] == "admin") {
-			Admin admin = Admin(
+			Admin* admin = new Admin(
 				row[1],
 				row[2],
 				row[3],
 				row[4],
 				row[5]
 			);
-			admins.insert(make_pair(admin.getUsername(), admin));
+			users.insert(admin);
 		}
 		else if (row[0] == "user") {
-			User user = User(
+			User* user = new User(
 				row[1],
 				row[2],
 				row[3],
@@ -33,7 +32,7 @@ void Bank::makeUsers() {
 				row[6],
 				(row[7] == "true")
 			);
-			users.insert(make_pair(user.getUsername(), user));
+			users.insert(user);
 		}
 		
 	}
@@ -44,8 +43,8 @@ void Bank::makeTransactions() {
 	vector<vector<string>> transactionsTable = FileSystemManagement::readFile(FileSystemManagement::transactionFile);
 	for (vector<string> row : transactionsTable) {
 		Transaction* transaction = new Transaction(
-			&users.find(row[1])->second,
-			&users.find(row[2])->second,
+			users.getUser(row[1]),
+			users.getUser(row[2]),
 			stod(row[3]),
 			std::chrono::system_clock::from_time_t(stol(row[0])),
 			TransactionState(stoi(row[4]))
@@ -57,16 +56,12 @@ void Bank::makeTransactions() {
 	}
 }
 
-unordered_map<string, User>* Bank::getUsers() {
+UserStructure* Bank::getUsers() {
 	return &users;
 }
 
-unordered_map<string, Admin>* Bank::getAdmins() {
-	return &admins;
-}
-
 Admin* Bank::asAdmin() {
-	return &admins.at("admin");
+	return users.getAdmin("admin");
 }
 
 TransactionStructure* Bank::getTransactions() {

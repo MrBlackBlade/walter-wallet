@@ -42,6 +42,7 @@ class AdminFrame : public wxFrame
 		void onClose(wxCloseEvent& event);
 
 	public:
+		void repaintUsersPanel();
 		AdminFrame(Admin* admin);
 };
 

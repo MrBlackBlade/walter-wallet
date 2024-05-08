@@ -23,6 +23,7 @@
     <ClCompile Include="src\AdminFrame.cpp" />
     <ClCompile Include="src\App.cpp" />
     <ClCompile Include="src\Bank.cpp" />
+    <ClCompile Include="src\EditAdminFrame.cpp" />
     <ClCompile Include="src\FileSystemManagement.cpp" />
     <ClCompile Include="src\LoginFrame.cpp" />
     <ClCompile Include="src\MainFrame.cpp" />
@@ -31,6 +32,7 @@
     <ClCompile Include="src\Transaction.cpp" />
     <ClCompile Include="src\TransactionStructure.cpp" />
     <ClCompile Include="src\User.cpp" />
+    <ClCompile Include="src\UserStructure.cpp" />
     <ClCompile Include="src\Validation.cpp" />
     <ClCompile Include="src\VirtualUser.cpp" />
   </ItemGroup>
@@ -39,6 +41,7 @@
     <ClInclude Include="include\AdminFrame.h" />
     <ClInclude Include="include\App.h" />
     <ClInclude Include="include\Bank.h" />
+    <ClInclude Include="include\EditAdminFrame.h" />
     <ClInclude Include="include\FileSystemManagement.h" />
     <ClInclude Include="include\LoginFrame.h" />
     <ClInclude Include="include\MainFrame.h" />
@@ -47,6 +50,7 @@
     <ClInclude Include="include\Transaction.h" />
     <ClInclude Include="include\TransactionStructure.h" />
     <ClInclude Include="include\User.h" />
+    <ClInclude Include="include\UserStructure.h" />
     <ClInclude Include="include\Validation.h" />
     <ClInclude Include="include\VirtualUser.h" />
   </ItemGroup>
