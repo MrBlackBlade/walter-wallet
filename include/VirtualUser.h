@@ -33,11 +33,11 @@ public:
 	string getDisplayName() const;
 	virtual string getUserType() const;
 
-	void setName(string& name);
-	void setPassword(string& password);
-	void setPhoneNumber(string& phonenumber);
-	void setEmail(string& email);
-	void setDisplayName(string& name);
+	void setName(string name);
+	void setPassword(string password);
+	void setPhoneNumber(string phonenumber);
+	void setEmail(string email);
+	void setDisplayName(string name);
 
 	virtual vector<string> toStringArray() const = 0;
 };

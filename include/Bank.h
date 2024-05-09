@@ -13,10 +13,11 @@ using namespace std;
 
 
 class User;
-enum TransactionState;
+enum  TransactionState;
 class Transaction;
 class TransactionStructure;
 class Admin;
+class UserStructure;
 
 class Bank
 {

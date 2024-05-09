@@ -314,10 +314,9 @@ void EditAdminFrame::onDoneClick(wxCommandEvent& event)
 				displayName,
 				stod(balance),
 				phoneNumber,
-				email
+				email,
+				false
 			);
-			Bank::asAdmin()->suspendUser(editUser,false);
-
 			//MainFrame* mainFrame = new MainFrame(&Bank::getUsers()->at(username), "Heisenank");
 			//mainFrame->SetClientSize(620, 1000);
 			//mainFrame->Center();

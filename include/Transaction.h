@@ -7,6 +7,10 @@ using namespace std;
 using namespace std::chrono;
 
 class User;
+class Admin;
+class TransactionStructure;
+class UserStructure;
+class Bank;
 
 // sender user , reciever user, amount , date , enum -1,0,1 , rejected, pending , accepted 
 enum TransactionState

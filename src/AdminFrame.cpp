@@ -6,9 +6,6 @@
 #include "Bank.h"
 #include "EditAdminFrame.h"
 
-{
-}
-
 AdminFrame::AdminFrame(Admin* admin) : wxFrame(nullptr, wxID_ANY, "HeisenBank")
 {
 	wxWindow::SetWindowStyle(wxDEFAULT_FRAME_STYLE & ~wxRESIZE_BORDER & ~wxMAXIMIZE_BOX);
@@ -228,11 +225,11 @@ void AdminFrame::paintUsersPanel()
 		int usersPanelScrollHeight = 0;
 		int usersPointY = 30;
 
-		auto users = Bank::getUsers();
+		auto users = Bank::getUsers()->getUsers();
 
-		for (auto it = users->begin(); it != users->end(); ++it)
+		for (auto it = users.begin(); it != users.end(); ++it)
 		{
-			User* user = &it->second;
+			User* user = *it;
 
 			if (user->getUsername() == "deleteduser")
 			{

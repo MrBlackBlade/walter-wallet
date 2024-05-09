@@ -1,21 +1,24 @@
 #pragma once
+
 #include <map>
 #include <unordered_map>
 #include <list>
 #include "Transaction.h"
 using namespace std;
 
-class User;
 class Transaction;
+class TransactionStructure;
+class Bank;
+class User;
 
 class UserStructure
 {
 private:
-	list<Admin> admins;
+	vector<Admin> admins;
 	map<string, Admin*> adminsByNameOrdered;
 	unordered_map<string, Admin*> adminsByName;
 
-	list<User> users;
+	vector<User> users;
 	map<string, User*> usersByNameOrdered;
 	unordered_map<string, User*> usersByName;
 

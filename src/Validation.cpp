@@ -14,10 +14,30 @@ bool Validation::usernameValid(string name)
 }
 bool Validation::usernameAvailable(string name)
 {
-	if (Bank::getUsers()->find(name) == Bank::getUsers()->end() && Bank::getAdmins()->find(name) == Bank::getAdmins()->end())
-		return true;
-	else
-		return false;
+	bool userExists = false;
+
+	try
+	{
+		Bank::getUsers()->getUser(name);
+		userExists = true;
+	}
+	catch (const std::exception&)
+	{
+		//sa7bety
+	}
+
+	try
+	{
+		Bank::getUsers()->getAdmin(name);
+		userExists = true;
+	}
+	catch (const std::exception&)
+	{
+		//sa7bety
+	}
+
+	return !userExists;
+
 }
 bool Validation::usernameValidLength(string name)
 {

@@ -46,14 +46,28 @@ void UserStructure::erase(Admin* admin)
 {
 	adminsByName.erase(admin->getUsername());
 	adminsByNameOrdered.erase(admin->getUsername());
-	admins.remove(*admin);
+	//admins.remove(*admin);
+
+	auto it = find(admins.begin(), admins.end(),
+		*admin);
+
+	if (it != admins.end()) {
+		admins.erase(it);
+	}
 }
 
 void UserStructure::erase(User* user)
 {
 	usersByName.erase(user->getUsername());
 	usersByNameOrdered.erase(user->getUsername());
-	users.remove(*user);
+	//users.remove(*user);
+
+	auto it = find(users.begin(), users.end(),
+		*user);
+
+	if (it != users.end()) {
+		users.erase(it);
+	}
 }
 
 void UserStructure::modifyUser(User* user, User newUser)
@@ -68,6 +82,9 @@ void UserStructure::modifyUser(User* user, User newUser)
 	user->setPassword(newUser.getPassword());
 	user->setPhoneNumber(newUser.getPhoneNumber());
 	user->setSuspended(newUser.getSuspended());
+	
+	usersByNameOrdered.insert(make_pair(user->getUsername(), &(users.back())));
+	usersByName.insert(make_pair(user->getUsername(), &(users.back())));
 }
 
 User* UserStructure::getUser(string username)

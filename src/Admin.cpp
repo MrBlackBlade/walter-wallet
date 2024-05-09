@@ -52,14 +52,12 @@ void Admin::editUser(
 	const string& newDisplayName,
 	double newBalance,
 	const string& newPhoneNumber,
-	const string& newEmail
+	const string& newEmail,
+	bool isSuspended
 )
 {
-	auto new_key = Bank::getUsers()->erase(user->getUsername());
-	new_key.key() = newUsername;
-	user->editProfile(newDisplayName, newPassword, newPhoneNumber, newEmail);
-	user->setBalance(newBalance);
-
+	User newUser = User(newUsername, newPassword, newDisplayName, newBalance, newPhoneNumber, newEmail, isSuspended);
+	Bank::getUsers()->modifyUser(user, newUser);
 }
 
 void Admin::suspendUser(User* user, bool isSuspended)

@@ -6,6 +6,10 @@
 using namespace std;
 
 class User;
+class Transaction;
+class TransactionStructure;
+class UserStructure;
+class Bank;
 
 class Admin : public VirtualUser
 {
@@ -42,7 +46,8 @@ public:
 		const string& newDisplayName,
 		double newBalance,
 		const string& newPhoneNumber,
-		const string& newEmail
+		const string& newEmail,
+		bool isSuspended
 	);
 
 	void suspendUser(User* user, bool isSuspended);

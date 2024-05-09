@@ -9,8 +9,9 @@
 
 using namespace std;
 
-
 class Transaction;
+class TransactionStructure;
+class Bank;
 
 class User : public VirtualUser
 {

@@ -54,11 +54,12 @@ void FileSystemManagement::updateData() {
 	file.open(transactionFile, ios::out);
 	file.close();
 	cout << "a7a 2" << endl;
-	for (const auto& [key, value] : (*Bank::getUsers())) {
-		FileSystemManagement::writeRow(FileSystemManagement::userFile, value.toStringArray());
+	for (User* user : Bank::getUsers()->getUsers())
+	{
+		FileSystemManagement::writeRow(FileSystemManagement::userFile, user->toStringArray());
 	}
-	for (const auto& [key, value] : (*Bank::getAdmins())) {
-		FileSystemManagement::writeRow(FileSystemManagement::userFile, value.toStringArray());
+	for (Admin* admin : (Bank::getUsers()->getAdmins())) {
+		FileSystemManagement::writeRow(FileSystemManagement::userFile, admin->toStringArray());
 	}
 	cout << "a7a 3" << endl;
 	for (Transaction* transaction : Bank::getTransactions()->get()) {
@@ -66,4 +67,3 @@ void FileSystemManagement::updateData() {
 	}
 	cout << "a7a 4" << endl;
 }
-

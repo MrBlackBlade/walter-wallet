@@ -314,7 +314,7 @@ void RegisterFrame::onRegisterClick(wxCommandEvent& event)
 				email,
 				false
 			);
-			MainFrame* mainFrame = new MainFrame(&Bank::getUsers()->at(username), "Heisenbank");
+			MainFrame* mainFrame = new MainFrame(Bank::getUsers()->getUser(username), "Heisenbank");
 			mainFrame->SetClientSize(620, 1000);
 			mainFrame->Center();
 			mainFrame->Show();

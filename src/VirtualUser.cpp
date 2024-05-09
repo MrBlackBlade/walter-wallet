@@ -32,12 +32,12 @@ string VirtualUser::getDisplayName() const { return displayName; }
 string VirtualUser::getUserType() const { return "virtual"; }
 
 
-void VirtualUser::setName(string& name) { this->username = name; }
+void VirtualUser::setName(string name) { this->username = name; }
 
-void VirtualUser::setPassword(string& password) { this->password = password; }
+void VirtualUser::setPassword(string password) { this->password = password; }
 
-void VirtualUser::setPhoneNumber(string& phoneNumber) { this->phoneNumber = phoneNumber; }
+void VirtualUser::setPhoneNumber(string phoneNumber) { this->phoneNumber = phoneNumber; }
 
-void VirtualUser::setEmail(string& email) { this->email = email; }
+void VirtualUser::setEmail(string email) { this->email = email; }
 
-void VirtualUser::setDisplayName(string& name) { this->displayName = name; }
+void VirtualUser::setDisplayName(string name) { this->displayName = name; }

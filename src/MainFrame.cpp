@@ -578,7 +578,7 @@ void MainFrame::onSendClick(wxCommandEvent& event)
 	if (stod(amount) > 0 and stod(amount) < 999999 and stod(amount) <= user->getBalance())
 	{
 
-		user->sendMoney(&Bank::getUsers()->at(reciever), stod(amount));
+		user->sendMoney(Bank::getUsers()->getUser(reciever), stod(amount));
 		repaintBalance();
 
 		sendMoneyPanel->Show();
@@ -623,7 +623,7 @@ void MainFrame::onRequestClick(wxCommandEvent& event)
 
 	if (stod(amount) < 100000)
 	{
-		user->requestMoney(&Bank::getUsers()->at(reciever), stod(amount));
+		user->requestMoney(Bank::getUsers()->getUser(reciever), stod(amount));
 
 		sendMoneyPanel->Show();
 		requestMoneyPanel->Show();

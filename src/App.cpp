@@ -67,11 +67,14 @@ bool App::OnInit() {
 	//registerFrame->Show();
 	//registerFrame->SetIcon(icon);
 
-	AdminFrame* adminFrame = new AdminFrame(&Bank::getAdmins()->at("admin"));
-	adminFrame->SetClientSize(620, 1000);
-	adminFrame->Center();
-	adminFrame->Show();
-	adminFrame->SetIcon(icon);
+	
+
+	cout<<Validation::usernameAvailable("mohab");
+	//AdminFrame* adminFrame = new AdminFrame(Bank::getUsers()->getAdmin("admin"));
+	//adminFrame->SetClientSize(620, 1000);
+	//adminFrame->Center();
+	//adminFrame->Show();
+	//adminFrame->SetIcon(icon);
 	return true;
 }
 
