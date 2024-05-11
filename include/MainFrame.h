@@ -35,11 +35,37 @@ class MainFrame : public wxFrame
 		wxStaticText*	recieverText;
 		wxStaticText*	noRequests;
 
+		// inside editProfile
+		wxStaticText* pfpUsernameText;
+		wxStaticText* pfpPasswordText;
+		wxStaticText* pfpDisplayNameText;
+		wxStaticText* pfpPhoneNumberText;
+		wxStaticText* pfpEmailText;
+
+		wxPanel*	  pfpUsernameInputPanel;
+		wxStaticText* pfpUsernameBox;
+
+		wxPanel*	  pfpPasswordInputPanel;
+		wxTextCtrl*   pfpPasswordBox;
+
+		wxPanel*	  pfpDisplayNameInputPanel;
+		wxTextCtrl*   pfpDisplayNameBox;
+
+		wxPanel*	  pfpPhoneNumberInputPanel;
+		wxTextCtrl*   pfpPhoneNumberBox;
+
+		wxPanel*      pfpEmailInputPanel;
+		wxTextCtrl*   pfpEmailBox;
+
+		wxPanel*      pfpDoneButtonPanel;
+		wxButton*     pfpDoneButton;
+
 		//back buttons
 		wxBitmapButton* requestsPanelBackButton;
 		wxBitmapButton* transactionsBackButton;
 		wxBitmapButton* sendMoneyBackButton;
 		wxBitmapButton* requestMoneyBackButton;
+		wxBitmapButton* pfpPanelBackButton;
 
 		//inside midPanel
 		wxPanel* balanceDisplayPanel;
@@ -58,12 +84,13 @@ class MainFrame : public wxFrame
 		void paintRequestMoneypanel();
 		void paintTransactionsPanel();
 		void paintPendingRequests();
+		void paintProfile();
 
-		//void repaintPendingRequests();
-
-		//Event Handlers
+		//Event Handlers	   
+		void onPfpButtonClick(wxCommandEvent& event);
+		void onPfpDoneClick(wxCommandEvent& event);
 		void onRequestsPanelBackClick(wxCommandEvent& event);
-		//void onEmptyRequestsPanelBackClick(wxCommandEvent& event);
+		void onPfpBackButtonClick(wxCommandEvent& event);
 		void onRequestMoneyButtonClick(wxCommandEvent& event);
 		void onRequestMoneyBackButton(wxCommandEvent& event);
 		void onRequestClick(wxCommandEvent& event);

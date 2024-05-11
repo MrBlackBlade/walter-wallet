@@ -4,6 +4,7 @@
 #include "FileSystemManagement.h"
 #include "RoundedPanel.h"
 #include "Bank.h"
+#include "Validation.h"
 
 MainFrame::MainFrame(User* user, const wxString& title) : wxFrame(nullptr, wxID_ANY, title)
 {
@@ -34,33 +35,15 @@ void MainFrame::paintTopPanel()
 	textDisplayName->SetForegroundColour(*wxWHITE); // Set text color
 	textDisplayName->SetFont(wxFont(wxFontInfo(22).Bold())); // Set font
 
-
-
-
-	/*if (hasRequest == true)
-	{
-		wxBitmap bellBitmap(bellAlertIcon);
-		bellButton = new wxBitmapButton(topPanel, wxID_ANY, bellBitmap, wxPoint(525, 15), wxSize(80, 80), wxBU_AUTODRAW | wxBORDER_NONE);
-		bellButton->SetBackgroundColour(wxColour(52, 100, 117));
-		bellButton->Bind(wxEVT_BUTTON, &MainFrame::onBellButtonClick, this);
-	}
-	else
-	{
-		wxBitmap bellBitmap(bellIcon);
-		bellButton = new wxBitmapButton(topPanel, wxID_ANY, bellBitmap, wxPoint(525, 15), wxSize(80, 80), wxBU_AUTODRAW | wxBORDER_NONE);
-		bellButton->SetBackgroundColour(wxColour(52, 100, 117));
-		bellButton->Bind(wxEVT_BUTTON, &MainFrame::onBellButtonClick, this);
-	}*/
-
 	wxImage pfpIcon(wxT("resources\\profile.png"), wxBITMAP_TYPE_PNG);
 	pfpIcon.Rescale(80, 80, wxIMAGE_QUALITY_HIGH); // Rescale the image to 60x60
 	wxBitmap pfpBitmap(pfpIcon);
 	pfpButton = new wxBitmapButton(topPanel, wxID_ANY, pfpBitmap, wxPoint(15, 15), wxSize(80, 80), wxBU_AUTODRAW | wxBORDER_NONE);
 	pfpButton->SetBackgroundColour(wxColour(52, 100, 117));
 
-	pfpButton->Bind(wxEVT_BUTTON, &MainFrame::onBellButtonClick, this);
 	pfpButton->Bind(wxEVT_ENTER_WINDOW, &MainFrame::onHover, this);
 	pfpButton->Bind(wxEVT_LEAVE_WINDOW, &MainFrame::onLeaveHover, this);
+	pfpButton->Bind(wxEVT_BUTTON, &MainFrame::onPfpButtonClick, this);
 
 	checkRequests();
 
@@ -513,6 +496,112 @@ void MainFrame::paintPendingRequests()
 
 
 }
+void MainFrame::paintProfile()
+{
+	wxImage backIcon(wxString("resources\\back.png"), wxBITMAP_TYPE_PNG);
+	backIcon.Rescale(25, 35, wxIMAGE_QUALITY_HIGH);
+
+	wxBitmap backBitmap(backIcon);
+	pfpPanelBackButton = new wxBitmapButton(balanceDisplayPanel, wxID_ANY, backBitmap, wxPoint(40, 8), wxSize(25, 35), wxBU_AUTODRAW | wxBORDER_NONE);
+	pfpPanelBackButton->SetBackgroundColour(wxColour(52, 100, 117));
+
+	pfpPanelBackButton->Bind(wxEVT_BUTTON, &MainFrame::onPfpBackButtonClick, this);
+	pfpPanelBackButton->Bind(wxEVT_ENTER_WINDOW, &MainFrame::onHover, this);
+	pfpPanelBackButton->Bind(wxEVT_LEAVE_WINDOW, &MainFrame::onLeaveHover, this);
+
+	pfpUsernameInputPanel = new RoundedPanel(midPanel, wxID_ANY, wxPoint(235, 160), wxSize(240, 50), wxALIGN_CENTRE_HORIZONTAL, wxColour(229, 229, 229));
+	pfpUsernameInputPanel->SetBackgroundColour(*wxWHITE);
+
+	pfpPasswordInputPanel = new RoundedPanel(midPanel, wxID_ANY, wxPoint(235, 240), wxSize(240, 50), wxALIGN_CENTRE_HORIZONTAL, wxColour(229, 229, 229));
+	pfpPasswordInputPanel->SetBackgroundColour(*wxWHITE);
+
+	pfpDisplayNameInputPanel = new RoundedPanel(midPanel, wxID_ANY, wxPoint(235, 320), wxSize(240, 50), wxALIGN_CENTRE_HORIZONTAL, wxColour(229, 229, 229));
+	pfpDisplayNameInputPanel->SetBackgroundColour(*wxWHITE);
+
+	pfpPhoneNumberInputPanel = new RoundedPanel(midPanel, wxID_ANY, wxPoint(235, 400), wxSize(240, 50), wxALIGN_CENTRE_HORIZONTAL, wxColour(229, 229, 229));
+	pfpPhoneNumberInputPanel->SetBackgroundColour(*wxWHITE);
+
+
+	pfpUsernameBox = new wxStaticText(pfpUsernameInputPanel, wxID_ANY, user->getUsername(), wxPoint(10, 13), wxSize(220, 30), wxTE_CENTRE | wxBORDER_NONE);
+	pfpUsernameBox->SetBackgroundColour(wxColour(229, 229, 229));
+	pfpUsernameBox->SetForegroundColour(*wxBLACK);
+	pfpUsernameBox->SetFont(wxFont(wxFontInfo(14).Bold()));
+
+	pfpUsernameText = new wxStaticText(midPanel, wxID_ANY, "Username", wxPoint(70, 173), wxSize(-1, -1), wxALIGN_CENTRE_HORIZONTAL);
+	pfpUsernameText->SetBackgroundColour(*wxWHITE);
+	pfpUsernameText->SetForegroundColour(*wxBLACK);
+	pfpUsernameText->SetFont(wxFont(wxFontInfo(14).Bold()));
+
+	pfpUsernameBox->Bind(wxEVT_SET_FOCUS, &MainFrame::onEnterUsername, this);
+	pfpUsernameBox->Bind(wxEVT_KILL_FOCUS, &MainFrame::onLeaveUsername, this);
+
+	pfpPasswordBox = new wxTextCtrl(pfpPasswordInputPanel, wxID_ANY, user->getPassword(), wxPoint(10, 13), wxSize(220, 30), wxTE_CENTRE | wxBORDER_NONE);
+	pfpPasswordBox->SetBackgroundColour(wxColour(229, 229, 229));
+	pfpPasswordBox->SetForegroundColour(wxColour(178, 178, 178));
+	pfpPasswordBox->SetFont(wxFont(wxFontInfo(14).Bold()));
+
+	pfpPasswordText = new wxStaticText(midPanel, wxID_ANY, "Password", wxPoint(70, 253), wxSize(-1, -1), wxALIGN_CENTRE_HORIZONTAL);
+	pfpPasswordText->SetBackgroundColour(*wxWHITE);
+	pfpPasswordText->SetForegroundColour(*wxBLACK);
+	pfpPasswordText->SetFont(wxFont(wxFontInfo(14).Bold()));
+
+	//pfpPasswordBox->Bind(wxEVT_SET_FOCUS, &MainFrame::onEnterPassword, this);
+	//pfpPasswordBox->Bind(wxEVT_KILL_FOCUS, &MainFrame::onLeavePassword, this);
+
+	pfpDisplayNameBox = new wxTextCtrl(pfpDisplayNameInputPanel, wxID_ANY, user->getDisplayName() , wxPoint(10, 13), wxSize(220, 30), wxTE_CENTRE | wxBORDER_NONE);
+	pfpDisplayNameBox->SetBackgroundColour(wxColour(229, 229, 229));
+	pfpDisplayNameBox->SetForegroundColour(wxColour(178, 178, 178));
+	pfpDisplayNameBox->SetFont(wxFont(wxFontInfo(14).Bold()));
+
+	pfpDisplayNameText = new wxStaticText(midPanel, wxID_ANY, "Display Name", wxPoint(70, 333), wxSize(-1, -1), wxALIGN_CENTRE_HORIZONTAL);
+	pfpDisplayNameText->SetBackgroundColour(*wxWHITE);
+	pfpDisplayNameText->SetForegroundColour(*wxBLACK);
+	pfpDisplayNameText->SetFont(wxFont(wxFontInfo(14).Bold()));
+
+	//displayNameBox->Bind(wxEVT_SET_FOCUS, &MainFrame::onEnterDisplayName, this);
+	//displayNameBox->Bind(wxEVT_KILL_FOCUS, &MainFrame::onLeaveDisplayName, this);
+
+	pfpPhoneNumberBox = new wxTextCtrl(pfpPhoneNumberInputPanel, wxID_ANY, user->getPhoneNumber(), wxPoint(10, 13), wxSize(220, 30), wxTE_CENTRE | wxBORDER_NONE);
+	pfpPhoneNumberBox->SetBackgroundColour(wxColour(229, 229, 229));
+	pfpPhoneNumberBox->SetForegroundColour(wxColour(178, 178, 178));
+	pfpPhoneNumberBox->SetFont(wxFont(wxFontInfo(14).Bold()));
+
+	pfpPhoneNumberText = new wxStaticText(midPanel, wxID_ANY, "Phone Number", wxPoint(70, 413), wxSize(-1, -1), wxALIGN_CENTRE_HORIZONTAL);
+	pfpPhoneNumberText->SetBackgroundColour(*wxWHITE);
+	pfpPhoneNumberText->SetForegroundColour(*wxBLACK);
+	pfpPhoneNumberText->SetFont(wxFont(wxFontInfo(14).Bold()));
+
+	//phoneNumberBox->Bind(wxEVT_SET_FOCUS, &MainFrame::onEnterPhoneNumber, this);
+	//phoneNumberBox->Bind(wxEVT_KILL_FOCUS, &MainFrame::onLeavePhoneNumber, this);
+
+	pfpEmailBox = new wxTextCtrl(pfpEmailInputPanel, wxID_ANY, user->getEmail(), wxPoint(10, 13), wxSize(220, 30), wxTE_CENTRE | wxBORDER_NONE);
+	pfpEmailBox->SetBackgroundColour(wxColour(229, 229, 229));
+	pfpEmailBox->SetForegroundColour(wxColour(178, 178, 178));
+	pfpEmailBox->SetFont(wxFont(wxFontInfo(14).Bold()));
+
+	pfpEmailText = new wxStaticText(midPanel, wxID_ANY, "Email", wxPoint(70, 493), wxSize(-1, -1), wxALIGN_CENTRE_HORIZONTAL);
+	pfpEmailText->SetBackgroundColour(*wxWHITE);
+	pfpEmailText->SetForegroundColour(*wxBLACK);
+	pfpEmailText->SetFont(wxFont(wxFontInfo(14).Bold()));
+
+
+	wxPanel* doneButtonPanel = new RoundedPanel(midPanel, wxID_ANY, wxPoint(185, 660), wxSize(180, 50), wxALIGN_CENTRE_HORIZONTAL, wxColour(52, 100, 117));
+	doneButtonPanel->SetBackgroundColour(*wxWHITE);
+
+	wxButton* doneButton = new wxButton(doneButtonPanel, wxID_ANY, "Done", wxPoint(10, 5), wxSize(160, 40), wxBORDER_NONE);
+	doneButton->SetBackgroundColour(wxColour(52, 100, 117));
+	doneButton->SetForegroundColour(*wxWHITE);
+	doneButton->SetFont(wxFont(wxFontInfo(18).Bold()));
+
+	doneButton->Bind(wxEVT_BUTTON, &MainFrame::onPfpDoneClick, this);
+	doneButton->Bind(wxEVT_ENTER_WINDOW, &MainFrame::onHover, this);
+	doneButton->Bind(wxEVT_LEAVE_WINDOW, &MainFrame::onLeaveHover, this);
+
+	sendMoneyPanel->Hide();
+	requestMoneyPanel->Hide();
+	transactionButtonPanel->Hide();
+	rechargeBalancePanel->Hide();
+}
 
 void MainFrame::checkRequests()
 {
@@ -613,6 +702,92 @@ void MainFrame::onRequestMoneyButtonClick(wxCommandEvent& event)
 	paintRequestMoneypanel();
 }
 
+void MainFrame::onPfpButtonClick(wxCommandEvent& event)
+{
+	paintProfile();
+}
+
+void MainFrame::onPfpDoneClick(wxCommandEvent& event)
+{
+	string error = "Invalid form parameters\n\n";
+
+	string password = string(pfpPasswordBox->GetValue().mb_str());
+	string displayName = string(pfpDisplayNameBox->GetValue().mb_str());
+	string phoneNumber = string(pfpPhoneNumberBox->GetValue().mb_str());
+	string email = string(pfpEmailBox->GetValue().mb_str());
+
+		if
+			(
+				   Validation::displayNameValid(displayName)
+				&& Validation::passwordValid(password)
+				&& Validation::phoneNumberValidFormat(phoneNumber)
+				&& Validation::emailValidFormat(email)
+			)
+		{
+			user->editProfile
+			(
+				displayName,
+				password,
+				phoneNumber,
+				email
+			);
+
+			wxMessageBox("User updated successfully");
+
+			paintMidPanel();
+
+			pfpUsernameInputPanel->Hide();
+			pfpPasswordInputPanel->Hide();
+			pfpDisplayNameInputPanel->Hide();
+			pfpPhoneNumberInputPanel->Hide();
+			pfpPanelBackButton->Hide();
+			
+			pfpUsernameText->Hide();
+			pfpPasswordText->Hide();
+			pfpDisplayNameText->Hide();
+			pfpEmailText->Hide();
+		}
+		else
+		{
+			if (!Validation::passwordValid(password)) {
+				error += "Password Invalid:\n";
+				if (!Validation::passwordValidLength(password)) {
+					error += "Length must be 8-32 characters.\n";
+				}
+				if (!Validation::passwordValidCase(password)) {
+					error += "Must contain at least one uppercase and one lowercase character.\n";
+				}
+				if (!Validation::passwordContainsNumbers(password)) {
+					error += "Must contain at least one number.\n";
+				}
+				if (!Validation::passwordContainsSpecialCharacters(password)) {
+					error += "Must contain at least one special character.\n";
+				}
+				if (!Validation::passwordValidCharacterSet(password)) {
+					error += "Only charecters [Aa-Zz], digits[0-9] and [~!@#$%^&*:;()<>_-] are allowed\n";
+				}
+				error += "\n";
+			}
+			if (!Validation::displayNameValid(displayName)) {
+				error += "Display Name Invalid:\n";
+				error += "Only charecters [Aa-Zz] are allowed\n";
+				error += "\n";
+			}
+			if (!Validation::phoneNumberValidFormat(phoneNumber)) {
+				error += "Phone Number Invalid:\n";
+				error += "Must be 11 digits in the format: 01XXXXXXXXX \n";
+				error += "\n";
+			}
+			if (!Validation::emailValidFormat(email)) {
+				error += "Email Invalid:\n";
+				error += "Must be in the format: example@example.example \n";
+				error += "\n";
+			}
+			
+			wxMessageBox(error, "Invalid");
+		}
+}
+
 void MainFrame::onRequestClick(wxCommandEvent& event)
 {
 	wxString recieverString((recieverNameBox->GetValue()));
@@ -711,6 +886,22 @@ void MainFrame::onRequestsPanelBackClick(wxCommandEvent& event)
 	requestMoneyPanel->Show();
 	transactionButtonPanel->Show();
 	rechargeBalancePanel->Show();
+}
+
+void MainFrame::onPfpBackButtonClick(wxCommandEvent& event)
+{
+	paintMidPanel();
+
+	pfpUsernameInputPanel->Hide();
+	pfpPasswordInputPanel->Hide();
+	pfpDisplayNameInputPanel->Hide();
+	pfpPhoneNumberInputPanel->Hide();
+	pfpPanelBackButton->Hide();
+
+	pfpUsernameText->Hide();
+	pfpPasswordText->Hide();
+	pfpDisplayNameText->Hide();
+	pfpEmailText->Hide();
 }
 
 //copious amounts of suffering
