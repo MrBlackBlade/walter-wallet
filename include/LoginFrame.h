@@ -38,6 +38,6 @@ class LoginFrame : public wxFrame {
 
 	public:
 
-		LoginFrame(const wxString& title);
+		LoginFrame();
 
 };

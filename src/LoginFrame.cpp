@@ -1,9 +1,11 @@
 #include "LoginFrame.h"
 #include "RoundedPanel.h"
 #include "RegisterFrame.h"
+#include "SHA256.h"
 
-LoginFrame::LoginFrame(const wxString& title) : wxFrame(nullptr, wxID_ANY, title)
+LoginFrame::LoginFrame() : wxFrame(nullptr, wxID_ANY, "HeisenBank")
 {
+	wxWindow::SetWindowStyle(wxDEFAULT_FRAME_STYLE & ~wxRESIZE_BORDER & ~wxMAXIMIZE_BOX);
 	mainPanel = new wxPanel(this);
 	mainPanel->SetBackgroundColour(wxColour(0, 125, 141));
 
@@ -161,18 +163,44 @@ void LoginFrame::onClose(wxCloseEvent& event)
 
 void LoginFrame::onLoginClick(wxCommandEvent& event)
 {
-	cout << "u*y^1" << endl;
+	string username = string(usernameBox->GetValue().mb_str());
+	string password = string(passwordBox->GetValue().mb_str());
+	
+	if (!Validation::usernameAvailable(username)) {
+		if (Bank::getUsers()->at(username).getPassword() == SHA256::toSHA256(password)) {
+			MainFrame* mainFrame = new MainFrame(&Bank::getUsers()->at(username));
+			mainFrame->SetClientSize(620, 1000);
+			mainFrame->Center();
+			mainFrame->Show();
+			mainFrame->SetIcon(GetIcon());
+			this->Destroy();
+		}
+		else if (Bank::getAdmins()->at(username).getPassword() == SHA256::toSHA256(password)) {
+			/*MainFrame* mainFrame = new MainFrame(&Bank::getUsers()->at(username));
+			mainFrame->SetClientSize(620, 1000);
+			mainFrame->Center();
+			mainFrame->Show();
+			mainFrame->SetIcon(GetIcon());*/
+			this->Destroy();
+		} 
+		else {
+			wxMessageBox("Username or password incorrect", "Error", wxICON_ERROR | wxOK);
+		}
+	}
+	else {
+		wxMessageBox("User does not exist", "Error", wxICON_ERROR | wxOK);
+	}
 }
 
 void LoginFrame::onRegisterClick(wxCommandEvent& event)
 {
-	wxIcon icon(wxT("resources\\walterWallet.ico"), wxBITMAP_TYPE_ICO);
+	//wxIcon icon(wxT("resources\\walterWallet.ico"), wxBITMAP_TYPE_ICO);
 
-	RegisterFrame* registerFrame = new RegisterFrame(this, "Register");
+	RegisterFrame* registerFrame = new RegisterFrame(this);
 	registerFrame->SetClientSize(620, 1000);
 	registerFrame->Center();
 	registerFrame->Show();
-	registerFrame->SetIcon(icon);
+	registerFrame->SetIcon(GetIcon());
 
 	this->Hide();
 }

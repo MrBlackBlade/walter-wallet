@@ -67,7 +67,7 @@ class RegisterFrame : public wxFrame
 		void paintMidPanel();
 
 	public:
-		RegisterFrame(LoginFrame* loginFrame, const wxString& title);
+		RegisterFrame(LoginFrame* loginFrame);
 
 };
 

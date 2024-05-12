@@ -1,5 +1,6 @@
-user,3m7md,B2@letM7MDDD,Aam Moasmad,4800.000000,01211111122,m7md@gmail.com,true
-user,MMP,M@zen331,Mazen,20000.000000,01111111111,mmp@gmail.com,false
-user,TheTwo2,Two2@Too,The Second,4300.000000,01200040886,qemar@gmail.com,false
-user,deleteduser,deleteduser,Deleted User,0.000000,00000000000,deleteduser@gmail.com,true
-admin,admin,admin,Admin,01500000000,admin@gmail.com
+user,deleteduser,82c063369c23c39b2cddfee4bb757eb01b0a4ab08e2e6728286d689342c750a0,Deleted User,0.000000,00000000000,deleteduser@gmail.com,true
+user,TheOne1,355bce525bdb23aa87150720e1561f7b08ed9ee2640a5150a316da2de4c3690a,The One,4800.000000,01211466100,one@gmail.com,false
+user,3m7md,51b1d28aaa922156261692f048b9a4b327298e762a248564c88c5190d235a5ac,3am Mohamed El Ba2al,5000.000000,01355555555,m7md@gmail.com,false
+user,MazinMohamedPeter,6e7829acd572d0c2ff9004e57506ee345dea81f434873a4f13005e74e0098bbf,MMP,200.000000,01284759338,mmp@gamil.com,false
+user,MrB,c3c309fd072628b7c5e93c4aa7a4db0956d43deebf2d070b2bf20a254e8e79f3,MrBlackBlade,20000.000000,01200440887,mrb@gmail.com,false
+admin,admin,8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918,Admin,01500000000,admin@gmail.com
