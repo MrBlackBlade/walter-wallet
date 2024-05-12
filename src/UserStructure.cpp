@@ -9,6 +9,7 @@ void UserStructure::insert(Admin* admin)
 	cout << endl;*/
 	adminsByNameOrdered.insert(make_pair(admin->getUsername(), &(admins.back())));
 	adminsByName.insert(make_pair(admin->getUsername(), &(admins.back())));
+	adminsByName[admin->getUsername()] = &(admins.back());
 }
 
 Admin* UserStructure::getAdmin(string username)
@@ -34,12 +35,18 @@ vector<Admin*> UserStructure::getAdmins()
 void UserStructure::insert(User* user)
 {
 	users.push_back(*user);
-	/*for (string e : transaction.toStringArray()) {
-		cout << e << "--";
-	}
-	cout << endl;*/
-	usersByNameOrdered.insert(make_pair(user->getUsername(), &(users.back())));
-	usersByName.insert(make_pair(user->getUsername(), &(users.back())));
+
+	usersByNameOrdered.insert(
+		make_pair(
+			user->getUsername(), &( users.back() )
+		)
+	);
+	usersByName.insert(
+		make_pair(
+			user->getUsername(), &( users.back() )
+		)
+	);
+	usersByName[user->getUsername()] = &(users.back());
 }
 
 void UserStructure::erase(Admin* admin)

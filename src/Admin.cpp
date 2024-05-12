@@ -28,8 +28,8 @@ void Admin::addUser
 	bool isSuspended
 )
 {
-	User user = User(name, password, displayName, balance, phoneNumber, email, isSuspended);
-	Bank::getUsers()->insert(&user);
+	User* user = new User(name, password, displayName, balance, phoneNumber, email, isSuspended);
+	Bank::getUsers()->insert(user);
 }
 
 void Admin::deleteUser(User* user)

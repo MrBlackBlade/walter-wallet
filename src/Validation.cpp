@@ -14,7 +14,7 @@ bool Validation::usernameValid(string name)
 }
 bool Validation::usernameAvailable(string name)
 {
-	return !(userExists(name) || adminExists(name));
+	return !(userExists(name) or adminExists(name));
 }
 bool Validation::usernameValidLength(string name)
 {

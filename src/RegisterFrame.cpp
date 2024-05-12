@@ -10,7 +10,7 @@ RegisterFrame::RegisterFrame(LoginFrame* loginFrame) : wxFrame(nullptr, wxID_ANY
 
 	mainPanel = new wxPanel(this);
 	mainPanel->SetBackgroundColour(wxColour(0, 125, 141));
-	//Bind(wxEVT_CLOSE_WINDOW, &MainFrame::onClose, this);
+    Bind(wxEVT_CLOSE_WINDOW, &RegisterFrame::onClose, this);
 	paintTopPanel();
 	paintMidPanel();
 }
@@ -389,13 +389,7 @@ void RegisterFrame::onLeaveHover(wxMouseEvent& event) {
 
 void RegisterFrame::onClose(wxCloseEvent& event)
 {
-	if (wxMessageBox(wxT("Do You want to Close the Application?"),
-		wxT("Please confirm"),
-		wxICON_QUESTION | wxYES_NO) == wxYES)
-	{
-		FileSystemManagement::updateData();
-		event.Skip();
-	}
+	loginFrame->Show();
 
-	//event.Skip();
+	event.Skip();
 }

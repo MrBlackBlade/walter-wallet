@@ -9,7 +9,7 @@ LoginFrame::LoginFrame() : wxFrame(nullptr, wxID_ANY, "HeisenBank")
 	wxWindow::SetWindowStyle(wxDEFAULT_FRAME_STYLE & ~wxRESIZE_BORDER & ~wxMAXIMIZE_BOX);
 	mainPanel = new wxPanel(this);
 	mainPanel->SetBackgroundColour(wxColour(0, 125, 141));
-
+	Bind(wxEVT_CLOSE_WINDOW, &LoginFrame::onClose, this);
 	
 	paintTopPanel();
 	paintMidPanel();
