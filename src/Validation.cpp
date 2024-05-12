@@ -14,17 +14,7 @@ bool Validation::usernameValid(string name)
 }
 bool Validation::usernameAvailable(string name)
 {
-	bool userExists = false;
-
-	if (Bank::getUsers()->getUser(name) != 0) {
-		userExists = true;
-	}
-	if (Bank::getUsers()->getAdmin(name) != 0) {
-		userExists = true;
-	}
-
-	return !userExists;
-
+	return !(userExists(name) || adminExists(name));
 }
 bool Validation::usernameValidLength(string name)
 {
@@ -39,6 +29,28 @@ bool Validation::usernameValidCharacterSet(string name)
 		return true;
 	else
 		return false;
+}
+
+bool Validation::userExists(string name)
+{
+	bool userExists = false;
+
+	if (Bank::getUsers()->getUser(name) != 0) {
+		userExists = true;
+	}
+
+	return userExists;
+}
+
+bool Validation::adminExists(string name)
+{
+	bool userExists = false;
+
+	if (Bank::getUsers()->getAdmin(name) != 0) {
+		userExists = true;
+	}
+
+	return userExists;
 }
 
 

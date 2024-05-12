@@ -507,7 +507,10 @@ void MainFrame::paintPendingRequests()
 		noRequests->SetBackgroundColour(*wxWHITE);
 		noRequests->SetFont(wxFont(wxFontInfo(22)));
 	}
-
+	sendMoneyPanel->Hide();
+	requestMoneyPanel->Hide();
+	transactionButtonPanel->Hide();
+	rechargeBalancePanel->Hide();
 
 }
 void MainFrame::paintRechargeBalancePanel()

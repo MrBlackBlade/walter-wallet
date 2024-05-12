@@ -276,7 +276,6 @@ void AdminFrame::paintUsersPanel()
 				(
 					wxEVT_COMMAND_BUTTON_CLICKED, [=](wxCommandEvent& evt)
 					{
-						cout << "zby\n";
 						admin->deleteUser(user);
 						MSWClickButtonIfPossible(usersBackButton);
 						paintUsersPanel();

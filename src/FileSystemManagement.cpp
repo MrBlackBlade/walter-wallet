@@ -48,12 +48,10 @@ void FileSystemManagement::writeRow(string fileName, vector<string> row)
 }
 
 void FileSystemManagement::updateData() {
-	cout << "a7a" << endl;
 	file.open(userFile, ios::out);
 	file.close();
 	file.open(transactionFile, ios::out);
 	file.close();
-	cout << "a7a 2" << endl;
 	for (User* user : Bank::getUsers()->getUsers())
 	{
 		FileSystemManagement::writeRow(FileSystemManagement::userFile, user->toStringArray());
@@ -61,9 +59,7 @@ void FileSystemManagement::updateData() {
 	for (Admin* admin : (Bank::getUsers()->getAdmins())) {
 		FileSystemManagement::writeRow(FileSystemManagement::userFile, admin->toStringArray());
 	}
-	cout << "a7a 3" << endl;
 	for (Transaction* transaction : Bank::getTransactions()->get()) {
 		FileSystemManagement::writeRow(FileSystemManagement::transactionFile, transaction->toStringArray());
 	}
-	cout << "a7a 4" << endl;
 }

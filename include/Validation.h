@@ -12,6 +12,9 @@ public:
 	static bool usernameValidLength(string name);
 	static bool usernameValidCharacterSet(string name);
 
+	static bool userExists(string name);
+	static bool adminExists(string name);
+
 	static bool passwordValid(string password);
 	static bool passwordValidLength(string password);
 	static bool passwordValidCharacterSet(string password);

@@ -1,6 +1,7 @@
 #include "LoginFrame.h"
 #include "RoundedPanel.h"
 #include "RegisterFrame.h"
+#include "AdminFrame.h"
 #include "SHA256.h"
 
 LoginFrame::LoginFrame() : wxFrame(nullptr, wxID_ANY, "HeisenBank")
@@ -167,24 +168,33 @@ void LoginFrame::onLoginClick(wxCommandEvent& event)
 	string password = string(passwordBox->GetValue().mb_str());
 	
 	if (!Validation::usernameAvailable(username)) {
-		if (Bank::getUsers()->at(username).getPassword() == SHA256::toSHA256(password)) {
-			MainFrame* mainFrame = new MainFrame(&Bank::getUsers()->at(username));
-			mainFrame->SetClientSize(620, 1000);
-			mainFrame->Center();
-			mainFrame->Show();
-			mainFrame->SetIcon(GetIcon());
-			this->Destroy();
+		if (Validation::userExists(username))
+		{
+			if (Bank::getUsers()->getUser(username)->getPassword() == SHA256::toSHA256(password)) {
+				MainFrame* mainFrame = new MainFrame(Bank::getUsers()->getUser(username));
+				mainFrame->SetClientSize(620, 1000);
+				mainFrame->Center();
+				mainFrame->Show();
+				mainFrame->SetIcon(GetIcon());
+				this->Destroy();
+			}
+			else {
+				wxMessageBox("Username or password incorrect", "Error", wxICON_ERROR | wxOK);
+			}
 		}
-		else if (Bank::getAdmins()->at(username).getPassword() == SHA256::toSHA256(password)) {
-			/*MainFrame* mainFrame = new MainFrame(&Bank::getUsers()->at(username));
-			mainFrame->SetClientSize(620, 1000);
-			mainFrame->Center();
-			mainFrame->Show();
-			mainFrame->SetIcon(GetIcon());*/
-			this->Destroy();
-		} 
-		else {
-			wxMessageBox("Username or password incorrect", "Error", wxICON_ERROR | wxOK);
+		else if (Validation::adminExists(username))
+		{
+			if (Bank::getUsers()->getAdmin(username)->getPassword() == SHA256::toSHA256(password)) {
+				AdminFrame* adminFrame = new AdminFrame(Bank::getUsers()->getAdmin(username));
+				adminFrame->SetClientSize(620, 1000);
+				adminFrame->Center();
+				adminFrame->Show();
+				adminFrame->SetIcon(GetIcon());
+				this->Destroy();
+			}
+			else {
+				wxMessageBox("Username or password incorrect", "Error", wxICON_ERROR | wxOK);
+			}
 		}
 	}
 	else {
