@@ -52,4 +52,6 @@ public:
 
 	vector<string> toStringArray() const;
 
+	bool operator==(const User& user);
+
 };

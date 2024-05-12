@@ -83,8 +83,8 @@ void UserStructure::modifyUser(User* user, User newUser)
 	user->setPhoneNumber(newUser.getPhoneNumber());
 	user->setSuspended(newUser.getSuspended());
 	
-	usersByNameOrdered.insert(make_pair(user->getUsername(), &(users.back())));
-	usersByName.insert(make_pair(user->getUsername(), &(users.back())));
+	usersByNameOrdered.insert(make_pair(user->getUsername(), user));
+	usersByName.insert(make_pair(user->getUsername(), user));
 }
 
 User* UserStructure::getUser(string username)

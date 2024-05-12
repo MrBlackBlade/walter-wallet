@@ -49,17 +49,17 @@ bool App::OnInit() {
 	//	//tans->getSender();
 	//	cout << endl;
 	//}
-	//LoginFrame* loginFrame = new LoginFrame("HeisenBank");
-	//loginFrame->SetClientSize(620, 1000);
-	//loginFrame->Center();
-	//loginFrame->Show();
-	//loginFrame->SetIcon(icon);
+	/*LoginFrame* loginFrame = new LoginFrame("HeisenBank");
+	loginFrame->SetClientSize(620, 1000);
+	loginFrame->Center();
+	loginFrame->Show();
+	loginFrame->SetIcon(icon);*/
 
-	//MainFrame* mainFrame = new MainFrame(&Bank::getUsers()->at("TheOne1"), "Heisenbank");
-	//mainFrame->SetClientSize(620, 1000);
-	//mainFrame->Center();
-	//mainFrame->Show();
-	//mainFrame->SetIcon(icon);
+	/*MainFrame* mainFrame = new MainFrame(Bank::getUsers()->getUser("3m7md"), "Heisenbank");
+	mainFrame->SetClientSize(620, 1000);
+	mainFrame->Center();
+	mainFrame->Show();
+	mainFrame->SetIcon(icon);*/
 
 	//RegisterFrame* registerFrame = new RegisterFrame("HeisenBank");
 	//registerFrame->SetClientSize(620, 1000);
@@ -69,12 +69,12 @@ bool App::OnInit() {
 
 	
 
-	cout<<Validation::usernameAvailable("mohab");
-	//AdminFrame* adminFrame = new AdminFrame(Bank::getUsers()->getAdmin("admin"));
-	//adminFrame->SetClientSize(620, 1000);
-	//adminFrame->Center();
-	//adminFrame->Show();
-	//adminFrame->SetIcon(icon);
+	//cout<<Validation::usernameAvailable("mohab");
+	AdminFrame* adminFrame = new AdminFrame(Bank::getUsers()->getAdmin("admin"));
+	adminFrame->SetClientSize(620, 1000);
+	adminFrame->Center();
+	adminFrame->Show();
+	adminFrame->SetIcon(icon);
 	return true;
 }
 

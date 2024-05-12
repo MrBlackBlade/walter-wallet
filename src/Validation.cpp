@@ -16,24 +16,11 @@ bool Validation::usernameAvailable(string name)
 {
 	bool userExists = false;
 
-	try
-	{
-		Bank::getUsers()->getUser(name);
+	if (Bank::getUsers()->getUser(name) != 0) {
 		userExists = true;
 	}
-	catch (const std::exception&)
-	{
-		//sa7bety
-	}
-
-	try
-	{
-		Bank::getUsers()->getAdmin(name);
+	if (Bank::getUsers()->getAdmin(name) != 0) {
 		userExists = true;
-	}
-	catch (const std::exception&)
-	{
-		//sa7bety
 	}
 
 	return !userExists;

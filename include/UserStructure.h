@@ -14,11 +14,11 @@ class User;
 class UserStructure
 {
 private:
-	vector<Admin> admins;
+	list<Admin> admins;
 	map<string, Admin*> adminsByNameOrdered;
 	unordered_map<string, Admin*> adminsByName;
 
-	vector<User> users;
+	list<User> users;
 	map<string, User*> usersByNameOrdered;
 	unordered_map<string, User*> usersByName;
 

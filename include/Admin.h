@@ -54,4 +54,6 @@ public:
 
 	vector<string> toStringArray() const;
 
+	bool operator==(const Admin& admin);
+
 };

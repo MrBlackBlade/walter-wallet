@@ -74,3 +74,13 @@ vector<string> User::toStringArray() const
 		(getSuspended() ? "true" : "false")
 	};
 }
+
+bool User::operator==(const User& user)
+{
+	if (this == &user) {
+		return true;
+	}
+	else {
+		return false;
+	}
+}

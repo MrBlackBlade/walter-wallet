@@ -77,3 +77,13 @@ vector<string> Admin::toStringArray() const
 		getEmail()
 	};
 }
+
+bool Admin::operator==(const Admin& admin)
+{
+	if (this == &admin) {
+		return true;
+	}
+	else {
+		return false;
+	}
+}
