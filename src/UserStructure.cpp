@@ -87,6 +87,22 @@ void UserStructure::modifyUser(User* user, User newUser)
 	usersByName.insert(make_pair(user->getUsername(), user));
 }
 
+void UserStructure::modifyUser(User* user, const string username, const string displayName, double balance, const string phoneNumber, const string email, bool isSuspend)
+{
+	usersByName.erase(user->getUsername());
+	usersByNameOrdered.erase(user->getUsername());
+
+	user->setBalance(balance);
+	user->setDisplayName(displayName);
+	user->setEmail(email);
+	user->setName(username);
+	user->setPhoneNumber(phoneNumber);
+	user->setSuspended(isSuspend);
+
+	usersByNameOrdered.insert(make_pair(user->getUsername(), user));
+	usersByName.insert(make_pair(user->getUsername(), user));
+}
+
 User* UserStructure::getUser(string username)
 {
 	return usersByName[username];

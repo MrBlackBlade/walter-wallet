@@ -59,7 +59,18 @@ void Admin::editUser(
 	User newUser = User(newUsername, newPassword, newDisplayName, newBalance, newPhoneNumber, newEmail, isSuspended);
 	Bank::getUsers()->modifyUser(user, newUser);
 }
-
+void Admin::editUser(
+	User* user,
+	const string& newUsername,
+	const string& newDisplayName,
+	double		  newBalance,
+	const string& newPhoneNumber,
+	const string& newEmail,
+	bool isSuspended
+)
+{
+	Bank::getUsers()->modifyUser(user, newUsername, newDisplayName, newBalance, newPhoneNumber, newEmail, isSuspended);
+}
 void Admin::suspendUser(User* user, bool isSuspended)
 {
 	user->setSuspended(isSuspended);

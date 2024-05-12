@@ -50,6 +50,16 @@ public:
 		bool isSuspended
 	);
 
+	void editUser(
+		User* user,
+		const string& newUsername,
+		const string& newDisplayName,
+		double newBalance,
+		const string& newPhoneNumber,
+		const string& newEmail,
+		bool isSuspended
+	);
+
 	void suspendUser(User* user, bool isSuspended);
 
 	vector<string> toStringArray() const;

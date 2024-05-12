@@ -12,7 +12,7 @@ class EditAdminFrame : public wxFrame
 {
 private:
 
-	User* editUser;
+	User* user;
 	AdminFrame* adminFrame;
 
 
@@ -69,6 +69,6 @@ private:
 	void paintMidPanel();
 
 public:
-	EditAdminFrame(User* editUser, AdminFrame* adminFrame);
+	EditAdminFrame(User* user, AdminFrame* adminFrame);
 };
 

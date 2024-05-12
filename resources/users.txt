@@ -1,5 +1,5 @@
-user,3m7md,b2al,3am Mohamed El Ba2al,5000.000000,01355555555,m7md@gmail.com,false
-user,MazinMohamedPeter,mmp,MMP,200.000000,01284759338,mmp@gamil.com,false
-user,TheTwo2,Two2@Too,The Second,3900.000000,01200040886,qemar@gmail.com,false
+user,3m7md,B2@letM7MDDD,Aam Moasmad,4800.000000,01211111122,m7md@gmail.com,false
+user,MMP,M@zen331,Mazen,20000.000000,01111111111,mmp@gmail.com,false
+user,TheTwo2,Two2@Too,The Second,4300.000000,01200040886,qemar@gmail.com,false
 user,deleteduser,deleteduser,Deleted User,0.000000,00000000000,deleteduser@gmail.com,true
 admin,admin,admin,Admin,01500000000,admin@gmail.com

@@ -31,7 +31,7 @@ void MainFrame::paintTopPanel()
 	textHALLO->SetForegroundColour(*wxWHITE);
 	textHALLO->SetFont(wxFont(wxFontInfo(18)));
 
-	wxStaticText* textDisplayName = new wxStaticText(topPanel, wxID_ANY, (*user).getDisplayName(), wxPoint(100, 55), wxSize(420, 80), wxALIGN_CENTRE_HORIZONTAL);
+	textDisplayName = new wxStaticText(topPanel, wxID_ANY, (*user).getDisplayName(), wxPoint(100, 55), wxSize(420, 80), wxALIGN_CENTRE_HORIZONTAL);
 	textDisplayName->SetForegroundColour(*wxWHITE); // Set text color
 	textDisplayName->SetFont(wxFont(wxFontInfo(22).Bold())); // Set font
 
@@ -521,8 +521,10 @@ void MainFrame::paintProfile()
 	pfpPhoneNumberInputPanel = new RoundedPanel(midPanel, wxID_ANY, wxPoint(235, 400), wxSize(240, 50), wxALIGN_CENTRE_HORIZONTAL, wxColour(229, 229, 229));
 	pfpPhoneNumberInputPanel->SetBackgroundColour(*wxWHITE);
 
+	pfpEmailInputPanel = new RoundedPanel(midPanel, wxID_ANY, wxPoint(235, 480), wxSize(240, 50), wxALIGN_CENTRE_HORIZONTAL, wxColour(229, 229, 229));
+	pfpEmailInputPanel->SetBackgroundColour(*wxWHITE);
 
-	pfpUsernameBox = new wxStaticText(pfpUsernameInputPanel, wxID_ANY, user->getUsername(), wxPoint(10, 13), wxSize(220, 30), wxTE_CENTRE | wxBORDER_NONE);
+	pfpUsernameBox = new wxTextCtrl(pfpUsernameInputPanel, wxID_ANY, user->getUsername(), wxPoint(10, 13), wxSize(220, 30), wxTE_CENTRE | wxBORDER_NONE);
 	pfpUsernameBox->SetBackgroundColour(wxColour(229, 229, 229));
 	pfpUsernameBox->SetForegroundColour(*wxBLACK);
 	pfpUsernameBox->SetFont(wxFont(wxFontInfo(14).Bold()));
@@ -537,7 +539,7 @@ void MainFrame::paintProfile()
 
 	pfpPasswordBox = new wxTextCtrl(pfpPasswordInputPanel, wxID_ANY, user->getPassword(), wxPoint(10, 13), wxSize(220, 30), wxTE_CENTRE | wxBORDER_NONE);
 	pfpPasswordBox->SetBackgroundColour(wxColour(229, 229, 229));
-	pfpPasswordBox->SetForegroundColour(wxColour(178, 178, 178));
+	pfpPasswordBox->SetForegroundColour(*wxBLACK);
 	pfpPasswordBox->SetFont(wxFont(wxFontInfo(14).Bold()));
 
 	pfpPasswordText = new wxStaticText(midPanel, wxID_ANY, "Password", wxPoint(70, 253), wxSize(-1, -1), wxALIGN_CENTRE_HORIZONTAL);
@@ -550,7 +552,7 @@ void MainFrame::paintProfile()
 
 	pfpDisplayNameBox = new wxTextCtrl(pfpDisplayNameInputPanel, wxID_ANY, user->getDisplayName() , wxPoint(10, 13), wxSize(220, 30), wxTE_CENTRE | wxBORDER_NONE);
 	pfpDisplayNameBox->SetBackgroundColour(wxColour(229, 229, 229));
-	pfpDisplayNameBox->SetForegroundColour(wxColour(178, 178, 178));
+	pfpDisplayNameBox->SetForegroundColour(*wxBLACK);
 	pfpDisplayNameBox->SetFont(wxFont(wxFontInfo(14).Bold()));
 
 	pfpDisplayNameText = new wxStaticText(midPanel, wxID_ANY, "Display Name", wxPoint(70, 333), wxSize(-1, -1), wxALIGN_CENTRE_HORIZONTAL);
@@ -563,7 +565,7 @@ void MainFrame::paintProfile()
 
 	pfpPhoneNumberBox = new wxTextCtrl(pfpPhoneNumberInputPanel, wxID_ANY, user->getPhoneNumber(), wxPoint(10, 13), wxSize(220, 30), wxTE_CENTRE | wxBORDER_NONE);
 	pfpPhoneNumberBox->SetBackgroundColour(wxColour(229, 229, 229));
-	pfpPhoneNumberBox->SetForegroundColour(wxColour(178, 178, 178));
+	pfpPhoneNumberBox->SetForegroundColour(*wxBLACK);
 	pfpPhoneNumberBox->SetFont(wxFont(wxFontInfo(14).Bold()));
 
 	pfpPhoneNumberText = new wxStaticText(midPanel, wxID_ANY, "Phone Number", wxPoint(70, 413), wxSize(-1, -1), wxALIGN_CENTRE_HORIZONTAL);
@@ -576,7 +578,7 @@ void MainFrame::paintProfile()
 
 	pfpEmailBox = new wxTextCtrl(pfpEmailInputPanel, wxID_ANY, user->getEmail(), wxPoint(10, 13), wxSize(220, 30), wxTE_CENTRE | wxBORDER_NONE);
 	pfpEmailBox->SetBackgroundColour(wxColour(229, 229, 229));
-	pfpEmailBox->SetForegroundColour(wxColour(178, 178, 178));
+	pfpEmailBox->SetForegroundColour(*wxBLACK);
 	pfpEmailBox->SetFont(wxFont(wxFontInfo(14).Bold()));
 
 	pfpEmailText = new wxStaticText(midPanel, wxID_ANY, "Email", wxPoint(70, 493), wxSize(-1, -1), wxALIGN_CENTRE_HORIZONTAL);
@@ -585,10 +587,10 @@ void MainFrame::paintProfile()
 	pfpEmailText->SetFont(wxFont(wxFontInfo(14).Bold()));
 
 
-	wxPanel* doneButtonPanel = new RoundedPanel(midPanel, wxID_ANY, wxPoint(185, 660), wxSize(180, 50), wxALIGN_CENTRE_HORIZONTAL, wxColour(52, 100, 117));
-	doneButtonPanel->SetBackgroundColour(*wxWHITE);
+	pfpDoneButtonPanel = new RoundedPanel(midPanel, wxID_ANY, wxPoint(185, 630), wxSize(180, 50), wxALIGN_CENTRE_HORIZONTAL, wxColour(52, 100, 117));
+	pfpDoneButtonPanel->SetBackgroundColour(*wxWHITE);
 
-	wxButton* doneButton = new wxButton(doneButtonPanel, wxID_ANY, "Done", wxPoint(10, 5), wxSize(160, 40), wxBORDER_NONE);
+	wxButton* doneButton = new wxButton(pfpDoneButtonPanel, wxID_ANY, "Done", wxPoint(10, 5), wxSize(160, 40), wxBORDER_NONE);
 	doneButton->SetBackgroundColour(wxColour(52, 100, 117));
 	doneButton->SetForegroundColour(*wxWHITE);
 	doneButton->SetFont(wxFont(wxFontInfo(18).Bold()));
@@ -670,6 +672,8 @@ void MainFrame::onSendClick(wxCommandEvent& event)
 		user->sendMoney(Bank::getUsers()->getUser(reciever), stod(amount));
 		repaintBalance();
 
+		wxMessageBox("Transaction Successful", "Success", wxICON_INFORMATION | wxOK, this);
+
 		sendMoneyPanel->Show();
 		requestMoneyPanel->Show();
 		transactionButtonPanel->Show();
@@ -684,7 +688,6 @@ void MainFrame::onSendClick(wxCommandEvent& event)
 		amountBox->Hide();
 		amountText->Hide();
 		recieverText->Hide();
-
 	}
 	else
 	{
@@ -711,39 +714,105 @@ void MainFrame::onPfpDoneClick(wxCommandEvent& event)
 {
 	string error = "Invalid form parameters\n\n";
 
+	string username = string(pfpUsernameBox->GetValue().mb_str());
 	string password = string(pfpPasswordBox->GetValue().mb_str());
 	string displayName = string(pfpDisplayNameBox->GetValue().mb_str());
 	string phoneNumber = string(pfpPhoneNumberBox->GetValue().mb_str());
 	string email = string(pfpEmailBox->GetValue().mb_str());
 
 		if
-			(
-				   Validation::displayNameValid(displayName)
+			(	   Validation::usernameValid(username)
+				&& Validation::displayNameValid(displayName)
 				&& Validation::passwordValid(password)
 				&& Validation::phoneNumberValidFormat(phoneNumber)
 				&& Validation::emailValidFormat(email)
 			)
 		{
-			user->editProfile
+			Bank::asAdmin()->editUser
 			(
-				displayName,
+				user,
+				username,
 				password,
+				displayName,
+				user->getBalance(),
 				phoneNumber,
-				email
+				email,
+				false
 			);
+
+			textDisplayName->SetLabel(user->getDisplayName());
+			textDisplayName->SetLabelText(user->getDisplayName());
+			textDisplayName->Refresh();
 
 			wxMessageBox("User updated successfully");
 
-			paintMidPanel();
+
+			sendMoneyPanel->Show();
+			requestMoneyPanel->Show();
+			transactionButtonPanel->Show();
+			rechargeBalancePanel->Show();
+			
+			pfpUsernameInputPanel->Hide();
+			pfpPasswordInputPanel->Hide();
+			pfpDisplayNameInputPanel->Hide();
+			pfpPhoneNumberInputPanel->Hide();
+			pfpEmailInputPanel->Hide();
+			pfpDoneButtonPanel->Hide();
+			pfpPanelBackButton->Hide();
+			
+			pfpUsernameText->Hide();
+			pfpPasswordText->Hide();
+			pfpPhoneNumberText->Hide();
+			pfpDisplayNameText->Hide();
+			pfpEmailText->Hide();
+		}
+		else if 
+			(
+				!Validation::usernameValid(username)
+				&& Validation::displayNameValid(displayName)
+				&& Validation::passwordValid(password)
+				&& Validation::phoneNumberValidFormat(phoneNumber)
+				&& Validation::emailValidFormat(email)
+				&& user->getUsername() == username
+			)
+		{
+			Bank::asAdmin()->editUser
+			(
+				user,
+				username,
+				password,
+				displayName,
+				user->getBalance(),
+				phoneNumber,
+				email,
+				false
+			);
+
+			textDisplayName->SetLabel(user->getDisplayName());
+			textDisplayName->SetLabelText(user->getDisplayName());
+			textDisplayName->Refresh();
+
+			wxMessageBox("User updated successfully");
+
+			//topPanel->Destroy();
+			//paintTopPanel();
+
+			sendMoneyPanel->Show();
+			requestMoneyPanel->Show();
+			transactionButtonPanel->Show();
+			rechargeBalancePanel->Show();
 
 			pfpUsernameInputPanel->Hide();
 			pfpPasswordInputPanel->Hide();
 			pfpDisplayNameInputPanel->Hide();
 			pfpPhoneNumberInputPanel->Hide();
+			pfpEmailInputPanel->Hide();
+			pfpDoneButtonPanel->Hide();
 			pfpPanelBackButton->Hide();
-			
+
 			pfpUsernameText->Hide();
 			pfpPasswordText->Hide();
+			pfpPhoneNumberText->Hide();
 			pfpDisplayNameText->Hide();
 			pfpEmailText->Hide();
 		}
@@ -890,16 +959,22 @@ void MainFrame::onRequestsPanelBackClick(wxCommandEvent& event)
 
 void MainFrame::onPfpBackButtonClick(wxCommandEvent& event)
 {
-	paintMidPanel();
+	sendMoneyPanel->Show();
+	requestMoneyPanel->Show();
+	transactionButtonPanel->Show();
+	rechargeBalancePanel->Show();
 
 	pfpUsernameInputPanel->Hide();
 	pfpPasswordInputPanel->Hide();
 	pfpDisplayNameInputPanel->Hide();
 	pfpPhoneNumberInputPanel->Hide();
+	pfpEmailInputPanel->Hide();
 	pfpPanelBackButton->Hide();
+	pfpDoneButtonPanel->Hide();
 
 	pfpUsernameText->Hide();
 	pfpPasswordText->Hide();
+	pfpPhoneNumberText->Hide();
 	pfpDisplayNameText->Hide();
 	pfpEmailText->Hide();
 }

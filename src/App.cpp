@@ -55,11 +55,11 @@ bool App::OnInit() {
 	loginFrame->Show();
 	loginFrame->SetIcon(icon);*/
 
-	/*MainFrame* mainFrame = new MainFrame(Bank::getUsers()->getUser("3m7md"), "Heisenbank");
+	MainFrame* mainFrame = new MainFrame(Bank::getUsers()->getUser("3m7mdd"), "Heisenbank");
 	mainFrame->SetClientSize(620, 1000);
 	mainFrame->Center();
 	mainFrame->Show();
-	mainFrame->SetIcon(icon);*/
+	mainFrame->SetIcon(icon);
 
 	//RegisterFrame* registerFrame = new RegisterFrame("HeisenBank");
 	//registerFrame->SetClientSize(620, 1000);
@@ -70,11 +70,11 @@ bool App::OnInit() {
 	
 
 	//cout<<Validation::usernameAvailable("mohab");
-	AdminFrame* adminFrame = new AdminFrame(Bank::getUsers()->getAdmin("admin"));
-	adminFrame->SetClientSize(620, 1000);
-	adminFrame->Center();
-	adminFrame->Show();
-	adminFrame->SetIcon(icon);
+	//AdminFrame* adminFrame = new AdminFrame(Bank::getUsers()->getAdmin("admin"));
+	//adminFrame->SetClientSize(620, 1000);
+	//adminFrame->Center();
+	//adminFrame->Show();
+	//adminFrame->SetIcon(icon);
 	return true;
 }
 

@@ -30,6 +30,7 @@ public:
 	void erase(User* user);
 
 	void modifyUser(User* user, User newUser);
+	void modifyUser(User* user, const string username, const string displayName, double balance, const string phoneNumber, const string email, bool isSuspend);
 
 	Admin* getAdmin(string username);
 	vector<Admin*> getAdmins();

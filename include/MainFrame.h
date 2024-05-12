@@ -41,9 +41,10 @@ class MainFrame : public wxFrame
 		wxStaticText* pfpDisplayNameText;
 		wxStaticText* pfpPhoneNumberText;
 		wxStaticText* pfpEmailText;
+		wxStaticText* textDisplayName;
 
 		wxPanel*	  pfpUsernameInputPanel;
-		wxStaticText* pfpUsernameBox;
+		wxTextCtrl*   pfpUsernameBox;
 
 		wxPanel*	  pfpPasswordInputPanel;
 		wxTextCtrl*   pfpPasswordBox;
