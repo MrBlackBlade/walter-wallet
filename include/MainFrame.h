@@ -22,18 +22,35 @@ class MainFrame : public wxFrame
 		wxBitmapButton* bellButton;
 		wxBitmapButton* bellAlertButton;
 		wxBitmapButton* pfpButton;
+		wxButton* requestButton;
 
-		//inside sendMoneyPanel
+		//inside Send Money Panel
 		wxPanel*		usernameInputPanel;
 		wxTextCtrl*		recieverNameBox;
 		wxPanel*		amountInputPanel;
 		wxPanel*		sendButtonPanel;
 		wxButton*		sendButton;
-		wxButton*		requestButton;
 		wxTextCtrl*		amountBox;
 		wxStaticText*	amountText;
 		wxStaticText*	recieverText;
 		wxStaticText*	noRequests;
+
+		//inside Recharge Money Panel
+		wxPanel* cardNumberInputPanel;
+		wxTextCtrl* cardNumberBox;
+
+		wxPanel* cvvInputPanel;
+		wxTextCtrl* cvvBox;
+
+		wxPanel* rechargeButtonPanel;
+		wxButton* rechargeButton;
+
+		wxPanel* rechargeAmountInputPanel;
+		wxTextCtrl* rechargAmountBox;
+
+		wxStaticText* rechargeAmountText;
+		wxStaticText* cvvText;
+		wxStaticText* cardNumberText;
 
 		// inside editProfile
 		wxStaticText* pfpUsernameText;
@@ -66,6 +83,7 @@ class MainFrame : public wxFrame
 		wxBitmapButton* transactionsBackButton;
 		wxBitmapButton* sendMoneyBackButton;
 		wxBitmapButton* requestMoneyBackButton;
+		wxBitmapButton* rechargeBalanceBackButton;
 		wxBitmapButton* pfpPanelBackButton;
 
 		//inside midPanel
@@ -86,6 +104,7 @@ class MainFrame : public wxFrame
 		void paintTransactionsPanel();
 		void paintPendingRequests();
 		void paintProfile();
+		void paintRechargeBalancePanel();
 
 		//Event Handlers	   
 		void onPfpButtonClick(wxCommandEvent& event);
@@ -96,11 +115,18 @@ class MainFrame : public wxFrame
 		void onRequestMoneyBackButton(wxCommandEvent& event);
 		void onRequestClick(wxCommandEvent& event);
 		void onSendMoneyBackButtonClick(wxCommandEvent& event);
+		void onRechargeMoneybackButtonClick(wxCommandEvent& event);
+		void onRechargeButtonCLick(wxCommandEvent& event);
+		void onRechargeBalanceButtonClick(wxCommandEvent& event);
 		void onTransacionBackButtonClick(wxCommandEvent& event);
 		void onBellButtonClick(wxCommandEvent& event);
 		void onSendMoneyClick(wxCommandEvent& event);
 		void onTransactionsClick(wxCommandEvent& event);
 		void onSendClick(wxCommandEvent& event);
+		void onEnterCardNumber(wxFocusEvent& event);
+		void onLeaveCardNumber(wxFocusEvent& event);
+		void onEnterCvv(wxFocusEvent& event);
+		void onLeaveCvv(wxFocusEvent& event);
 		void onEnterUsername(wxFocusEvent& event);
 		void onLeaveUsername(wxFocusEvent& event);
 		void onEnterAmount(wxFocusEvent& event);

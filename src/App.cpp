@@ -55,7 +55,7 @@ bool App::OnInit() {
 	loginFrame->Show();
 	loginFrame->SetIcon(icon);*/
 
-	MainFrame* mainFrame = new MainFrame(Bank::getUsers()->getUser("3m7mdd"), "Heisenbank");
+	MainFrame* mainFrame = new MainFrame(Bank::getUsers()->getUser("TheTwo2"), "Heisenbank");
 	mainFrame->SetClientSize(620, 1000);
 	mainFrame->Center();
 	mainFrame->Show();
@@ -66,8 +66,6 @@ bool App::OnInit() {
 	//registerFrame->Center();
 	//registerFrame->Show();
 	//registerFrame->SetIcon(icon);
-
-	
 
 	//cout<<Validation::usernameAvailable("mohab");
 	//AdminFrame* adminFrame = new AdminFrame(Bank::getUsers()->getAdmin("admin"));

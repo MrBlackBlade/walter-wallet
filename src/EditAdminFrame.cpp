@@ -21,7 +21,7 @@ void EditAdminFrame::paintTopPanel()
 	wxPNGHandler* handler = new wxPNGHandler;
 	wxImage::AddHandler(handler);
 
-	wxStaticText* textHALLO = new wxStaticText(topPanel, wxID_ANY, "Hey Boss", wxPoint(22, 40), wxSize(-1, -1));
+	wxStaticText* textHALLO = new wxStaticText(topPanel, wxID_ANY, "Hey Boss", wxPoint(0, 40), wxSize(620, -1), wxALIGN_CENTRE_HORIZONTAL);
 	textHALLO->SetForegroundColour(*wxWHITE);
 	textHALLO->SetFont(wxFont(wxFontInfo(20).Bold()));
 
@@ -52,7 +52,6 @@ void EditAdminFrame::paintMidPanel()
 
 	initialBalanceInputPanel = new RoundedPanel(midPanel, wxID_ANY, wxPoint(235, 480), wxSize(240, 50), wxALIGN_CENTRE_HORIZONTAL, wxColour(229, 229, 229));
 	initialBalanceInputPanel->SetBackgroundColour(*wxWHITE);
-
 
 	usernameBox = new wxTextCtrl(usernameInputPanel, wxID_ANY, user->getUsername(), wxPoint(10, 13), wxSize(220, 30), wxTE_CENTRE | wxBORDER_NONE);
 	usernameBox->SetBackgroundColour(wxColour(229, 229, 229));
@@ -119,10 +118,31 @@ void EditAdminFrame::paintMidPanel()
 	balanceBox->Bind(wxEVT_SET_FOCUS, &EditAdminFrame::onEnterInitBalance, this);
 	balanceBox->Bind(wxEVT_KILL_FOCUS, &EditAdminFrame::onLeaveInitBalance, this);
 
-	wxPanel* registerButtonPanel = new RoundedPanel(midPanel, wxID_ANY, wxPoint(185, 660), wxSize(180, 50), wxALIGN_CENTRE_HORIZONTAL, wxColour(52, 100, 117));
-	registerButtonPanel->SetBackgroundColour(*wxWHITE);
+	wxArrayString suspendChoice;
+	suspendChoice.Add("Suspended\t\t\t\t\t\t\t");
+	suspendChoice.Add("Active");
 
-	wxButton* doneButton = new wxButton(registerButtonPanel, wxID_ANY, "Done", wxPoint(10, 5), wxSize(160, 40), wxBORDER_NONE);
+	suspendCheck = new wxRadioBox(midPanel, wxID_ANY, "", wxPoint(245, 560), wxSize(0,0), suspendChoice, wxRA_VERTICAL | wxBORDER_NONE);
+	if (user->getSuspended() == false)
+	{
+		suspendCheck->SetSelection(1);
+	}
+	else
+	{
+		suspendCheck->SetSelection(0);
+	}
+	suspendCheck->SetFont(wxFont(wxFontInfo(14)));
+	suspendCheck->SetBackgroundColour(*wxWHITE);
+
+	wxStaticText* suspendText = new wxStaticText(midPanel, wxID_ANY, "Account State", wxPoint(25, 573), wxSize(220, 30), wxTE_CENTRE | wxBORDER_NONE);
+	suspendText->SetBackgroundColour(*wxWHITE);
+	suspendText->SetForegroundColour(*wxBLACK);
+	suspendText->SetFont(wxFont(wxFontInfo(14).Bold()));
+
+	wxPanel* doneButtonPanel = new RoundedPanel(midPanel, wxID_ANY, wxPoint(185, 660), wxSize(180, 50), wxALIGN_CENTRE_HORIZONTAL, wxColour(52, 100, 117));
+	doneButtonPanel->SetBackgroundColour(*wxWHITE);
+
+	wxButton* doneButton = new wxButton(doneButtonPanel, wxID_ANY, "Done", wxPoint(10, 5), wxSize(160, 40), wxBORDER_NONE);
 	doneButton->SetBackgroundColour(wxColour(52, 100, 117));
 	doneButton->SetForegroundColour(*wxWHITE);
 	doneButton->SetFont(wxFont(wxFontInfo(18).Bold()));
@@ -286,7 +306,13 @@ void EditAdminFrame::onDoneClick(wxCommandEvent& event)
 				&& Validation::initialBalanceValid(balance)
 				)
 		{
-			wxMessageBox("User updated successfully");
+
+			bool checkSuspend = false;
+			if (suspendCheck->GetSelection() == 0)
+			{
+				checkSuspend = true;
+			}
+
 			Bank::asAdmin()->editUser
 			(
 				user,
@@ -296,8 +322,10 @@ void EditAdminFrame::onDoneClick(wxCommandEvent& event)
 				stod(balance),
 				phoneNumber,
 				email,
-				false
+				checkSuspend
 			);
+
+			wxMessageBox("User updated successfully");
 
 			adminFrame->Show();
 			this->Close();
@@ -312,18 +340,28 @@ void EditAdminFrame::onDoneClick(wxCommandEvent& event)
 					&& user->getUsername() == username
 				)
 		{
-			wxMessageBox("User updated successfully");
+
+			bool checkSuspend = false;
+
+			if (suspendCheck->GetSelection() == 0)
+			{
+				checkSuspend = true;
+			}
+
 			Bank::asAdmin()->editUser
 			(
 				user,
 				username,
+				user->getPassword(),
 				displayName,
 				stod(balance),
 				phoneNumber,
 				email,
-				false
+				checkSuspend
 			);
 			
+			wxMessageBox("User updated successfully");
+
 			adminFrame->Show();
 			this->Close();
 		}

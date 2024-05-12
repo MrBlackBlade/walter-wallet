@@ -1,4 +1,4 @@
-user,3m7md,B2@letM7MDDD,Aam Moasmad,4800.000000,01211111122,m7md@gmail.com,false
+user,3m7md,B2@letM7MDDD,Aam Moasmad,4800.000000,01211111122,m7md@gmail.com,true
 user,MMP,M@zen331,Mazen,20000.000000,01111111111,mmp@gmail.com,false
 user,TheTwo2,Two2@Too,The Second,4300.000000,01200040886,qemar@gmail.com,false
 user,deleteduser,deleteduser,Deleted User,0.000000,00000000000,deleteduser@gmail.com,true

@@ -107,7 +107,10 @@ void MainFrame::paintMidPanel()
 	wxBitmap rechargeBitmap(rechargeIcon);
 	wxBitmapButton* rechargeButton = new wxBitmapButton(rechargeBalancePanel, wxID_ANY, rechargeBitmap, wxPoint(30, 20), wxSize(130, 130), wxBU_AUTODRAW | wxBORDER_NONE);
 	rechargeButton->SetBackgroundColour(wxColour(229, 229, 229));
-	rechargeButton->Bind(wxEVT_BUTTON, &MainFrame::onBellButtonClick, this);
+
+	rechargeButton->Bind(wxEVT_ENTER_WINDOW, &MainFrame::onHover, this);
+	rechargeButton->Bind(wxEVT_LEAVE_WINDOW, &MainFrame::onLeaveHover, this);
+	rechargeButton->Bind(wxEVT_BUTTON, &MainFrame::onRechargeBalanceButtonClick, this);
 
 	sendMoneyButton->Bind(wxEVT_ENTER_WINDOW, &MainFrame::onHover, this);
 	sendMoneyButton->Bind(wxEVT_LEAVE_WINDOW, &MainFrame::onLeaveHover, this);
@@ -120,8 +123,7 @@ void MainFrame::paintMidPanel()
 	transactionButton->Bind(wxEVT_LEAVE_WINDOW, &MainFrame::onLeaveHover, this);
 	transactionButton->Bind(wxEVT_BUTTON, &MainFrame::onTransactionsClick, this);
 
-	rechargeButton->Bind(wxEVT_ENTER_WINDOW, &MainFrame::onHover, this);
-	rechargeButton->Bind(wxEVT_LEAVE_WINDOW, &MainFrame::onLeaveHover, this);
+	
 
 }
 void MainFrame::paintSendMoneyPanel()
@@ -429,10 +431,18 @@ void MainFrame::paintPendingRequests()
 				(
 					wxEVT_COMMAND_BUTTON_CLICKED, [=](wxCommandEvent& evt)
 					{
-						user->acceptRequest(tans);
-						repaintBalance();
-						MSWClickButtonIfPossible(requestsPanelBackButton);
-						paintPendingRequests();
+						if (user->getSuspended() == false)
+						{
+							user->acceptRequest(tans);
+							repaintBalance();
+							MSWClickButtonIfPossible(requestsPanelBackButton);
+							paintPendingRequests();
+						}
+						else
+						{
+							wxMessageBox("User Suspended, Can't make any Transactions.", "Error", wxICON_INFORMATION | wxOK, this);
+						}
+						
 					}
 				);
 
@@ -446,9 +456,17 @@ void MainFrame::paintPendingRequests()
 				(
 					wxEVT_COMMAND_BUTTON_CLICKED, [=](wxCommandEvent& evt)
 					{
-						user->rejectRequest(tans);
-						MSWClickButtonIfPossible(requestsPanelBackButton);
-						paintPendingRequests();
+						if (user->getSuspended() == false)
+						{
+							user->rejectRequest(tans);
+							MSWClickButtonIfPossible(requestsPanelBackButton);
+							paintPendingRequests();
+						}
+						else
+						{
+							wxMessageBox("User Suspended, Can't make any Transactions.", "Error", wxICON_INFORMATION | wxOK, this);
+
+						}
 					}
 				);
 
@@ -495,6 +513,82 @@ void MainFrame::paintPendingRequests()
 	}
 
 
+}
+void MainFrame::paintRechargeBalancePanel()
+{
+	wxImage backIcon(wxString("resources\\back.png"), wxBITMAP_TYPE_PNG);
+	backIcon.Rescale(25, 35, wxIMAGE_QUALITY_HIGH);
+
+	wxBitmap backBitmap(backIcon);
+	rechargeBalanceBackButton = new wxBitmapButton(balanceDisplayPanel, wxID_ANY, backBitmap, wxPoint(40, 8), wxSize(25, 35), wxBU_AUTODRAW | wxBORDER_NONE);
+	rechargeBalanceBackButton->SetBackgroundColour(wxColour(52, 100, 117));
+
+	rechargeBalanceBackButton->Bind(wxEVT_ENTER_WINDOW, &MainFrame::onHover, this);
+	rechargeBalanceBackButton->Bind(wxEVT_LEAVE_WINDOW, &MainFrame::onLeaveHover, this);
+	rechargeBalanceBackButton->Bind(wxEVT_BUTTON, &MainFrame::onRechargeMoneybackButtonClick, this);
+
+	cardNumberInputPanel = new RoundedPanel(midPanel, wxID_ANY, wxPoint(215, 200), wxSize(240, 50), wxALIGN_CENTRE_HORIZONTAL, wxColour(229, 229, 229));
+	cardNumberInputPanel->SetBackgroundColour(*wxWHITE);
+
+	cvvInputPanel = new RoundedPanel(midPanel, wxID_ANY, wxPoint(215, 300), wxSize(240, 50), wxALIGN_CENTRE_HORIZONTAL, wxColour(229, 229, 229));
+	cvvInputPanel->SetBackgroundColour(*wxWHITE);
+
+	rechargeAmountInputPanel = new RoundedPanel(midPanel, wxID_ANY, wxPoint(215, 400), wxSize(240, 50), wxALIGN_CENTRE_HORIZONTAL, wxColour(229, 229, 229));
+	rechargeAmountInputPanel->SetBackgroundColour(*wxWHITE);
+
+	cardNumberBox = new wxTextCtrl(cardNumberInputPanel, wxID_ANY, "Number", wxPoint(10, 13), wxSize(220, 30), wxTE_CENTRE | wxBORDER_NONE);
+	cardNumberBox->SetBackgroundColour(wxColour(229, 229, 229));
+	cardNumberBox->SetForegroundColour(wxColour(178, 178, 178));
+	cardNumberBox->SetFont(wxFont(wxFontInfo(14).Bold()));
+	cardNumberBox->Bind(wxEVT_SET_FOCUS, &MainFrame::onEnterCardNumber, this);
+	cardNumberBox->Bind(wxEVT_KILL_FOCUS, &MainFrame::onLeaveCardNumber, this);
+
+	cardNumberText = new wxStaticText(midPanel, wxID_ANY, "Card", wxPoint(70, 213), wxSize(-1, -1), wxALIGN_CENTRE_HORIZONTAL);
+	cardNumberText->SetBackgroundColour(*wxWHITE);
+	cardNumberText->SetForegroundColour(*wxBLACK);
+	cardNumberText->SetFont(wxFont(wxFontInfo(14).Bold()));
+
+	cvvBox = new wxTextCtrl(cvvInputPanel, wxID_ANY, "CVV", wxPoint(10, 13), wxSize(220, 30), wxTE_CENTRE | wxBORDER_NONE);
+	cvvBox->SetBackgroundColour(wxColour(229, 229, 229));
+	cvvBox->SetForegroundColour(wxColour(178, 178, 178));
+	cvvBox->SetFont(wxFont(wxFontInfo(14).Bold()));
+	cvvBox->Bind(wxEVT_SET_FOCUS, &MainFrame::onEnterCvv, this);
+	cvvBox->Bind(wxEVT_KILL_FOCUS, &MainFrame::onLeaveCvv, this);
+
+	cvvText = new wxStaticText(midPanel, wxID_ANY, "3 Digit", wxPoint(70, 313), wxSize(-1, -1), wxALIGN_CENTRE_HORIZONTAL);
+	cvvText->SetBackgroundColour(*wxWHITE);
+	cvvText->SetForegroundColour(*wxBLACK);
+	cvvText->SetFont(wxFont(wxFontInfo(14).Bold()));
+
+	rechargAmountBox = new wxTextCtrl(rechargeAmountInputPanel, wxID_ANY, "EGP", wxPoint(10, 13), wxSize(220, 30), wxTE_CENTRE | wxBORDER_NONE);
+	rechargAmountBox->SetBackgroundColour(wxColour(229, 229, 229));
+	rechargAmountBox->SetForegroundColour(wxColour(178, 178, 178));
+	rechargAmountBox->SetFont(wxFont(wxFontInfo(14).Bold()));
+
+	rechargAmountBox->Bind(wxEVT_SET_FOCUS, &MainFrame::onEnterAmount, this);
+	rechargAmountBox->Bind(wxEVT_KILL_FOCUS, &MainFrame::onLeaveAmount, this);
+
+	rechargeAmountText = new wxStaticText(midPanel, wxID_ANY, "Amount", wxPoint(70, 413), wxSize(-1, -1), wxALIGN_CENTRE_HORIZONTAL);
+	rechargeAmountText->SetBackgroundColour(*wxWHITE);
+	rechargeAmountText->SetForegroundColour(*wxBLACK);
+	rechargeAmountText->SetFont(wxFont(wxFontInfo(14).Bold()));
+
+	rechargeButtonPanel = new RoundedPanel(midPanel, wxID_ANY, wxPoint(185, 580), wxSize(180, 50), wxALIGN_CENTRE_HORIZONTAL, wxColour(52, 100, 117));
+	rechargeButtonPanel->SetBackgroundColour(*wxWHITE);
+
+	rechargeButton = new wxButton(rechargeButtonPanel, wxID_ANY, "Recharge", wxPoint(10, 5), wxSize(160, 40), wxBORDER_NONE);
+	rechargeButton->SetBackgroundColour(wxColour(52, 100, 117));
+	rechargeButton->SetForegroundColour(*wxWHITE);
+	rechargeButton->SetFont(wxFont(wxFontInfo(18).Bold()));
+
+	rechargeButton->Bind(wxEVT_ENTER_WINDOW, &MainFrame::onHover, this);
+	rechargeButton->Bind(wxEVT_LEAVE_WINDOW, &MainFrame::onLeaveHover, this);
+	rechargeButton->Bind(wxEVT_BUTTON, &MainFrame::onRechargeButtonCLick, this);
+
+	sendMoneyPanel->Hide();
+	requestMoneyPanel->Hide();
+	transactionButtonPanel->Hide();
+	rechargeBalancePanel->Hide();
 }
 void MainFrame::paintProfile()
 {
@@ -645,7 +739,6 @@ void MainFrame::checkRequests()
 }
 
 //functions buttons
-
 void MainFrame::onBellButtonClick(wxCommandEvent& event)
 {
 	paintPendingRequests();
@@ -666,32 +759,40 @@ void MainFrame::onSendClick(wxCommandEvent& event)
 	string reciever = string(recieverString.mb_str());
 	string amount = string(amountString.mb_str());
 
-	if (stod(amount) > 0 and stod(amount) < 999999 and stod(amount) <= user->getBalance())
+	if (user->getSuspended() == false)
 	{
+		if (stod(amount) > 0 and stod(amount) < 999999 and stod(amount) <= user->getBalance())
+		{
 
-		user->sendMoney(Bank::getUsers()->getUser(reciever), stod(amount));
-		repaintBalance();
+			user->sendMoney(Bank::getUsers()->getUser(reciever), stod(amount));
+			repaintBalance();
 
-		wxMessageBox("Transaction Successful", "Success", wxICON_INFORMATION | wxOK, this);
+			wxMessageBox("Transaction Successful", "Success", wxICON_INFORMATION | wxOK, this);
 
-		sendMoneyPanel->Show();
-		requestMoneyPanel->Show();
-		transactionButtonPanel->Show();
-		rechargeBalancePanel->Show();
+			sendMoneyPanel->Show();
+			requestMoneyPanel->Show();
+			transactionButtonPanel->Show();
+			rechargeBalancePanel->Show();
 
-		sendMoneyBackButton->Hide();
-		usernameInputPanel->Hide();
-		recieverNameBox->Hide();
-		amountInputPanel->Hide();
-		sendButtonPanel->Hide();
-		sendButton->Hide();
-		amountBox->Hide();
-		amountText->Hide();
-		recieverText->Hide();
+			sendMoneyBackButton->Hide();
+			usernameInputPanel->Hide();
+			recieverNameBox->Hide();
+			amountInputPanel->Hide();
+			sendButtonPanel->Hide();
+			sendButton->Hide();
+			amountBox->Hide();
+			amountText->Hide();
+			recieverText->Hide();
+
+		}
+		else
+		{
+			wxMessageBox("Please enter a valid amount", "Error", wxICON_ERROR | wxOK, this);
+		}
 	}
-	else
+	else if (user->getSuspended() == true)
 	{
-		wxMessageBox("Please enter a valid amount", "Error", wxICON_ERROR | wxOK, this);
+		wxMessageBox("User Suspended, Can't make any Transactions.");
 	}
 }
 
@@ -865,31 +966,40 @@ void MainFrame::onRequestClick(wxCommandEvent& event)
 	string reciever = string(recieverString.mb_str());
 	string amount = string(amountString.mb_str());
 
-	if (stod(amount) < 100000)
+	if (user->getSuspended() == false)
 	{
-		user->requestMoney(Bank::getUsers()->getUser(reciever), stod(amount));
+		if (stod(amount) < 100000)
+		{
 
-		sendMoneyPanel->Show();
-		requestMoneyPanel->Show();
-		transactionButtonPanel->Show();
-		rechargeBalancePanel->Show();
+			user->requestMoney(Bank::getUsers()->getUser(reciever), stod(amount));
 
-		requestMoneyBackButton->Hide();
-		usernameInputPanel->Hide();
-		recieverNameBox->Hide();
-		amountInputPanel->Hide();
-		sendButtonPanel->Hide();
-		requestButton->Hide();
-		amountBox->Hide();
-		amountText->Hide();
-		recieverText->Hide();
+			wxMessageBox("Request sent Successfully", "Success", wxICON_INFORMATION | wxOK, this);
 
+			sendMoneyPanel->Show();
+			requestMoneyPanel->Show();
+			transactionButtonPanel->Show();
+			rechargeBalancePanel->Show();
+
+			requestMoneyBackButton->Hide();
+			usernameInputPanel->Hide();
+			recieverNameBox->Hide();
+			amountInputPanel->Hide();
+			sendButtonPanel->Hide();
+			requestButton->Hide();
+			amountBox->Hide();
+			amountText->Hide();
+			recieverText->Hide();
+
+		}
+		else
+		{
+			wxMessageBox("Please Enter a valid amount", "Error", wxICON_ERROR | wxOK, this);
+		}
 	}
-	else
+	else if (user->getSuspended() == true)
 	{
-		wxMessageBox("It's not your mother's money, is it ?", "Error", wxICON_ERROR | wxOK, this);
+		wxMessageBox("User Suspended, Can't make any Transactions.");
 	}
-	printf("yay");
 }
 
 //back buttons
@@ -922,6 +1032,32 @@ void MainFrame::onSendMoneyBackButtonClick(wxCommandEvent& event)
 	amountText->Hide();
 	recieverText->Hide();
 
+}
+
+void MainFrame::onRechargeMoneybackButtonClick(wxCommandEvent& event)
+{
+	sendMoneyPanel->Show();
+	requestMoneyPanel->Show();
+	transactionButtonPanel->Show();
+	rechargeBalancePanel->Show();
+
+	cardNumberInputPanel->Hide();
+	rechargeAmountInputPanel->Hide();
+	cvvInputPanel->Hide();
+	rechargeBalanceBackButton->Hide();
+	rechargeButtonPanel->Hide();
+	rechargeAmountText->Hide();
+	cvvText->Hide();
+	cardNumberText->Hide();
+}
+
+void MainFrame::onRechargeButtonCLick(wxCommandEvent& event)
+{
+}
+
+void MainFrame::onRechargeBalanceButtonClick(wxCommandEvent& event)
+{
+	paintRechargeBalancePanel();
 }
 
 void MainFrame::onRequestMoneyBackButton(wxCommandEvent& event)
@@ -1013,6 +1149,48 @@ void MainFrame::onLeaveAmount(wxFocusEvent& event) {
 	if (object->IsEmpty()) {
 		object->SetForegroundColour(wxColour(178, 178, 178));
 		object->AppendText("EGP");
+	}
+
+	event.Skip(true);
+}
+
+void MainFrame::onEnterCardNumber(wxFocusEvent& event)
+{
+	wxTextCtrl* object = (wxTextCtrl*)event.GetEventObject();
+	if (object->GetValue() == "Number") {
+		object->SetForegroundColour(*wxBLACK);
+		object->Clear();
+	}
+	event.Skip(true);
+}
+
+void MainFrame::onLeaveCardNumber(wxFocusEvent& event)
+{
+	wxTextCtrl* object = (wxTextCtrl*)event.GetEventObject();
+	if (object->IsEmpty()) {
+		object->SetForegroundColour(wxColour(178, 178, 178));
+		object->AppendText("Number");
+	}
+
+	event.Skip(true);
+}
+
+void MainFrame::onEnterCvv(wxFocusEvent& event)
+{
+	wxTextCtrl* object = (wxTextCtrl*)event.GetEventObject();
+	if (object->GetValue() == "CVV") {
+		object->SetForegroundColour(*wxBLACK);
+		object->Clear();
+	}
+	event.Skip(true);
+}
+
+void MainFrame::onLeaveCvv(wxFocusEvent& event)
+{
+	wxTextCtrl* object = (wxTextCtrl*)event.GetEventObject();
+	if (object->IsEmpty()) {
+		object->SetForegroundColour(wxColour(178, 178, 178));
+		object->AppendText("CVV");
 	}
 
 	event.Skip(true);

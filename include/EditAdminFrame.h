@@ -40,6 +40,8 @@ private:
 	wxPanel* registerButtonPanel;
 	wxButton* registerButton;
 
+	wxRadioBox* suspendCheck;
+
 	//Event Handlers
 	void onEnterUsername(wxFocusEvent& event);
 	void onLeaveUsername(wxFocusEvent& event);
