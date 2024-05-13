@@ -5,6 +5,7 @@
 #include "RoundedPanel.h"
 #include "Bank.h"
 #include "Validation.h"
+#include "SHA256.h"
 
 MainFrame::MainFrame(User* user) : wxFrame(nullptr, wxID_ANY, "Heisenbank")
 {
@@ -429,10 +430,19 @@ void MainFrame::paintPendingRequests()
 					{
 						if (user->getSuspended() == false)
 						{
-							user->acceptRequest(tans);
-							repaintBalance();
-							MSWClickButtonIfPossible(requestsPanelBackButton);
-							paintPendingRequests();
+							if (Validation::sentAmountEnoughFundsValid(to_string(tans->getAmount()), user)) {
+								user->acceptRequest(tans);
+								repaintBalance();
+								MSWClickButtonIfPossible(requestsPanelBackButton);
+								paintPendingRequests();
+							}
+							else {
+								string error = "Invalid Amount\n\n";
+								error += "Account does not have enough funds\n";
+								error += "\n";
+								wxMessageBox(error, "Invalid", wxICON_ERROR | wxOK);
+							}
+							
 						}
 						else
 						{
@@ -559,13 +569,13 @@ void MainFrame::paintRechargeBalancePanel()
 	cvvText->SetForegroundColour(*wxBLACK);
 	cvvText->SetFont(wxFont(wxFontInfo(14).Bold()));
 
-	rechargAmountBox = new wxTextCtrl(rechargeAmountInputPanel, wxID_ANY, "EGP", wxPoint(10, 13), wxSize(220, 30), wxTE_CENTRE | wxBORDER_NONE);
-	rechargAmountBox->SetBackgroundColour(wxColour(229, 229, 229));
-	rechargAmountBox->SetForegroundColour(wxColour(178, 178, 178));
-	rechargAmountBox->SetFont(wxFont(wxFontInfo(14).Bold()));
+	rechargeAmountBox = new wxTextCtrl(rechargeAmountInputPanel, wxID_ANY, "EGP", wxPoint(10, 13), wxSize(220, 30), wxTE_CENTRE | wxBORDER_NONE);
+	rechargeAmountBox->SetBackgroundColour(wxColour(229, 229, 229));
+	rechargeAmountBox->SetForegroundColour(wxColour(178, 178, 178));
+	rechargeAmountBox->SetFont(wxFont(wxFontInfo(14).Bold()));
 
-	rechargAmountBox->Bind(wxEVT_SET_FOCUS, &MainFrame::onEnterAmount, this);
-	rechargAmountBox->Bind(wxEVT_KILL_FOCUS, &MainFrame::onLeaveAmount, this);
+	rechargeAmountBox->Bind(wxEVT_SET_FOCUS, &MainFrame::onEnterAmount, this);
+	rechargeAmountBox->Bind(wxEVT_KILL_FOCUS, &MainFrame::onLeaveAmount, this);
 
 	rechargeAmountText = new wxStaticText(midPanel, wxID_ANY, "Amount", wxPoint(70, 413), wxSize(-1, -1), wxALIGN_CENTRE_HORIZONTAL);
 	rechargeAmountText->SetBackgroundColour(*wxWHITE);
@@ -630,9 +640,9 @@ void MainFrame::paintProfile()
 	pfpUsernameBox->Bind(wxEVT_SET_FOCUS, &MainFrame::onEnterUsername, this);
 	pfpUsernameBox->Bind(wxEVT_KILL_FOCUS, &MainFrame::onLeaveUsername, this);
 
-	pfpPasswordBox = new wxTextCtrl(pfpPasswordInputPanel, wxID_ANY, user->getPassword(), wxPoint(10, 13), wxSize(220, 30), wxTE_CENTRE | wxBORDER_NONE);
+	pfpPasswordBox = new wxTextCtrl(pfpPasswordInputPanel, wxID_ANY, "Password", wxPoint(10, 13), wxSize(220, 30), wxTE_CENTRE | wxBORDER_NONE);
 	pfpPasswordBox->SetBackgroundColour(wxColour(229, 229, 229));
-	pfpPasswordBox->SetForegroundColour(*wxBLACK);
+	pfpPasswordBox->SetForegroundColour(wxColour(178, 178, 178));
 	pfpPasswordBox->SetFont(wxFont(wxFontInfo(14).Bold()));
 
 	pfpPasswordText = new wxStaticText(midPanel, wxID_ANY, "Password", wxPoint(70, 253), wxSize(-1, -1), wxALIGN_CENTRE_HORIZONTAL);
@@ -640,8 +650,8 @@ void MainFrame::paintProfile()
 	pfpPasswordText->SetForegroundColour(*wxBLACK);
 	pfpPasswordText->SetFont(wxFont(wxFontInfo(14).Bold()));
 
-	//pfpPasswordBox->Bind(wxEVT_SET_FOCUS, &MainFrame::onEnterPassword, this);
-	//pfpPasswordBox->Bind(wxEVT_KILL_FOCUS, &MainFrame::onLeavePassword, this);
+	pfpPasswordBox->Bind(wxEVT_SET_FOCUS, &MainFrame::onEnterPassword, this);
+	pfpPasswordBox->Bind(wxEVT_KILL_FOCUS, &MainFrame::onLeavePassword, this);
 
 	pfpDisplayNameBox = new wxTextCtrl(pfpDisplayNameInputPanel, wxID_ANY, user->getDisplayName() , wxPoint(10, 13), wxSize(220, 30), wxTE_CENTRE | wxBORDER_NONE);
 	pfpDisplayNameBox->SetBackgroundColour(wxColour(229, 229, 229));
@@ -709,8 +719,6 @@ void MainFrame::checkRequests()
 		}
 	}
 
-	cout << hasRequest << endl;
-
 	wxImage bellAlertIcon(wxString("resources\\bellAlert.png"), wxBITMAP_TYPE_PNG);
 	bellAlertIcon.Rescale(80, 80, wxIMAGE_QUALITY_HIGH);
 	wxBitmap bellAlertBitmap(bellAlertIcon);
@@ -760,7 +768,11 @@ void MainFrame::onSendClick(wxCommandEvent& event)
 
 	if (user->getSuspended() == false)
 	{
-		if (stod(amount) > 0 and stod(amount) < 999999 and stod(amount) <= user->getBalance())
+		if
+			(
+				Validation::sentAmountValid(amount, user)
+				&& Validation::userExists(reciever)
+			)
 		{
 
 			user->sendMoney(Bank::getUsers()->getUser(reciever), stod(amount));
@@ -786,7 +798,24 @@ void MainFrame::onSendClick(wxCommandEvent& event)
 		}
 		else
 		{
-			wxMessageBox("Please enter a valid amount", "Error", wxICON_ERROR | wxOK, this);
+			string error = "Error\n\n";
+			if (!Validation::userExists(reciever)) {
+				error += "Recipient Invalid:\n";
+				error += "User " + reciever + " does not exist.\n";
+			}
+			if (!Validation::sentAmountValid(amount, user)) {
+				if (!Validation::sentAmountTypeValid(amount)) {
+					error += "Amount must be a number.\n";
+				}
+				if (!Validation::sentAmountInRangeValid(amount) && Validation::sentAmountTypeValid(amount)) {
+					error += "Number must be in range 0-999999.\n";
+				}
+				if (!Validation::sentAmountEnoughFundsValid(amount, user) && Validation::sentAmountTypeValid(amount)) {
+					error += "Account does not have enough funds\n";
+				}
+				error += "\n";
+			}
+			wxMessageBox(error, "Invalid", wxICON_ERROR | wxOK);
 		}
 	}
 	else if (user->getSuspended() == true)
@@ -820,141 +849,141 @@ void MainFrame::onPfpDoneClick(wxCommandEvent& event)
 	string phoneNumber = string(pfpPhoneNumberBox->GetValue().mb_str());
 	string email = string(pfpEmailBox->GetValue().mb_str());
 
-		if
-			(	   Validation::usernameValid(username)
-				&& Validation::displayNameValid(displayName)
-				&& Validation::passwordValid(password)
-				&& Validation::phoneNumberValidFormat(phoneNumber)
-				&& Validation::emailValidFormat(email)
-			)
-		{
-			Bank::asAdmin()->editUser
-			(
-				user,
-				username,
-				password,
-				displayName,
-				user->getBalance(),
-				phoneNumber,
-				email,
-				false
-			);
+	if
+		(	   Validation::usernameValid(username)
+			&& Validation::displayNameValid(displayName)
+			&& Validation::passwordValid(password)
+			&& Validation::phoneNumberValidFormat(phoneNumber)
+			&& Validation::emailValidFormat(email)
+		)
+	{
+		Bank::asAdmin()->editUser
+		(
+			user,
+			username,
+			password,
+			displayName,
+			user->getBalance(),
+			phoneNumber,
+			email,
+			false
+		);
 
-			textDisplayName->SetLabel(user->getDisplayName());
-			textDisplayName->SetLabelText(user->getDisplayName());
-			textDisplayName->Refresh();
+		textDisplayName->SetLabel(user->getDisplayName());
+		textDisplayName->SetLabelText(user->getDisplayName());
+		textDisplayName->Refresh();
 
-			wxMessageBox("User updated successfully");
+		wxMessageBox("User updated successfully");
 
 
-			sendMoneyPanel->Show();
-			requestMoneyPanel->Show();
-			transactionButtonPanel->Show();
-			rechargeBalancePanel->Show();
-			
-			pfpUsernameInputPanel->Hide();
-			pfpPasswordInputPanel->Hide();
-			pfpDisplayNameInputPanel->Hide();
-			pfpPhoneNumberInputPanel->Hide();
-			pfpEmailInputPanel->Hide();
-			pfpDoneButtonPanel->Hide();
-			pfpPanelBackButton->Hide();
-			
-			pfpUsernameText->Hide();
-			pfpPasswordText->Hide();
-			pfpPhoneNumberText->Hide();
-			pfpDisplayNameText->Hide();
-			pfpEmailText->Hide();
+		sendMoneyPanel->Show();
+		requestMoneyPanel->Show();
+		transactionButtonPanel->Show();
+		rechargeBalancePanel->Show();
+		
+		pfpUsernameInputPanel->Hide();
+		pfpPasswordInputPanel->Hide();
+		pfpDisplayNameInputPanel->Hide();
+		pfpPhoneNumberInputPanel->Hide();
+		pfpEmailInputPanel->Hide();
+		pfpDoneButtonPanel->Hide();
+		pfpPanelBackButton->Hide();
+		
+		pfpUsernameText->Hide();
+		pfpPasswordText->Hide();
+		pfpPhoneNumberText->Hide();
+		pfpDisplayNameText->Hide();
+		pfpEmailText->Hide();
+	}
+	else if 
+		(
+			!Validation::usernameValid(username)
+			&& Validation::displayNameValid(displayName)
+			&& Validation::passwordValid(password)
+			&& Validation::phoneNumberValidFormat(phoneNumber)
+			&& Validation::emailValidFormat(email)
+			&& user->getUsername() == username
+		)
+	{
+		Bank::asAdmin()->editUser
+		(
+			user,
+			username,
+			SHA256::toSHA256(password),
+			displayName,
+			user->getBalance(),
+			phoneNumber,
+			email,
+			false
+		);
+
+		textDisplayName->SetLabel(user->getDisplayName());
+		textDisplayName->SetLabelText(user->getDisplayName());
+		textDisplayName->Refresh();
+
+		wxMessageBox("User updated successfully");
+
+		//topPanel->Destroy();
+		//paintTopPanel();
+
+		sendMoneyPanel->Show();
+		requestMoneyPanel->Show();
+		transactionButtonPanel->Show();
+		rechargeBalancePanel->Show();
+
+		pfpUsernameInputPanel->Hide();
+		pfpPasswordInputPanel->Hide();
+		pfpDisplayNameInputPanel->Hide();
+		pfpPhoneNumberInputPanel->Hide();
+		pfpEmailInputPanel->Hide();
+		pfpDoneButtonPanel->Hide();
+		pfpPanelBackButton->Hide();
+
+		pfpUsernameText->Hide();
+		pfpPasswordText->Hide();
+		pfpPhoneNumberText->Hide();
+		pfpDisplayNameText->Hide();
+		pfpEmailText->Hide();
+	}
+	else
+	{
+		if (!Validation::passwordValid(password)) {
+			error += "Password Invalid:\n";
+			if (!Validation::passwordValidLength(password)) {
+				error += "Length must be 8-32 characters.\n";
+			}
+			if (!Validation::passwordValidCase(password)) {
+				error += "Must contain at least one uppercase and one lowercase character.\n";
+			}
+			if (!Validation::passwordContainsNumbers(password)) {
+				error += "Must contain at least one number.\n";
+			}
+			if (!Validation::passwordContainsSpecialCharacters(password)) {
+				error += "Must contain at least one special character.\n";
+			}
+			if (!Validation::passwordValidCharacterSet(password)) {
+				error += "Only charecters [Aa-Zz], digits[0-9] and [~!@#$%^&*:;()<>_-] are allowed\n";
+			}
+			error += "\n";
 		}
-		else if 
-			(
-				!Validation::usernameValid(username)
-				&& Validation::displayNameValid(displayName)
-				&& Validation::passwordValid(password)
-				&& Validation::phoneNumberValidFormat(phoneNumber)
-				&& Validation::emailValidFormat(email)
-				&& user->getUsername() == username
-			)
-		{
-			Bank::asAdmin()->editUser
-			(
-				user,
-				username,
-				password,
-				displayName,
-				user->getBalance(),
-				phoneNumber,
-				email,
-				false
-			);
-
-			textDisplayName->SetLabel(user->getDisplayName());
-			textDisplayName->SetLabelText(user->getDisplayName());
-			textDisplayName->Refresh();
-
-			wxMessageBox("User updated successfully");
-
-			//topPanel->Destroy();
-			//paintTopPanel();
-
-			sendMoneyPanel->Show();
-			requestMoneyPanel->Show();
-			transactionButtonPanel->Show();
-			rechargeBalancePanel->Show();
-
-			pfpUsernameInputPanel->Hide();
-			pfpPasswordInputPanel->Hide();
-			pfpDisplayNameInputPanel->Hide();
-			pfpPhoneNumberInputPanel->Hide();
-			pfpEmailInputPanel->Hide();
-			pfpDoneButtonPanel->Hide();
-			pfpPanelBackButton->Hide();
-
-			pfpUsernameText->Hide();
-			pfpPasswordText->Hide();
-			pfpPhoneNumberText->Hide();
-			pfpDisplayNameText->Hide();
-			pfpEmailText->Hide();
+		if (!Validation::displayNameValid(displayName)) {
+			error += "Display Name Invalid:\n";
+			error += "Only charecters [Aa-Zz] are allowed\n";
+			error += "\n";
 		}
-		else
-		{
-			if (!Validation::passwordValid(password)) {
-				error += "Password Invalid:\n";
-				if (!Validation::passwordValidLength(password)) {
-					error += "Length must be 8-32 characters.\n";
-				}
-				if (!Validation::passwordValidCase(password)) {
-					error += "Must contain at least one uppercase and one lowercase character.\n";
-				}
-				if (!Validation::passwordContainsNumbers(password)) {
-					error += "Must contain at least one number.\n";
-				}
-				if (!Validation::passwordContainsSpecialCharacters(password)) {
-					error += "Must contain at least one special character.\n";
-				}
-				if (!Validation::passwordValidCharacterSet(password)) {
-					error += "Only charecters [Aa-Zz], digits[0-9] and [~!@#$%^&*:;()<>_-] are allowed\n";
-				}
-				error += "\n";
-			}
-			if (!Validation::displayNameValid(displayName)) {
-				error += "Display Name Invalid:\n";
-				error += "Only charecters [Aa-Zz] are allowed\n";
-				error += "\n";
-			}
-			if (!Validation::phoneNumberValidFormat(phoneNumber)) {
-				error += "Phone Number Invalid:\n";
-				error += "Must be 11 digits in the format: 01XXXXXXXXX \n";
-				error += "\n";
-			}
-			if (!Validation::emailValidFormat(email)) {
-				error += "Email Invalid:\n";
-				error += "Must be in the format: example@example.example \n";
-				error += "\n";
-			}
-			
-			wxMessageBox(error, "Invalid");
+		if (!Validation::phoneNumberValidFormat(phoneNumber)) {
+			error += "Phone Number Invalid:\n";
+			error += "Must be 11 digits in the format: 01XXXXXXXXX \n";
+			error += "\n";
 		}
+		if (!Validation::emailValidFormat(email)) {
+			error += "Email Invalid:\n";
+			error += "Must be in the format: example@example.example \n";
+			error += "\n";
+		}
+		
+		wxMessageBox(error, "Invalid");
+	}
 }
 
 void MainFrame::onRequestClick(wxCommandEvent& event)
@@ -964,10 +993,14 @@ void MainFrame::onRequestClick(wxCommandEvent& event)
 
 	string reciever = string(recieverString.mb_str());
 	string amount = string(amountString.mb_str());
-
+	
 	if (user->getSuspended() == false)
 	{
-		if (stod(amount) < 100000)
+		if
+			(
+				Validation::requestedAmountValid(amount)
+				&& Validation::userExists(reciever)
+			)
 		{
 
 			user->requestMoney(Bank::getUsers()->getUser(reciever), stod(amount));
@@ -992,7 +1025,21 @@ void MainFrame::onRequestClick(wxCommandEvent& event)
 		}
 		else
 		{
-			wxMessageBox("Please Enter a valid amount", "Error", wxICON_ERROR | wxOK, this);
+			string error = "Error\n\n";
+			if (!Validation::userExists(reciever)) {
+				error += "Request Recipient Invalid:\n";
+				error += "User " + reciever + " does not exist.\n";
+			}
+			if (!Validation::requestedAmountValid(amount)) {
+				if (!Validation::requestedAmountTypeValid(amount)) {
+					error += "Amount must be a number.\n";
+				}
+				if (!Validation::requestedAmountInRangeValid(amount) && Validation::requestedAmountTypeValid(amount)) {
+					error += "Number must be in range 0-100000.\n";
+				}
+				error += "\n";
+			}
+			wxMessageBox(error, "Invalid", wxICON_ERROR | wxOK);
 		}
 	}
 	else if (user->getSuspended() == true)
@@ -1052,6 +1099,53 @@ void MainFrame::onRechargeMoneybackButtonClick(wxCommandEvent& event)
 
 void MainFrame::onRechargeButtonCLick(wxCommandEvent& event)
 {
+	string rechargeAmount = string(rechargeAmountBox->GetValue().mb_str());
+	string cardNumber = string(cardNumberBox->GetValue().mb_str());
+	string cvv = string(cvvBox->GetValue().mb_str());
+
+
+	
+	if (user->getSuspended() == false)
+	{
+		if
+			(
+				Validation::rechargeAmountValid(rechargeAmount)
+				&& Validation::cardNumberValid(cardNumber)
+				&& Validation::cvvValid(cvv)
+			)
+		{
+			Bank::makeSystemTransaction(Bank::getUsers()->getAdmin("admin"), user, stod(rechargeAmount));
+
+			wxMessageBox("Balance recharged successfully", "Success", wxICON_INFORMATION | wxOK, this);
+			repaintBalance();
+			MSWClickButtonIfPossible(rechargeBalanceBackButton);
+
+		}
+		else
+		{
+			string error = "Error\n\n";
+			if (!Validation::cardNumberValid(cardNumber)) {
+				error += "Card number invalid:\n";
+				error += "Card number needs to be a 16 digit number.\n";
+				error += "\n";
+			}
+			if (!Validation::cvvValid(cvv)) {
+				error += "CVV invalid:\n";
+				error += "CVV needs to be a 3 digit number.\n";
+				error += "\n";
+			}
+			if (!Validation::rechargeAmountValid(rechargeAmount)) {
+				error += "Recharge amount invalid:\n";
+				error += "Amount must be a number from 0-10000.\n";
+				error += "\n";
+			}
+			wxMessageBox(error, "Invalid", wxICON_ERROR | wxOK);
+		}
+	}
+	else if (user->getSuspended() == true)
+	{
+		wxMessageBox("User Suspended, Can't make any Transactions.");
+	}
 }
 
 void MainFrame::onRechargeBalanceButtonClick(wxCommandEvent& event)
@@ -1129,6 +1223,27 @@ void MainFrame::onLeaveUsername(wxFocusEvent& event) {
 	if (object->IsEmpty()) {
 		object->SetForegroundColour(wxColour(178, 178, 178));
 		object->AppendText("Username");
+	}
+
+	event.Skip(true);
+}
+
+void MainFrame::onEnterPassword(wxFocusEvent& event)
+{
+	wxTextCtrl* object = (wxTextCtrl*)event.GetEventObject();
+	if (object->GetValue() == "Password") {
+		object->SetForegroundColour(*wxBLACK);
+		object->Clear();
+	}
+	event.Skip(true);
+}
+
+void MainFrame::onLeavePassword(wxFocusEvent& event)
+{
+	wxTextCtrl* object = (wxTextCtrl*)event.GetEventObject();
+	if (object->IsEmpty()) {
+		object->SetForegroundColour(wxColour(178, 178, 178));
+		object->AppendText("Password");
 	}
 
 	event.Skip(true);

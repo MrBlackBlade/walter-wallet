@@ -30,4 +30,17 @@ public:
 
 	static bool initialBalanceValid(string balance);
 	static bool balanceValid(string balance);
+
+	static bool sentAmountValid(string balance, User* user);
+	static bool sentAmountTypeValid(string balance);
+	static bool sentAmountInRangeValid(string balance);
+	static bool sentAmountEnoughFundsValid(string balance, User* user);
+
+	static bool requestedAmountValid(string balance);
+	static bool requestedAmountTypeValid(string balance);
+	static bool requestedAmountInRangeValid(string balance);
+
+	static bool cardNumberValid(string cardNumber);
+	static bool cvvValid(string cvv);
+	static bool rechargeAmountValid(string balance);
 };

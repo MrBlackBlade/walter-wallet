@@ -5,6 +5,7 @@
 #include "RoundedPanel.h"
 #include "Bank.h"
 #include "EditAdminFrame.h"
+#include "RegisterFrame.h"
 
 AdminFrame::AdminFrame(Admin* admin) : wxFrame(nullptr, wxID_ANY, "HeisenBank")
 {
@@ -231,7 +232,7 @@ void AdminFrame::paintUsersPanel()
 		{
 			User* user = *it;
 
-			if (user->getUsername() == "deleteduser")
+			if (user->getUsername() == "deleteduser" || user->getUsername() == "system")
 			{
 				continue;
 			}
@@ -277,8 +278,7 @@ void AdminFrame::paintUsersPanel()
 					wxEVT_COMMAND_BUTTON_CLICKED, [=](wxCommandEvent& evt)
 					{
 						admin->deleteUser(user);
-						MSWClickButtonIfPossible(usersBackButton);
-						paintUsersPanel();
+						repaintUsersPanel();
 					}
 				);
 
@@ -288,9 +288,13 @@ void AdminFrame::paintUsersPanel()
 				(
 					wxEVT_COMMAND_BUTTON_CLICKED, [=](wxCommandEvent& evt)
 					{
-						//admin->editUser(user);
-						//MSWClickButtonIfPossible(requestsPanelBackButton);
-						//paintUsersPanel();
+						RegisterFrame* registerFrame = new RegisterFrame(this);
+						registerFrame->SetClientSize(620, 1000);
+						registerFrame->Center();
+						registerFrame->Show();
+						registerFrame->SetIcon(GetIcon());
+
+						this->Hide();
 					}
 				);
 

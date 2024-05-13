@@ -304,7 +304,7 @@ void EditAdminFrame::onDoneClick(wxCommandEvent& event)
 				&& Validation::phoneNumberValidFormat(phoneNumber)
 				&& Validation::emailValidFormat(email)
 				&& Validation::initialBalanceValid(balance)
-				)
+			)
 		{
 
 			bool checkSuspend = false;
@@ -331,14 +331,13 @@ void EditAdminFrame::onDoneClick(wxCommandEvent& event)
 			this->Close();
 		}
 		else if
-				(
-					!Validation::usernameValid(username)
-					&& Validation::displayNameValid(displayName)
-					&& Validation::passwordValid(user->getPassword())
-					&& Validation::phoneNumberValidFormat(phoneNumber)
-					&& Validation::emailValidFormat(email)
-					&& user->getUsername() == username
-				)
+			(
+				!Validation::usernameValid(username)
+				&& Validation::displayNameValid(displayName)
+				&& Validation::phoneNumberValidFormat(phoneNumber)
+				&& Validation::emailValidFormat(email)
+				&& user->getUsername() == username
+			)
 		{
 
 			bool checkSuspend = false;
@@ -347,7 +346,12 @@ void EditAdminFrame::onDoneClick(wxCommandEvent& event)
 			{
 				checkSuspend = true;
 			}
-
+			if (stod(balance) > user->getBalance()) {
+				Bank::makeSystemTransaction(Bank::getUsers()->getAdmin("admin"), user, ( stod(balance) - user->getBalance()));
+			}
+			else if (stod(balance) < user->getBalance()) {
+				Bank::makeSystemTransaction(user, Bank::getUsers()->getAdmin("admin"), ( user->getBalance() - stod(balance) ));
+			}
 			Bank::asAdmin()->editUser
 			(
 				user,

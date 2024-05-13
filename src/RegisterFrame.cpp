@@ -1,9 +1,10 @@
 #include "RegisterFrame.h"
 #include "RoundedPanel.h"
+#include "AdminFrame.h"
 #include "SHA256.h"
 
 
-RegisterFrame::RegisterFrame(LoginFrame* loginFrame) : wxFrame(nullptr, wxID_ANY, "Register")
+RegisterFrame::RegisterFrame(wxFrame* loginFrame) : wxFrame(nullptr, wxID_ANY, "Register")
 {
 	wxWindow::SetWindowStyle(wxDEFAULT_FRAME_STYLE & ~wxRESIZE_BORDER & ~wxMAXIMIZE_BOX);
 	this->loginFrame = loginFrame;
@@ -317,6 +318,11 @@ void RegisterFrame::onRegisterClick(wxCommandEvent& event)
 				false
 			);
 			loginFrame->Show();
+			if (!(dynamic_cast<AdminFrame*>(loginFrame) == nullptr))
+			{
+				AdminFrame* adminFrame = dynamic_cast<AdminFrame*>(loginFrame);
+				adminFrame->repaintUsersPanel();
+			}
 			//this->Hide();
 			this->Close();
 		}

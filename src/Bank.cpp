@@ -77,6 +77,18 @@ void Bank::makeNewTransaction(User* sender, User* recipient, double amount, Tran
 	transactions.insert(new Transaction(sender, recipient, amount, std::chrono::system_clock::now(), state));
 }
 
+void Bank::makeSystemTransaction(Admin* sender, User* recipient, double amount)
+{
+	recipient->setBalance((recipient->getBalance() + amount));
+	transactions.insert(new Transaction(users.getUser("system"), recipient, amount, std::chrono::system_clock::now(), completedTransaction));
+}
+
+void Bank::makeSystemTransaction(User* sender, Admin* recipient, double amount)
+{
+	sender->setBalance((sender->getBalance() - amount));
+	transactions.insert(new Transaction(sender, users.getUser("system"), amount, std::chrono::system_clock::now(), completedTransaction));
+}
+
 void Bank::processRequest(Transaction* transaction, TransactionState state) {
 	if (state == acceptedRequest)
 	{

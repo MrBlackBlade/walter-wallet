@@ -11,7 +11,7 @@ class RegisterFrame : public wxFrame
 {
 	private:
 
-		LoginFrame* loginFrame;
+		wxFrame* loginFrame;
 		User* user;
 
 		wxPanel* mainPanel;
@@ -67,7 +67,7 @@ class RegisterFrame : public wxFrame
 		void paintMidPanel();
 
 	public:
-		RegisterFrame(LoginFrame* loginFrame);
+		RegisterFrame(wxFrame* loginFrame);
 
 };
 

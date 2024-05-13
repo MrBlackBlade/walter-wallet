@@ -46,7 +46,7 @@ class MainFrame : public wxFrame
 		wxButton* rechargeButton;
 
 		wxPanel* rechargeAmountInputPanel;
-		wxTextCtrl* rechargAmountBox;
+		wxTextCtrl* rechargeAmountBox;
 
 		wxStaticText* rechargeAmountText;
 		wxStaticText* cvvText;
@@ -106,7 +106,7 @@ class MainFrame : public wxFrame
 		void paintProfile();
 		void paintRechargeBalancePanel();
 
-		//Event Handlers	   
+		//Event Handlers
 		void onPfpButtonClick(wxCommandEvent& event);
 		void onPfpDoneClick(wxCommandEvent& event);
 		void onRequestsPanelBackClick(wxCommandEvent& event);
@@ -129,6 +129,8 @@ class MainFrame : public wxFrame
 		void onLeaveCvv(wxFocusEvent& event);
 		void onEnterUsername(wxFocusEvent& event);
 		void onLeaveUsername(wxFocusEvent& event);
+		void onEnterPassword(wxFocusEvent& event);
+		void onLeavePassword(wxFocusEvent& event);
 		void onEnterAmount(wxFocusEvent& event);
 		void onLeaveAmount(wxFocusEvent& event);
 		void onHover(wxMouseEvent& event);

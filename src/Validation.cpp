@@ -173,3 +173,168 @@ bool Validation::balanceValid(string balance) {
 		return false;
 	}
 }
+
+bool Validation::sentAmountValid(string balance, User* user)
+{
+	if (sentAmountTypeValid(balance)) {
+		if
+			(
+				sentAmountInRangeValid(balance)
+				&& sentAmountEnoughFundsValid(balance, user)
+			)
+		{
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
+	else {
+		return false;
+	}
+}
+
+bool Validation::sentAmountTypeValid(string balance)
+{
+	double sentAmount;
+
+	try
+	{
+		sentAmount = stod(balance);
+		return true;
+	}
+	catch (const exception&)
+	{
+		return false;
+	}
+}
+
+bool Validation::sentAmountInRangeValid(string balance)
+{
+	double sentAmount;
+
+	try
+	{
+		sentAmount = stod(balance);
+		if (stod(balance) > 0 and stod(balance) < 999999) {
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
+	catch (const exception&)
+	{
+		return false;
+	}
+}
+
+bool Validation::sentAmountEnoughFundsValid(string balance, User* user)
+{
+	double sentAmount;
+
+	try
+	{
+		sentAmount = stod(balance);
+		if (stod(balance) <= user->getBalance()) {
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
+	catch (const exception&)
+	{
+		return false;
+	}
+}
+
+bool Validation::requestedAmountValid(string balance)
+{
+	if (requestedAmountTypeValid(balance)) {
+		if
+			(
+				requestedAmountInRangeValid(balance)
+			)
+		{
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
+	else {
+		return false;
+	}
+}
+
+bool Validation::requestedAmountTypeValid(string balance)
+{
+	double requestedAmount;
+
+	try
+	{
+		requestedAmount = stod(balance);
+		return true;
+	}
+	catch (const exception&)
+	{
+		return false;
+	}
+}
+
+bool Validation::requestedAmountInRangeValid(string balance)
+{
+	double requestedAmount;
+
+	try
+	{
+		requestedAmount = stod(balance);
+		if (stod(balance) > 0 and stod(balance) < 100000) {
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
+	catch (const exception&)
+	{
+		return false;
+	}
+}
+
+bool Validation::cardNumberValid(string cardNumber)
+{
+	if (regex_match(cardNumber, regex(R"(^(\d{16})$)")))
+		return true;
+	else
+		return false;
+}
+
+bool Validation::cvvValid(string cvv)
+{
+	if (regex_match(cvv, regex(R"(^(\d{3})$)")))
+		return true;
+	else
+		return false;
+}
+
+bool Validation::rechargeAmountValid(string balance)
+{
+	double rechargeAmount;
+
+	try
+	{
+		rechargeAmount = stod(balance);
+		if (stod(balance) > 0 and stod(balance) < 10000) {
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
+	catch (const exception&)
+	{
+		return false;
+	}
+}

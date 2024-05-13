@@ -29,6 +29,8 @@ public:
 	static void makeUsers();
 	static void makeTransactions();
 	static void makeNewTransaction(User* sender, User* recipient, double amount, TransactionState state);
+	static void makeSystemTransaction(Admin* sender, User* recipient, double amount);
+	static void makeSystemTransaction(User* sender, Admin* recipient, double amount);
 	static void processRequest(Transaction* transaction, TransactionState state);
 	static UserStructure* getUsers();
 	static Admin* asAdmin();
