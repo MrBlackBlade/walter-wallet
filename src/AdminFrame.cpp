@@ -107,15 +107,12 @@ void AdminFrame::paintTransactionsPanel()
 	wxImage pendingIcon(wxString("resources\\pending.png"), wxBITMAP_TYPE_PNG);
 	pendingIcon.Rescale(60, 60, wxIMAGE_QUALITY_HIGH);
 
-	/*auto panel = new wxScrolled<wxPanel>(midPanel, wxID_ANY, wxPoint(20, 20), wxSize(500, 600));
-	panel->SetBackgroundColour(!wxWHITE);*/
-
 	int pointY = 30;
 	int totalScrollHeight = 0;
 
 	auto transactions = Bank::getTransactions()->get();
 
-	for (auto it = transactions.begin(); it != transactions.end(); ++it)
+	for (auto it = transactions.rbegin(); it != transactions.rend(); ++it)
 	{
 		Transaction* tans = *it;
 

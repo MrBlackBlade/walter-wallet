@@ -45,20 +45,9 @@ bool User::getSuspended() const { return isSuspended; }
 
 string User::getUserType() const { return "user"; }
 
-
-
-//TransactionStructure* User::getTransactions() {
-//	return &transactions;
-//}
-
 void User::setBalance(double balance) {	this->balance = balance; }
 
 void User::setSuspended(bool state) {	this->isSuspended = state; }
-
-//void User::insertTransacton(Transaction* transaction) {
-//	transactions.insert(transaction);
-//}
-
 
 vector<string> User::toStringArray() const
 {

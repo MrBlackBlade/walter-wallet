@@ -208,8 +208,6 @@ void LoginFrame::onLoginClick(wxCommandEvent& event)
 
 void LoginFrame::onRegisterClick(wxCommandEvent& event)
 {
-	//wxIcon icon(wxT("resources\\walterWallet.ico"), wxBITMAP_TYPE_ICO);
-
 	RegisterFrame* registerFrame = new RegisterFrame(this);
 	registerFrame->SetClientSize(620, 1000);
 	registerFrame->Center();

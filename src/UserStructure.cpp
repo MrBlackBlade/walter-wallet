@@ -3,10 +3,7 @@
 void UserStructure::insert(Admin* admin)
 {
 	admins.push_back(*admin);
-	/*for (string e : transaction.toStringArray()) {
-		cout << e << "--";
-	}
-	cout << endl;*/
+
 	adminsByNameOrdered.insert(make_pair(admin->getUsername(), &(admins.back())));
 	adminsByName.insert(make_pair(admin->getUsername(), &(admins.back())));
 	adminsByName[admin->getUsername()] = &(admins.back());
@@ -23,12 +20,7 @@ vector<Admin*> UserStructure::getAdmins()
 	for (auto i = adminsByNameOrdered.begin(); i != adminsByNameOrdered.end(); i++) {
 		admins.push_back(i->second);
 	}
-	/*for (Transaction* transaction : transactions) {
-		for (string e : transaction->toStringArray()) {
-			cout << e << "+++";
-		}
-		cout << endl;
-	}*/
+
 	return admins;
 }
 
@@ -53,7 +45,6 @@ void UserStructure::erase(Admin* admin)
 {
 	adminsByName.erase(admin->getUsername());
 	adminsByNameOrdered.erase(admin->getUsername());
-	//admins.remove(*admin);
 
 	auto it = find(admins.begin(), admins.end(),
 		*admin);
@@ -67,7 +58,6 @@ void UserStructure::erase(User* user)
 {
 	usersByName.erase(user->getUsername());
 	usersByNameOrdered.erase(user->getUsername());
-	//users.remove(*user);
 
 	auto it = find(users.begin(), users.end(),
 		*user);
@@ -121,11 +111,6 @@ vector<User*> UserStructure::getUsers()
 	for (auto i = usersByNameOrdered.begin(); i != usersByNameOrdered.end(); i++) {
 		users.push_back(i->second);
 	}
-	/*for (Transaction* transaction : transactions) {
-		for (string e : transaction->toStringArray()) {
-			cout << e << "+++";
-		}
-		cout << endl;
-	}*/
+
 	return users;
 }

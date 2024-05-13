@@ -97,7 +97,3 @@ void Bank::processRequest(Transaction* transaction, TransactionState state) {
 	}
 	transaction->setState(state);
 }
-
-//void Bank::insertTransacton(Transaction transaction) {
-//	transactions.insert(transaction);
-//}

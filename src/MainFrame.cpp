@@ -284,9 +284,6 @@ void MainFrame::paintTransactionsPanel()
 	wxImage pendingIcon(wxString("resources\\pending.png"), wxBITMAP_TYPE_PNG);
 	pendingIcon.Rescale(60, 60, wxIMAGE_QUALITY_HIGH);
 
-	/*auto panel = new wxScrolled<wxPanel>(midPanel, wxID_ANY, wxPoint(20, 20), wxSize(500, 600));
-	panel->SetBackgroundColour(!wxWHITE);*/
-
 	int pointY = 30;
 	int totalScrollHeight = 0;
 
@@ -365,10 +362,6 @@ void MainFrame::paintTransactionsPanel()
 }
 void MainFrame::paintPendingRequests()
 {
-
-
-	//bellButton->Unbind(wxEVT_BUTTON, &MainFrame::onBellButtonClick, this);
-	//bellAlertButton->Unbind(wxEVT_BUTTON, &MainFrame::onBellButtonClick, this);
 	pendingRequestsPanel = new wxScrolled<wxPanel>(midPanel, wxID_ANY, wxPoint(0, 90), wxSize(566, 730));
 	pendingRequestsPanel->SetScrollRate(0, FromDIP(20));
 	pendingRequestsPanel->SetBackgroundColour(*wxWHITE);
@@ -394,8 +387,6 @@ void MainFrame::paintPendingRequests()
 	wxImage pendingIcon(wxString("resources\\pending.png"), wxBITMAP_TYPE_PNG);
 	pendingIcon.Rescale(60, 60, wxIMAGE_QUALITY_HIGH);
 
-	/*auto panel = new wxScrolled<wxPanel>(midPanel, wxID_ANY, wxPoint(20, 20), wxSize(500, 600));
-	panel->SetBackgroundColour(!wxWHITE);*/
 	if (hasRequest == true)
 	{
 		int requestPanelScrollHeight = 0;
@@ -1174,9 +1165,6 @@ void MainFrame::onRequestMoneyBackButton(wxCommandEvent& event)
 void MainFrame::onRequestsPanelBackClick(wxCommandEvent& event)
 {
 	checkRequests();
-	//bellButton->Bind(wxEVT_BUTTON, &MainFrame::onBellButtonClick, this);
-	//bellAlertButton->Bind(wxEVT_BUTTON, &MainFrame::onBellButtonClick, this);
-	//noRequests->Hide();
 	pendingRequestsPanel->Hide();
 	requestsPanelBackButton->Hide();
 
@@ -1327,6 +1315,4 @@ void MainFrame::onClose(wxCloseEvent& event)
 		FileSystemManagement::updateData();
 		event.Skip();
 	}
-
-	//event.Skip();
 }
