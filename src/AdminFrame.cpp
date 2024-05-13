@@ -167,7 +167,7 @@ void AdminFrame::paintTransactionsPanel()
 		transactionIDText->SetForegroundColour(wxColour(126, 126, 126));
 		transactionIDText->SetFont(wxFont(wxFontInfo(12)));
 
-		wxStaticText* transactionTime = new wxStaticText(transactionDetailsPanel, wxID_ANY, tans->getDisplayTime(), wxPoint(350, 180), wxSize(-1, -1), wxALIGN_CENTRE_HORIZONTAL);
+		wxStaticText* transactionTime = new wxStaticText(transactionDetailsPanel, wxID_ANY, tans->getDisplayTime(), wxPoint(150, 120), wxSize(-1, -1), wxALIGN_CENTRE_HORIZONTAL);
 		transactionTime->SetBackgroundColour(wxColour(229, 229, 229));
 		transactionTime->SetForegroundColour(wxColour(178, 178, 178));
 		transactionTime->SetFont(wxFont(wxFontInfo(12)));
